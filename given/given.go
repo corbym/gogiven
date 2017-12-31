@@ -65,7 +65,8 @@ func (some *Some) Then(assertions func(actual *CapturedIO, givens *InterestingGi
 }
 
 func (some *Some) ElseFail() {
-	if some.CapturedIO == nil {
+	if len(some.CapturedIO.CapturedIO) == 0 {
+		some.testingT.Helper()
 		some.testingT.FailNow()
 	}
 }
