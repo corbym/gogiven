@@ -30,7 +30,7 @@ func someDataSetup(givens *InterestingGivens) *InterestingGivens {
 ...
 func someAction(capturedIo *CapturedIO, givens *InterestingGivens) *CapturedIO {
     // call your functions here, feed output into capturedIO map
-    capturedIo.CapturedIO["actual"] = new(T).callMyFun(givens["1"], givens["2"])
+    capturedIo.CapturedIO["actual"] = new(T).callMyFun(givens.Givens["1"], givens.Givens["2"])
     return capturedIo
 }
 ```
