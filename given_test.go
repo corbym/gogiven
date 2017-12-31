@@ -2,9 +2,9 @@ package gogiven_test
 
 import (
 	"testing"
-	. "github.com/corbym/gocrest/then"
 	"os"
 	"fmt"
+	. "github.com/corbym/gocrest/then"
 	"github.com/corbym/gocrest/is"
 	"github.com/corbym/gocrest/has"
 	"github.com/corbym/gocrest"
