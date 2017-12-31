@@ -1,9 +1,9 @@
-#gogiven
+# gogiven
 An alternative BDD spec framework for go.
 
 Inspired by [YATSPEC](https://github.com/bodar/yatspec).
 
-#Example
+## Example
 ```
 import (
 	. "github.com/corbym/gocrest/then"
