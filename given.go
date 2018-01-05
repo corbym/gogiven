@@ -3,6 +3,7 @@ package gogiven
 import (
 	"testing"
 	"runtime"
+	"sync"
 )
 
 type CapturedIO struct {
@@ -13,11 +14,11 @@ type InterestingGivens struct {
 	Givens map[string]interface{}
 }
 
-var someTests map[string]*some
+var someTests *sync.Map
 
-func Given(testing *testing.T, given ...func(givens *InterestingGivens)) *some{
+func Given(testing *testing.T, given ...func(givens *InterestingGivens)) *some {
 	if someTests == nil {
-		someTests = make(map[string]*some)
+		someTests = new(sync.Map)
 	}
 
 	funcProgramCounters := make([]uintptr, 1)
@@ -33,12 +34,12 @@ func Given(testing *testing.T, given ...func(givens *InterestingGivens)) *some{
 
 	keyFor := keyFor(someTests, function.Name())
 	some := newSome(newTestMetaData(testing, keyFor), function, funcProgramCounters, given...)
-	someTests[keyFor] = some
+	someTests.Store(keyFor, some)
 	return some
 }
 
-func keyFor(somes map[string]*some, name string) string {
-	if _, ok := somes[name]; !ok {
+func keyFor(somes *sync.Map, name string) string {
+	if _, ok := somes.Load(name); !ok {
 		return name
 	}
 	return keyFor(somes, name+"_1")
