@@ -16,6 +16,7 @@ func TestGeneratorCreatesTestFirstTestHtml(testing *testing.T) {
 	Given(testing, someFileContent).
 		When(fileIsConvertedToHtml).
 		Then(func(t *TestingT, actual *CapturedIO, givens *InterestingGivens) {
+
 		AssertThat(t, html, is.ValueContaining(
 			"<html><title>Given Test</title>"+
 				"<body>"))
@@ -36,7 +37,7 @@ func TestGeneratorCreatesTestFirstTestHtml(testing *testing.T) {
 }
 
 func fileIsConvertedToHtml(actual *CapturedIO, givens *InterestingGivens) {
-	html = Generator.ConvertTestContentToHtml(
+	html = Generator.Generate(
 		"C:\\Users\\Matt\\go\\src\\github.com\\corbym\\gogiven\\given_test.go",
 		rawContent,
 	)

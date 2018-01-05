@@ -17,7 +17,7 @@ func (ctx *TestingT) Logf(format string, args ...interface{}) {
 	t.Helper()
 	ctx.TestOutput = fmt.Sprintf(format, args...)
 	ctx.failed = true
-	ctx.t.Logf(format, args...)
+	t.Logf(format, args...)
 }
 
 func (ctx *TestingT) Errorf(format string, args ...interface{}) {
@@ -39,6 +39,5 @@ func (ctx *TestingT) HasFailed() bool {
 }
 
 func (ctx *TestingT) Helper() {
-	i := ctx.t.Helper
-	i()
+	ctx.t.Helper()
 }

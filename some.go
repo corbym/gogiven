@@ -55,8 +55,9 @@ func (some *some) Then(assertions func(testingT *TestingT, actual *CapturedIO, g
 	return some
 }
 
-func newTestMetaData(t *testing.T) *TestingT {
+func newTestMetaData(t *testing.T, testName string) *TestingT {
 	testContext := new(TestingT)
 	testContext.t = t
+	testContext.TestName = testName
 	return testContext
 }

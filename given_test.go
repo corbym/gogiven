@@ -14,7 +14,7 @@ import (
 
 type StubHtmlGenerator struct{}
 
-func (*StubHtmlGenerator) ConvertTestContentToHtml(fileNameWithPath string, testFileContent string) (html string) {
+func (*StubHtmlGenerator) Generate(fileNameWithPath string, testFileContent string) (html string) {
 	return "testing"
 }
 
@@ -33,30 +33,35 @@ func TestGivenWhenGeneratesHtml(testing *testing.T) {
 		AssertThat(testingT, actual.CapturedIO["foo"], is.EqualTo("foob"))
 	})
 
-	AssertThat(testing, fileExists("gogiven_test.TestGivenWhenGeneratesHtml.html"), inTmpDir())
-	AssertThat(testing, fileContent(ofFileInTmpDir("gogiven_test.TestGivenWhenGeneratesHtml.html")), is.EqualTo("testing"))
-	AssertThat(testing, context.TestName, is.EqualTo("gogiven_test.TestGivenWhenGeneratesHdml.html"))
+	AssertThat(testing, fileExists("given_test.html"), inTmpDir())
+	AssertThat(testing, fileContent(ofFileInTmpDir("given_test.html")), is.EqualTo("testing"))
+	AssertThat(testing, context.TestName, is.EqualTo("github.com/corbym/gogiven_test.TestGivenWhenGeneratesHtml"))
 	AssertThat(testing, context.HasFailed(), is.EqualTo(false))
 }
+
 func TestGivenWhenExercisingRanges(testing *testing.T) {
 	var someRange = []struct {
 		a int
 		b int
 	}{
 		{1, 2},
+		{3, 4},
 	}
 	for _, test := range someRange {
 		Given(testing).
 			When(func(actual *CapturedIO, givens *InterestingGivens) {
-			actual.CapturedIO[fmt.Sprintf("%i", test.a)] = "fooa"
-			actual.CapturedIO[fmt.Sprintf("%i", test.b)] = "foob"
+			actual.CapturedIO[fmt.Sprintf("%d", test.a)] = "fooa"
+			actual.CapturedIO[fmt.Sprintf("%d", test.b)] = "foob"
 		}).
 			Then(func(testContext *TestingT, actual *CapturedIO, givens *InterestingGivens) {
 			//do assertions
-			AssertThat(testContext, actual.CapturedIO["1"], is.EqualTo("foob"))
+			AssertThat(testContext, actual.CapturedIO, is.ValueContaining("foob"))
+			AssertThat(testContext, actual.CapturedIO, is.ValueContaining("fooa"))
 		})
 	}
-	AssertThat(testing, fileExists("gogiven_test.TestGivenWhenGeneratesHtml.html"), inTmpDir())
+	AssertThat(testing, fileExists("given_test.html"), inTmpDir())
+	//AssertThat(testing, context.TestName, is.EqualTo("github.com/corbym/gogiven_test.TestGivenWhenGeneratesHtml"))
+	//AssertThat(testing, context.TestName, is.EqualTo("github.com/corbym/gogiven_test.TestGivenWhenGeneratesHtml_1"))
 }
 
 func TestGivenWhenStacksGivens(testing *testing.T) {
@@ -66,13 +71,17 @@ func TestGivenWhenStacksGivens(testing *testing.T) {
 		//do assertions
 		AssertThat(testContext, givens.Givens, has.AllKeys("1", "2", "blarg"))
 		AssertThat(testContext, givens.Givens, is.ValueContaining("hi", 12, "foo"))
-		AssertThat(testContext, actual.CapturedIO, has.Key("foof"))
+		AssertThat(testContext, actual.CapturedIO, has.Key("foo"))
 	})
 }
 
-func fileExists(fileName string) error {
-	_, err := os.Stat(ofFileInTmpDir(fileName))
-	return err
+func fileExists(fileName string) (interface{}) {
+	dir := ofFileInTmpDir(fileName)
+	fileInfo, err := os.Stat(dir)
+	if err != nil {
+		return err
+	}
+	return fileInfo
 }
 
 func fileContent(fileName string) string {
@@ -86,10 +95,10 @@ func fileContent(fileName string) string {
 func inTmpDir() *gocrest.Matcher {
 	matcher := new(gocrest.Matcher)
 	matcher.Matches = func(actual interface{}) bool {
-		matcher.Describe = fmt.Sprintf("%s", actual.(error).Error())
-		fileError := actual.(error)
-		if os.IsNotExist(fileError) {
-			return false
+		file, ok := actual.(os.FileInfo)
+		if ok {
+			matcher.Describe = fmt.Sprintf("%s", file.Name())
+			return true
 		}
 		return false
 	}

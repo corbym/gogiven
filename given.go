@@ -31,8 +31,9 @@ func Given(testing *testing.T, given ...func(givens *InterestingGivens)) *some{
 		panic("arrgh")
 	}
 
-	some := newSome(newTestMetaData(testing), function, funcProgramCounters, given...)
-	someTests[keyFor(someTests, function.Name())] = some
+	keyFor := keyFor(someTests, function.Name())
+	some := newSome(newTestMetaData(testing, keyFor), function, funcProgramCounters, given...)
+	someTests[keyFor] = some
 	return some
 }
 

@@ -9,14 +9,14 @@ import (
 )
 
 type HtmlGenerator interface {
-	ConvertTestContentToHtml(fileNameWithPath string, testFileContent string) (html string)
+	Generate(fileNameWithPath string, testFileContent string) (html string)
 }
 
 type HtmlFileGenerator struct {
 	HtmlGenerator *HtmlFileGenerator
 }
 
-func (generator *HtmlFileGenerator) ConvertTestContentToHtml(fileNameWithPath string, testFileContent string) (html string) {
+func (generator *HtmlFileGenerator) Generate(fileNameWithPath string, testFileContent string) (html string) {
 	return "Ok"
 }
 
@@ -29,7 +29,7 @@ func generateTestOutput(some *some) {
 	if err != nil {
 		panic("file not found:" + err.Error())
 	}
-	html := Generator.ConvertTestContentToHtml(file, string(content[:]))
+	html := Generator.Generate(file, string(content[:]))
 
 	fileName := fmt.Sprintf("%s%c%s", os.TempDir(),
 		os.PathSeparator,
