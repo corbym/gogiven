@@ -3,18 +3,19 @@ package gogiven_test
 import (
 	"testing"
 	. "github.com/corbym/gogiven"
-	. "github.com/corbym/gocrest/then"
 	"github.com/corbym/gocrest/is"
 	"fmt"
 	"path/filepath"
+	. "github.com/corbym/gocrest/then"
 )
 
 var rawContent string
 var html string
 
 func TestGeneratorCreatesTestFirstTestHtml(testing *testing.T) {
-	testing.SkipNow()
 	Given(testing, someFileContent).
+		SkippingThisOne().
+		InParallel().
 		When(fileIsConvertedToHtml).
 		Then(func(t *TestingT, actual *CapturedIO, givens *InterestingGivens) {
 

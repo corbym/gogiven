@@ -6,14 +6,6 @@ import (
 	"strings"
 )
 
-type CapturedIO struct {
-	CapturedIO map[string]interface{}
-}
-
-type InterestingGivens struct {
-	Givens map[string]interface{} ``
-}
-
 var globalTestContextMap = newSafeMap()
 
 func Given(testing *testing.T, given ...func(givens *InterestingGivens)) *some {

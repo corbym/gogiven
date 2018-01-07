@@ -1,9 +1,5 @@
 package gogiven
 
-import (
-	"testing"
-)
-
 type some struct {
 	testingT          *TestingT
 	InterestingGivens *InterestingGivens
@@ -26,32 +22,29 @@ func newSome(testContext *TestingT,
 	some.InterestingGivens = givens
 	return some
 }
-func newInterestingGivens() *InterestingGivens {
-	givens := new(InterestingGivens)
-	givens.Givens = map[string]interface{}{}
-	return givens
-}
-func newCapturedIO() *CapturedIO {
-	capturedIO := new(CapturedIO)
-	capturedIO.CapturedIO = map[string]interface{}{}
-	return capturedIO
-}
 
 func (some *some) When(action ...func(actual *CapturedIO, givens *InterestingGivens)) *some {
+	testingT := some.testingT
+	testingT.Helper()
 	action[0](some.CapturedIO, some.InterestingGivens) // TODO: there could be multiple actions..
 	return some
 }
 
-var finished = false
-
 func (some *some) Then(assertions func(testingT *TestingT, actual *CapturedIO, givens *InterestingGivens)) *some {
+	testingT := some.testingT
+	testingT.Helper()
 	assertions(some.testingT, some.CapturedIO, some.InterestingGivens)
 	return some
 }
-
-func newTestMetaData(t *testing.T, testName string) *TestingT {
-	testContext := new(TestingT)
-	testContext.t = t
-	testContext.TestName = testName
-	return testContext
+func (some *some) SkippingThisOne() *some {
+	testingT := some.testingT
+	testingT.Helper()
+	testingT.Skipped()
+	return some
+}
+func (some *some) InParallel() *some {
+	testingT := some.testingT
+	testingT.Helper()
+	testingT.Parallel()
+	return some
 }
