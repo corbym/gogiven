@@ -26,7 +26,7 @@ func (rm *SafeMap) Delete(key string) {
 	rm.Unlock()
 }
 
-func (rm *SafeMap) Store(key string, value interface {}) {
+func (rm *SafeMap) Store(key string, value interface{}) {
 	rm.Lock()
 	rm.internal[key] = value
 	rm.Unlock()
@@ -40,7 +40,7 @@ func (rm *SafeMap) Keys() []string {
 	}
 	return keys
 }
-func (rm *SafeMap) Len() int{
+func (rm *SafeMap) Len() int {
 	rm.RLock()
 	defer rm.RUnlock()
 	return len(rm.internal)

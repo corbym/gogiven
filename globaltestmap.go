@@ -5,9 +5,9 @@ import (
 )
 
 type TestContext struct {
-	someTests          *SafeMap
-	fileName           string
-	fileContent        []byte
+	someTests   *SafeMap
+	fileName    string
+	fileContent []byte
 }
 
 func newGlobalTestContext(fileName string) *TestContext {

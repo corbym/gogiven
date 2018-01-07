@@ -1,9 +1,9 @@
 package gogiven
 
 import (
-	"testing"
 	"runtime"
 	"strings"
+	"testing"
 )
 
 var globalTestContextMap = newSafeMap()

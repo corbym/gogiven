@@ -3,9 +3,9 @@ package gogiven
 import (
 	"fmt"
 	"io/ioutil"
-	"strings"
-	"path/filepath"
 	"os"
+	"path/filepath"
+	"strings"
 )
 
 type HtmlGenerator interface {
