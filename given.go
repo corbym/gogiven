@@ -3,12 +3,12 @@ package gogiven
 import (
 	"runtime"
 	"strings"
-	"testing"
+	"github.com/corbym/gocrest"
 )
 
 var globalTestContextMap = newSafeMap()
 
-func Given(testing *testing.T, given ...func(givens *InterestingGivens)) *some {
+func Given(testing gocrest.TestingT, given ...func(givens *InterestingGivens)) *some {
 	function, testFileName := testFunctionFileName()
 	var currentTestContext *TestContext
 
@@ -19,9 +19,9 @@ func Given(testing *testing.T, given ...func(givens *InterestingGivens)) *some {
 		globalTestContextMap.Store(testFileName, currentTestContext)
 	}
 	someTests := currentTestContext.someTests
-	keyFor := uniqueKeyFor(someTests, function.Name())
+	keyFor := uniqueKeyFor(someTests, function.Name()) // this deals with table test for loops, we want different id for each
 
-	some := newSome(newTestMetaData(testing, keyFor), given...)
+	some := newSome(testing, newTestMetaData(keyFor), given...)
 	someTests.Store(keyFor, some)
 
 	return some
@@ -44,7 +44,7 @@ func findTestFpcFunction() ([]uintptr, *runtime.Func) {
 		// get the info of the actual function that's in the pointer
 		function = runtime.FuncForPC(funcProgramCounters[0] - 1)
 		if function == nil {
-			panic("arrgh: no function found, or dropped of end of stack!")
+			panic("arrgh: no function found, or dropped off end of stack!")
 		}
 		cnt++
 	}
