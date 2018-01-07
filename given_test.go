@@ -29,23 +29,18 @@ func TestMain(testmain *testing.M) {
 }
 
 func TestGivenWhenGeneratesHtml(testing *testing.T) {
-	var context *TestingT
 	Given(testing, someDataSetup).
 		When(someAction).
-		Then(func(testingT *TestingT, actual *CapturedIO, givens *InterestingGivens) {
+		Then(func(actual *CapturedIO, givens *InterestingGivens) {
 		//do assertions
-		context = testingT
-		AssertThat(testingT, actual.CapturedIO["foo"], is.EqualTo("foob"))
+		AssertThat(testing, actual.CapturedIO["foo"], is.EqualTo("foob"))
 	})
 
 	AssertThat(testing, fileExists("given_test.html"), inTmpDir())
 	AssertThat(testing, fileContent(ofFileInTmpDir("given_test.html")), is.EqualTo("testing"))
-	AssertThat(testing, context.TestName, is.EqualTo("github.com/corbym/gogiven_test.TestGivenWhenGeneratesHtml"))
-	AssertThat(testing, context.HasFailed(), is.EqualTo(false))
 }
 
 func TestGivenWhenExercisingRanges(testing *testing.T) {
-	var context []*TestingT
 	var someRange = []struct {
 		a int
 		b int
@@ -59,26 +54,23 @@ func TestGivenWhenExercisingRanges(testing *testing.T) {
 			actual.CapturedIO[fmt.Sprintf("%d", test.a)] = "fooa"
 			actual.CapturedIO[fmt.Sprintf("%d", test.b)] = "foob"
 		}).
-			Then(func(testContext *TestingT, actual *CapturedIO, givens *InterestingGivens) {
+			Then(func(actual *CapturedIO, givens *InterestingGivens) {
 			//do assertions
-			context = append(context, testContext)
-			AssertThat(testContext, actual.CapturedIO, is.ValueContaining("foob"))
-			AssertThat(testContext, actual.CapturedIO, is.ValueContaining("fooa"))
+			AssertThat(testing, actual.CapturedIO, is.ValueContaining("foob"))
+			AssertThat(testing, actual.CapturedIO, is.ValueContaining("fooa"))
 		})
 	}
 	AssertThat(testing, fileExists("given_test.html"), inTmpDir())
-	AssertThat(testing, context[0].TestName, is.EqualTo("github.com/corbym/gogiven_test.TestGivenWhenExercisingRanges"))
-	AssertThat(testing, context[1].TestName, is.EqualTo("github.com/corbym/gogiven_test.TestGivenWhenExercisingRanges_1"))
 }
 
 func TestGivenWhenStacksGivens(testing *testing.T) {
 	Given(testing, someDataSetup, andMoreDataSetup).
 		When(someAction).
-		Then(func(testContext *TestingT, actual *CapturedIO, givens *InterestingGivens) {
+		Then(func(actual *CapturedIO, givens *InterestingGivens) {
 		//do assertions
-		AssertThat(testContext, givens.Givens, has.AllKeys("1", "2", "blarg"))
-		AssertThat(testContext, givens.Givens, is.ValueContaining("hi", 12, "foo"))
-		AssertThat(testContext, actual.CapturedIO, has.Key("foo"))
+		AssertThat(testing, givens.Givens, has.AllKeys("1", "2", "blarg"))
+		AssertThat(testing, givens.Givens, is.ValueContaining("hi", 12, "foo"))
+		AssertThat(testing, actual.CapturedIO, has.Key("foo"))
 	})
 }
 

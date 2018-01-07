@@ -1,12 +1,12 @@
 package gogiven
 
 type some struct {
-	testingT          *TestingT
+	testingT          *TestMetaData
 	InterestingGivens *InterestingGivens
 	CapturedIO        *CapturedIO
 }
 
-func newSome(testContext *TestingT,
+func newSome(testContext *TestMetaData,
 	givenFunc ...func(givens *InterestingGivens)) *some {
 
 	some := new(some)
@@ -24,27 +24,11 @@ func newSome(testContext *TestingT,
 }
 
 func (some *some) When(action ...func(actual *CapturedIO, givens *InterestingGivens)) *some {
-	testingT := some.testingT
-	testingT.Helper()
 	action[0](some.CapturedIO, some.InterestingGivens) // TODO: there could be multiple actions..
 	return some
 }
 
-func (some *some) Then(assertions func(testingT *TestingT, actual *CapturedIO, givens *InterestingGivens)) *some {
-	testingT := some.testingT
-	testingT.Helper()
-	assertions(some.testingT, some.CapturedIO, some.InterestingGivens)
-	return some
-}
-func (some *some) SkippingThisOne() *some {
-	testingT := some.testingT
-	testingT.Helper()
-	testingT.Skipped()
-	return some
-}
-func (some *some) InParallel() *some {
-	testingT := some.testingT
-	testingT.Helper()
-	testingT.Parallel()
+func (some *some) Then(assertions func(actual *CapturedIO, givens *InterestingGivens)) *some {
+	assertions(some.CapturedIO, some.InterestingGivens)
 	return some
 }
