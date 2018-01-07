@@ -33,3 +33,6 @@ func (t *TestMetaData) FailNow() {
 func (t *TestMetaData) Helper() {
 	// do nothing
 }
+func (t *TestMetaData) Name() string {
+	return t.TestId
+}

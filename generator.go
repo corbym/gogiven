@@ -16,8 +16,17 @@ type HtmlFileGenerator struct {
 	HtmlGenerator *HtmlFileGenerator
 }
 
-func (generator *HtmlFileGenerator) Generate(context *TestContext) (html string) {
-	return "Ok"
+func (generator *HtmlFileGenerator) Generate(context *TestContext) string {
+	html := "<html><title>Given Test</title>" +
+		"<body>"
+	safeMap := context.someTests
+	for _, key := range safeMap.Keys() {
+		if some, ok := safeMap.Load(key); ok{
+			tests := some.(*Some)
+			html += tests.globalTestingT.Name()
+		}
+	}
+	return html
 }
 
 var Generator HtmlGenerator = new(HtmlFileGenerator)

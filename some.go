@@ -1,23 +1,29 @@
 package gogiven
 
-import "github.com/corbym/gocrest"
+type TestingT interface {
+	Logf(format string, args ...interface{})
+	Errorf(format string, args ...interface{})
+	FailNow()
+	Helper()
+	Name() string
+}
 
-type some struct {
-	globalTestingT    gocrest.TestingT
+type Some struct {
+	globalTestingT    TestingT
 	testingT          *TestMetaData
-	InterestingGivens *InterestingGivens
-	CapturedIO        *CapturedIO
+	interestingGivens *InterestingGivens
+	capturedIO        *CapturedIO
 }
 
 func newSome(
-	globalTestingT gocrest.TestingT,
+	globalTestingT TestingT,
 	testContext *TestMetaData,
-	givenFunc ...func(givens *InterestingGivens)) *some {
+	givenFunc ...func(givens *InterestingGivens)) *Some {
 
-	some := new(some)
+	some := new(Some)
 	some.testingT = testContext
 	some.globalTestingT = globalTestingT
-	some.CapturedIO = newCapturedIO()
+	some.capturedIO = newCapturedIO()
 	givens := newInterestingGivens()
 
 	if len(givenFunc) > 0 {
@@ -25,22 +31,29 @@ func newSome(
 			someGivenFunc(givens)
 		}
 	}
-	some.InterestingGivens = givens
+	some.interestingGivens = givens
+	return some
+}
+func (some *Some) InterestingGivens() map[string]interface{} {
+	return some.interestingGivens.Givens
+}
+
+func (some *Some) CapturedIO() map[string]interface{} {
+	return some.capturedIO.CapturedIO
+}
+
+func (some *Some) When(action ...func(actual *CapturedIO, givens *InterestingGivens)) *Some {
+	action[0](some.capturedIO, some.interestingGivens) // TODO: there could be multiple actions..
 	return some
 }
 
-func (some *some) When(action ...func(actual *CapturedIO, givens *InterestingGivens)) *some {
-	action[0](some.CapturedIO, some.InterestingGivens) // TODO: there could be multiple actions..
+func (some *Some) Then(assertions func(actual *CapturedIO, givens *InterestingGivens)) *Some {
+	assertions(some.capturedIO, some.interestingGivens)
 	return some
 }
 
-func (some *some) Then(assertions func(actual *CapturedIO, givens *InterestingGivens)) *some {
-	assertions(some.CapturedIO, some.InterestingGivens)
-	return some
-}
-
-func (some *some) ThenFor(assertions func(testingT *TestMetaData, actual *CapturedIO, givens *InterestingGivens)) *some {
-	assertions(some.testingT, some.CapturedIO, some.InterestingGivens)
+func (some *Some) ThenFor(assertions func(testingT *TestMetaData, actual *CapturedIO, givens *InterestingGivens)) *Some {
+	assertions(some.testingT, some.capturedIO, some.interestingGivens)
 	if some.testingT.Failed {
 		globalTestingT := some.globalTestingT
 		globalTestingT.Helper()

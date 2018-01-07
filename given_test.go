@@ -43,6 +43,7 @@ func TestGivenWhenGeneratesHtml(testing *testing.T) {
 func TestGivenWhenExercisingRanges(testing *testing.T) {
 	var testMetaData []*TestMetaData
 	var testingT = new(TestMetaData)
+	var some []*Some
 
 	var someRange = []struct {
 		actual   string
@@ -52,8 +53,9 @@ func TestGivenWhenExercisingRanges(testing *testing.T) {
 		{actual: "a", expected: 2},
 	}
 	for _, test := range someRange {
-		Given(testingT).
-			When(func(actual *CapturedIO, givens *InterestingGivens) {
+		given := Given(testingT)
+		some = append(some, given)
+		given.When(func(actual *CapturedIO, givens *InterestingGivens) {
 			actual.CapturedIO["actual"] = test.actual
 			actual.CapturedIO["expected"] = test.expected
 		}).
@@ -63,6 +65,10 @@ func TestGivenWhenExercisingRanges(testing *testing.T) {
 			AssertThat(t, test.actual, has.Length(test.expected))
 		})
 	}
+	AssertThat(testing, some[0].CapturedIO()["actual"], is.EqualTo(""))
+	AssertThat(testing, some[0].CapturedIO()["expected"], is.EqualTo(0))
+	AssertThat(testing, some[1].CapturedIO()["actual"], is.EqualTo("a"))
+	AssertThat(testing, some[1].CapturedIO()["expected"], is.EqualTo(2))
 	AssertThat(testing, testMetaData[0].Failed, is.EqualTo(false))
 	AssertThat(testing, testMetaData[1].Failed, is.EqualTo(true))
 }

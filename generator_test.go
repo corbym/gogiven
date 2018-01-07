@@ -13,7 +13,6 @@ var rawContent string
 var html string
 
 func TestGeneratorCreatesTestFirstTestHtml(testing *testing.T) {
-	testing.Skipf("Need to implement this")
 	Given(testing, someFileContent).
 		When(fileIsConvertedToHtml).
 		Then(func(actual *CapturedIO, givens *InterestingGivens) {
@@ -38,7 +37,7 @@ func TestGeneratorCreatesTestFirstTestHtml(testing *testing.T) {
 }
 
 func fileIsConvertedToHtml(actual *CapturedIO, givens *InterestingGivens) {
-	html = Generator.Generate(new(TestContext))
+	html = Generator.Generate(newGlobalTestContext())
 	actual.CapturedIO["html"] = html
 }
 

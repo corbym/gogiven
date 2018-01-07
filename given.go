@@ -3,12 +3,11 @@ package gogiven
 import (
 	"runtime"
 	"strings"
-	"github.com/corbym/gocrest"
 )
 
 var globalTestContextMap = newSafeMap()
 
-func Given(testing gocrest.TestingT, given ...func(givens *InterestingGivens)) *some {
+func Given(testing TestingT, given ...func(givens *InterestingGivens)) *Some {
 	function, testFileName := testFunctionFileName()
 	var currentTestContext *TestContext
 
