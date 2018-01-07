@@ -5,8 +5,8 @@ import (
 	. "github.com/corbym/gogiven"
 	. "github.com/corbym/gocrest/then"
 	"github.com/corbym/gocrest/is"
-	"path/filepath"
 	"fmt"
+	"path/filepath"
 )
 
 var rawContent string
@@ -38,10 +38,7 @@ func TestGeneratorCreatesTestFirstTestHtml(testing *testing.T) {
 }
 
 func fileIsConvertedToHtml(actual *CapturedIO, givens *InterestingGivens) {
-	html = Generator.Generate(
-		"C:\\Users\\Matt\\go\\src\\github.com\\corbym\\gogiven\\given_test.go",
-		rawContent,
-	)
+	html = Generator.Generate(new(TestContext))
 	actual.CapturedIO["html"] = html
 }
 

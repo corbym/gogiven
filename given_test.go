@@ -14,7 +14,7 @@ import (
 
 type StubHtmlGenerator struct{}
 
-func (*StubHtmlGenerator) Generate(fileNameWithPath string, testFileContent string) (html string) {
+func (*StubHtmlGenerator) Generate(testContext *TestContext) string {
 	return "testing"
 }
 
@@ -22,9 +22,14 @@ func init() {
 	Generator = new(StubHtmlGenerator)
 }
 
+func TestMain(testmain *testing.M) {
+	runOutput := testmain.Run()
+	GenerateTestOutput()
+	os.Exit(runOutput)
+}
+
 func TestGivenWhenGeneratesHtml(testing *testing.T) {
 	var context *TestingT
-
 	Given(testing, someDataSetup).
 		When(someAction).
 		Then(func(testingT *TestingT, actual *CapturedIO, givens *InterestingGivens) {
@@ -40,6 +45,7 @@ func TestGivenWhenGeneratesHtml(testing *testing.T) {
 }
 
 func TestGivenWhenExercisingRanges(testing *testing.T) {
+	var context []*TestingT
 	var someRange = []struct {
 		a int
 		b int
@@ -55,13 +61,14 @@ func TestGivenWhenExercisingRanges(testing *testing.T) {
 		}).
 			Then(func(testContext *TestingT, actual *CapturedIO, givens *InterestingGivens) {
 			//do assertions
+			context = append(context, testContext)
 			AssertThat(testContext, actual.CapturedIO, is.ValueContaining("foob"))
 			AssertThat(testContext, actual.CapturedIO, is.ValueContaining("fooa"))
 		})
 	}
 	AssertThat(testing, fileExists("given_test.html"), inTmpDir())
-	//AssertThat(testing, context.TestName, is.EqualTo("github.com/corbym/gogiven_test.TestGivenWhenGeneratesHtml"))
-	//AssertThat(testing, context.TestName, is.EqualTo("github.com/corbym/gogiven_test.TestGivenWhenGeneratesHtml_1"))
+	AssertThat(testing, context[0].TestName, is.EqualTo("github.com/corbym/gogiven_test.TestGivenWhenExercisingRanges"))
+	AssertThat(testing, context[1].TestName, is.EqualTo("github.com/corbym/gogiven_test.TestGivenWhenExercisingRanges_1"))
 }
 
 func TestGivenWhenStacksGivens(testing *testing.T) {

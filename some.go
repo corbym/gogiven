@@ -2,26 +2,19 @@ package gogiven
 
 import (
 	"testing"
-	"runtime"
 )
 
 type some struct {
-	context              *TestingT
-	InterestingGivens    *InterestingGivens
-	CapturedIO           *CapturedIO
-	runtimeCaller        *runtime.Func
-	frameProgramCounters []uintptr
+	testingT          *TestingT
+	InterestingGivens *InterestingGivens
+	CapturedIO        *CapturedIO
 }
 
 func newSome(testContext *TestingT,
-	runtimeCaller *runtime.Func,
-	frameProgramCounters [] uintptr,
 	givenFunc ...func(givens *InterestingGivens)) *some {
 
 	some := new(some)
-	some.runtimeCaller = runtimeCaller
-	some.frameProgramCounters = frameProgramCounters
-	some.context = testContext
+	some.testingT = testContext
 	some.CapturedIO = newCapturedIO()
 	givens := newInterestingGivens()
 
@@ -49,9 +42,10 @@ func (some *some) When(action ...func(actual *CapturedIO, givens *InterestingGiv
 	return some
 }
 
+var finished = false
+
 func (some *some) Then(assertions func(testingT *TestingT, actual *CapturedIO, givens *InterestingGivens)) *some {
-	assertions(some.context, some.CapturedIO, some.InterestingGivens)
-	generateTestOutput(some)
+	assertions(some.testingT, some.CapturedIO, some.InterestingGivens)
 	return some
 }
 

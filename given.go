@@ -3,7 +3,7 @@ package gogiven
 import (
 	"testing"
 	"runtime"
-	"sync"
+	"strings"
 )
 
 type CapturedIO struct {
@@ -11,36 +11,57 @@ type CapturedIO struct {
 }
 
 type InterestingGivens struct {
-	Givens map[string]interface{}
+	Givens map[string]interface{} ``
 }
 
-var someTests *sync.Map
+var globalTestContextMap = newSafeMap()
 
 func Given(testing *testing.T, given ...func(givens *InterestingGivens)) *some {
-	if someTests == nil {
-		someTests = new(sync.Map)
-	}
+	function, testFileName := testFunctionFileName()
+	var currentTestContext *TestContext
 
-	funcProgramCounters := make([]uintptr, 1)
-	noOfEntries := runtime.Callers(2, funcProgramCounters)
-	if noOfEntries == 0 {
-		panic("eek")
+	if value, ok := globalTestContextMap.Load(testFileName); ok {
+		currentTestContext = value.(*TestContext)
+	} else {
+		currentTestContext = newGlobalTestContext(testFileName)
+		globalTestContextMap.Store(testFileName, currentTestContext)
 	}
-	// get the info of the actual function that's in the pointer
-	function := runtime.FuncForPC(funcProgramCounters[0] - 1)
-	if function == nil {
-		panic("arrgh")
-	}
+	someTests := currentTestContext.someTests
+	keyFor := uniqueKeyFor(someTests, function.Name())
 
-	keyFor := keyFor(someTests, function.Name())
-	some := newSome(newTestMetaData(testing, keyFor), function, funcProgramCounters, given...)
+	some := newSome(newTestMetaData(testing, keyFor), given...)
 	someTests.Store(keyFor, some)
+
 	return some
 }
+func testFunctionFileName() (*runtime.Func, string) {
+	funcProgramCounters, function := findTestFpcFunction()
+	testFileName, _ := function.FileLine(funcProgramCounters[0] - 1)
+	return function, testFileName
+}
 
-func keyFor(somes *sync.Map, name string) string {
+func findTestFpcFunction() ([]uintptr, *runtime.Func) {
+	funcProgramCounters := make([]uintptr, 1)
+	var function *runtime.Func
+	var cnt = 1
+	for notFound := true; notFound; notFound = !strings.Contains(function.Name(), ".Test") {
+		noOfEntries := runtime.Callers(cnt, funcProgramCounters)
+		if noOfEntries == 0 {
+			panic("eek, no entries in callers list; cannot set funcProgramCounters")
+		}
+		// get the info of the actual function that's in the pointer
+		function = runtime.FuncForPC(funcProgramCounters[0] - 1)
+		if function == nil {
+			panic("arrgh: no function found, or dropped of end of stack!")
+		}
+		cnt++
+	}
+	return funcProgramCounters, function
+}
+
+func uniqueKeyFor(somes *SafeMap, name string) string {
 	if _, ok := somes.Load(name); !ok {
 		return name
 	}
-	return keyFor(somes, name+"_1")
+	return uniqueKeyFor(somes, name+"_1")
 }
