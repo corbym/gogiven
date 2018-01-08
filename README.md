@@ -1,5 +1,5 @@
 # gogiven
-An alternative BDD spec framework for go.
+An alternative BDD spec framework for go. Builds on "go test" tool and builds on the go testing package.
 
 Inspired by [YATSPEC](https://github.com/bodar/yatspec).
 
@@ -13,6 +13,12 @@ import (
 	"github.com/corbym/gocrest"
 )
 
+func TestMain(testmain *testing.M) {
+	runOutput := testmain.Run()
+	GenerateTestOutput() // You only need test main GenerateTestOutput() if you want to produce HTML output.
+	os.Exit(runOutput)
+}
+
 func TestMyFirst(testing *testing.T){
    Given(testing, someDataSetup).
         When(someAction).
@@ -23,15 +29,16 @@ func TestMyFirst(testing *testing.T){
 }
 ...
 func someDataSetup(givens *InterestingGivens) {
-    givens.Givens["1"] = "hi"
+    givens.Givens["1"] = "hi" //these keys and values will be displayed in the test output html in a table next to the test
     givens.Givens["2"] = "foo"
 }
 ...
 func someAction(capturedIo *CapturedIO, givens *InterestingGivens) {
-    // call your functions here, feed output into capturedIO map
+    // call your functions here, feed output into capturedIO map - this will be displayed in the test output html
     capturedIo.CapturedIO["actual"] = new(T).callMyFun(givens.Givens["1"], givens.Givens["2"])
 }
 ```
+Note you do not have to use "gocrest" assertions, you can still call all of testing.T's functions to fail the test or you can use any go testing assertion package compatible with testing.T.
 
 When run, the above will produce an HTML output:
 
