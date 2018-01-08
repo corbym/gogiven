@@ -14,7 +14,7 @@ func Given(testing TestingT, given ...func(givens *InterestingGivens)) *Some {
 	if value, ok := globalTestContextMap.Load(testFileName); ok {
 		currentTestContext = value.(*TestContext)
 	} else {
-		currentTestContext = newGlobalTestContext(testFileName)
+		currentTestContext = NewGlobalTestContext(testFileName)
 		globalTestContextMap.Store(testFileName, currentTestContext)
 	}
 	someTests := currentTestContext.someTests

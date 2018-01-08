@@ -52,7 +52,7 @@ func (some *Some) Then(assertions func(actual *CapturedIO, givens *InterestingGi
 	return some
 }
 
-func (some *Some) ThenFor(assertions func(testingT *TestMetaData, actual *CapturedIO, givens *InterestingGivens)) *Some {
+func (some *Some) ThenFor(assertions func(testingT TestingT, actual *CapturedIO, givens *InterestingGivens)) *Some {
 	assertions(some.testingT, some.capturedIO, some.interestingGivens)
 	if some.testingT.Failed {
 		globalTestingT := some.globalTestingT

@@ -10,7 +10,7 @@ type TestContext struct {
 	fileContent []byte
 }
 
-func newGlobalTestContext(fileName string) *TestContext {
+func NewGlobalTestContext(fileName string) *TestContext {
 	content, err := ioutil.ReadFile(fileName)
 	if err != nil {
 		panic("file not found:" + err.Error())

@@ -59,9 +59,9 @@ func TestGivenWhenExercisingRanges(testing *testing.T) {
 			actual.CapturedIO["actual"] = test.actual
 			actual.CapturedIO["expected"] = test.expected
 		}).
-			ThenFor(func(t *TestMetaData, actual *CapturedIO, givens *InterestingGivens) {
+			ThenFor(func(t TestingT, actual *CapturedIO, givens *InterestingGivens) {
 			//do assertions
-			testMetaData = append(testMetaData, t)
+			testMetaData = append(testMetaData, t.(*TestMetaData))
 			AssertThat(t, test.actual, has.Length(test.expected))
 		})
 	}
