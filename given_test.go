@@ -111,7 +111,7 @@ func inTmpDir() *gocrest.Matcher {
 }
 
 func aFakeGenerator(givens *InterestingGivens) {
-	Generator = new(StubHtmlGenerator)
+	Generator = new(StubHtmlGenerator) // you too can override Generator and generate any kind of file output.
 }
 
 func someDataSetup(givens *InterestingGivens) {
