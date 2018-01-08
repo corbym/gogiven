@@ -15,7 +15,7 @@ type Some struct {
 	capturedIO        *CapturedIO
 }
 
-func newSome(
+func NewSome(
 	globalTestingT TestingT,
 	testContext *TestMetaData,
 	givenFunc ...func(givens *InterestingGivens)) *Some {

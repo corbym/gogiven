@@ -17,16 +17,25 @@ type HtmlFileGenerator struct {
 }
 
 func (generator *HtmlFileGenerator) Generate(context *TestContext) string {
-	html := "<html><title>Given Test</title>" +
-		"<body>"
+	html := testTemplate(context.fileName, string(context.fileContent[:]))
 	safeMap := context.someTests
 	for _, key := range safeMap.Keys() {
-		if some, ok := safeMap.Load(key); ok{
+		if some, ok := safeMap.Load(key); ok {
 			tests := some.(*Some)
 			html += tests.globalTestingT.Name()
 		}
 	}
+	html += "</body></html>"
 	return html
+}
+func testTemplate(fileName string, testFileContent string) string {
+	return testHeader(fileName)
+}
+
+func testHeader(title string) string {
+	return fmt.Sprintf(
+		"<html><title>%s</title>"+
+					"<body>", title)
 }
 
 var Generator HtmlGenerator = new(HtmlFileGenerator)

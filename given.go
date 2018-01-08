@@ -14,13 +14,13 @@ func Given(testing TestingT, given ...func(givens *InterestingGivens)) *Some {
 	if value, ok := globalTestContextMap.Load(testFileName); ok {
 		currentTestContext = value.(*TestContext)
 	} else {
-		currentTestContext = NewGlobalTestContext(testFileName)
+		currentTestContext = NewTestContext(testFileName)
 		globalTestContextMap.Store(testFileName, currentTestContext)
 	}
 	someTests := currentTestContext.someTests
 	keyFor := uniqueKeyFor(someTests, function.Name()) // this deals with table test for loops, we want different id for each
 
-	some := newSome(testing, newTestMetaData(keyFor), given...)
+	some := NewSome(testing, NewTestMetaData(keyFor), given...)
 	someTests.Store(keyFor, some)
 
 	return some

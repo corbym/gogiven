@@ -10,7 +10,7 @@ type TestMetaData struct {
 	TestOutput string
 }
 
-func newTestMetaData(testName string) *TestMetaData {
+func NewTestMetaData(testName string) *TestMetaData {
 	testContext := new(TestMetaData)
 	testContext.TestId = testName
 	testContext.Failed = false

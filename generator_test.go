@@ -7,7 +7,6 @@ import (
 	. "github.com/corbym/gogiven"
 	"path/filepath"
 	"testing"
-	"os"
 )
 
 var rawContent string
@@ -38,8 +37,18 @@ func TestGeneratorCreatesTestFirstTestHtml(testing *testing.T) {
 }
 
 func fileIsConvertedToHtml(actual *CapturedIO, givens *InterestingGivens) {
-	fileInfo, _ := os.Stat(testFileName())
-	html = Generator.Generate(NewGlobalTestContext(fileInfo.Name()))
+	context := NewTestContext(testFileName())
+
+	someTests := context.SomeTests()
+	testName := "TestGivenWhenGeneratesHtml"
+	globalTestingT := NewTestMetaData(testName)
+	testMetaData := NewTestMetaData(testName)
+	some := NewSome(globalTestingT, testMetaData, func(givens *InterestingGivens) {
+		givens.Givens["foofar"]= "farfoo"
+	})
+	someTests.Store(testName, some)
+
+	html = Generator.Generate(context)
 }
 func someFileContent(givens *InterestingGivens) {
 	rawContent = fileContent(testFileName())

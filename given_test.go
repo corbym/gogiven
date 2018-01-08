@@ -18,10 +18,6 @@ func (*StubHtmlGenerator) Generate(testContext *TestContext) string {
 	return "testing"
 }
 
-func init() {
-	Generator = new(StubHtmlGenerator)
-}
-
 func TestMain(testmain *testing.M) {
 	runOutput := testmain.Run()
 	GenerateTestOutput()
@@ -53,7 +49,7 @@ func TestGivenWhenExercisingRanges(testing *testing.T) {
 		{actual: "a", expected: 2},
 	}
 	for _, test := range someRange {
-		given := Given(testingT)
+		given := Given(testingT, aFakeGenerator)
 		some = append(some, given)
 		given.When(func(actual *CapturedIO, givens *InterestingGivens) {
 			actual.CapturedIO["actual"] = test.actual
@@ -114,9 +110,14 @@ func inTmpDir() *gocrest.Matcher {
 	return matcher
 }
 
+func aFakeGenerator(givens *InterestingGivens) {
+	Generator = new(StubHtmlGenerator)
+}
+
 func someDataSetup(givens *InterestingGivens) {
 	givens.Givens["1"] = "hi"
 	givens.Givens["2"] = "foo"
+	aFakeGenerator(givens)
 }
 
 func andMoreDataSetup(givens *InterestingGivens) {
