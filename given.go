@@ -7,6 +7,8 @@ import (
 
 var globalTestContextMap = newSafeMap()
 
+//Given sets up some interesting givens for the test.
+//Pass in testing.T here and a function which adds some givens to the map.
 func Given(testing TestingT, given ...func(givens *InterestingGivens)) *Some {
 	function, testFileName := testFunctionFileName()
 	var currentTestContext *TestContext

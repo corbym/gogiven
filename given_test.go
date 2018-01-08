@@ -12,10 +12,15 @@ import (
 	"testing"
 )
 
-type StubHtmlGenerator struct{}
+type StubHtmlGenerator struct {
+	GoGivensOutputGenerator
+}
 
 func (*StubHtmlGenerator) Generate(testContext *TestContext) string {
 	return "testing"
+}
+func (*StubHtmlGenerator) FileName() string {
+	return ".html"
 }
 
 func TestMain(testmain *testing.M) {

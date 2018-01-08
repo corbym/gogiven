@@ -64,14 +64,15 @@ func GenerateTestOutput() {
 		currentTestContext := value.(*TestContext)
 
 		output := Generator.Generate(currentTestContext)
+		extension := Generator.FileExtension()
 		outputFileName := fmt.Sprintf("%s%c%s", os.TempDir(),
 			os.PathSeparator,
-			strings.Replace(filepath.Base(currentTestContext.fileName), ".go", Generator.FileExtension(), 1))
+			strings.Replace(filepath.Base(currentTestContext.fileName), ".go", extension, 1))
 
 		err := ioutil.WriteFile(outputFileName, []byte(output), 0644)
 		if err != nil {
 			panic("error generating gogiven output:" + err.Error())
 		}
-		fmt.Printf("generated test output: file:///%s\n", strings.Replace(outputFileName, "\\", "/", -1))
+		fmt.Printf("\ngenerated test output: file:///%s\n", strings.Replace(outputFileName, "\\", "/", -1))
 	}
 }
