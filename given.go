@@ -3,7 +3,6 @@ package gogiven
 import (
 	"runtime"
 	"strings"
-	"regexp"
 )
 
 var globalTestContextMap = newSafeMap()
@@ -38,16 +37,37 @@ func ParseGivenWhenThen(name string, testFileContent string) string {
 	lastDotInTestName := strings.LastIndex(name, ".")
 	testName := name[lastDotInTestName+1:]
 
-	compile, _ := regexp.Compile("(?ms:^func "+testName+".*?{(.*)^}$.*?func)")
-	if compile.MatchString(testFileContent) {
-		submatch := compile.FindStringSubmatch(testFileContent)
-		var replace= submatch[1]
-		for _, replacement := range []string{"func", ".", "{", "}", "var", ":=", "(", ")"} {
-			replace = strings.Replace(replace, replacement, "", -1)
-		}
-		return replace
+	funcIndex := strings.Index(testFileContent, "func "+testName) + len(testName)
+	openingBracketIndex := funcIndex + strings.Index(testFileContent[funcIndex:], "{")
+	funcEndIndex := openingBracketIndex + indexForFuncEnd(testFileContent[openingBracketIndex:])
+	var replace = testFileContent[openingBracketIndex:funcEndIndex]
+	for _, replacement := range []string{"func", ".", "{", "}", "var", ":=", "(", ")"} {
+		replace = strings.Replace(replace, replacement, "", -1)
 	}
-	return ""
+	return replace
+}
+
+func indexForFuncEnd(findIn string) int {
+	bytes := findIn[:]
+	var bracketCount = -1
+	for pos, char := range bytes {
+		switch char {
+		case '{':
+			if bracketCount == -1 {
+				bracketCount++
+			}
+			bracketCount++
+		case '}':
+			if bracketCount == -1 {
+				bracketCount++
+			}
+			bracketCount--
+		}
+		if bracketCount == 0 {
+			return pos
+		}
+	}
+	return -1
 }
 
 func testFunctionFileName() (*runtime.Func, string) {
