@@ -10,28 +10,28 @@ type TestMetaData struct {
 	Failed     bool
 	TestOutput string
 }
-//Creates a new TestMetaData object. Used internally.
+//NewTestMetaData creates a new TestMetaData object. Used internally.
 func NewTestMetaData(testName string) *TestMetaData {
 	testContext := new(TestMetaData)
 	testContext.TestId = testName
 	testContext.Failed = false
 	return testContext
 }
-//Marks this test as failed and sets the test output to the formatted string. 
+//Logf marks this test as failed and sets the test output to the formatted string. 
 func (t *TestMetaData) Logf(format string, args ...interface{}) {
 	t.TestOutput = fmt.Sprintf(format, args...)
 	t.Failed = true
 }
-//Marks this test as failed and sets the test output to the formatted string. 
+//Errorf marks this test as failed and sets the test output to the formatted string. 
 func (t *TestMetaData) Errorf(format string, args ...interface{}) {
 	t.TestOutput = fmt.Sprintf(format, args...)
 	t.Failed = true
 }
-//Marks this test as failed. 
+//FailNow marks this test as failed. 
 func (t *TestMetaData) FailNow() {
 	t.Failed = true
 }
-//This implementation of Helper() does nothing. It's just in case some package that consumes t 
+//Helper does nothing. It's just in case some package that consumes t 
 // calls it.
 func (t *TestMetaData) Helper() {
 	// do nothing
