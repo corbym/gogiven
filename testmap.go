@@ -12,26 +12,26 @@ func newSafeMap() *SafeMap {
 		internal: make(map[string]interface{}),
 	}
 }
-//Loads a key from the map
+//Load a key from the map
 func (rm *SafeMap) Load(key string) (value interface{}, ok bool) {
 	rm.RLock()
 	defer rm.RUnlock()
 	result, ok := rm.internal[key]
 	return result, ok
 }
-//Deletes a key from the map
+//Delete a key from the map
 func (rm *SafeMap) Delete(key string) {
 	rm.Lock()
 	delete(rm.internal, key)
 	rm.Unlock()
 }
-//Stores a value against a key from the map
+//Store a value against a key from the map
 func (rm *SafeMap) Store(key string, value interface{}) {
 	rm.Lock()
 	rm.internal[key] = value
 	rm.Unlock()
 }
-//Returns an array of keys that the map contains
+//Keysreturns an array of keys that the map contains
 func (rm *SafeMap) Keys() []string {
 	rm.RLock()
 	defer rm.RUnlock()
@@ -41,7 +41,7 @@ func (rm *SafeMap) Keys() []string {
 	}
 	return keys
 }
-// Reports the lenght of the map, same as len(myMap) for the primitive go map.
+// Len reports the lenght of the map, same as len(myMap) for the primitive go map.
 func (rm *SafeMap) Len() int {
 	rm.RLock()
 	defer rm.RUnlock()
