@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-// Interface that can be implemented by anything that can generate file content to be output
+// GoGivensOutputGenerator is an interface that can be implemented by anything that can generate file content to be output
 // after a test has completed.
 type GoGivensOutputGenerator interface {
 	//Called from GenerateTestOutput
@@ -17,16 +17,16 @@ type GoGivensOutputGenerator interface {
 	FileExtension() string
 }
 
-//Implementation of the GoGivensOutputGenerator that generates an html file per
+//TestOutputGenerator is an implmentation of the GoGivensOutputGenerator that generates an html file per
 // test.
 type TestOutputGenerator struct {
 	GoGivensOutputGenerator
 }
-//File Extension for the output generated.
+// FileExtension for the output generated.
 func (generator *TestOutputGenerator) FileExtension() string {
 	return ".html"
 }
-// Generates the default output for a test. The return string contains the html
+// Generate generates the default output for a test. The return string contains the html
 // that goes into the output file generated in gogivens.GenerateTestOutput()
 func (generator *TestOutputGenerator) Generate(context *TestContext) string {
 	html := testTemplate(context.fileName, string(context.fileContent[:]))
@@ -53,7 +53,7 @@ func testHeader(title string) string {
 			"<body><h1>%s</h1>", title, title)
 }
 
-// Takes a test filename e.g. /foo/bar/my_test.go and returns a header e.g. "My Test".
+// TransformFileNameToHeader takes a test filename e.g. /foo/bar/my_test.go and returns a header e.g. "My Test".
 // Strips off the file path and removes the extension.
 func TransformFileNameToHeader(fileName string) (header string) {
 	return strings.Title(strings.Replace(strings.TrimSuffix(filepath.Base(fileName), ".go"), "_", " ", -1))
