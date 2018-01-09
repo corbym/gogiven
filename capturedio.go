@@ -1,4 +1,5 @@
 package gogiven
+
 //CapturedIO contains the captured inputs and outputs for the test.
 // These could be the interactions between the system and the stubbed endpoints,
 // or any value that the system under test produces.

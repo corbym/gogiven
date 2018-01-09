@@ -26,12 +26,13 @@ func Given(testing TestingT, given ...func(givens *InterestingGivens)) *Some {
 		testing,
 		NewTestMetaData(keyFor),
 		ParseGivenWhenThen(function.Name(), currentTestContext.fileContent),
-		given...
+		given...,
 	)
 	someTests.Store(keyFor, some)
 
 	return some
 }
+
 // ParseGivenWhenThen parses a test file for the Given/When/Then content of the test in question identified by the parameter "testName"
 // Returns the content of the function with all metacharacters removed, spaces added to CamelCase and snake case too.
 func ParseGivenWhenThen(name string, testFileContent string) string {

@@ -22,10 +22,12 @@ type GoGivensOutputGenerator interface {
 type TestOutputGenerator struct {
 	GoGivensOutputGenerator
 }
+
 // FileExtension for the output generated.
 func (generator *TestOutputGenerator) FileExtension() string {
 	return ".html"
 }
+
 // Generate generates the default output for a test. The return string contains the html
 // that goes into the output file generated in gogivens.GenerateTestOutput()
 func (generator *TestOutputGenerator) Generate(context *TestContext) string {

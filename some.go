@@ -1,4 +1,5 @@
 package gogiven
+
 //TestingT is a convenience interface that matches some methods of `testing.T`
 type TestingT interface {
 	Logf(format string, args ...interface{})
@@ -14,7 +15,7 @@ type Some struct {
 	testingT          *TestMetaData
 	interestingGivens *InterestingGivens
 	capturedIO        *CapturedIO
-	givenWhenThen	  string
+	givenWhenThen     string
 }
 
 //NewSome creates a new Some context. This is an internal function that was exported for testing.
