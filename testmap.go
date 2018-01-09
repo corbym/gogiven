@@ -53,3 +53,13 @@ func (rm *SafeMap) Len() int {
 	defer rm.RUnlock()
 	return len(rm.internal)
 }
+
+func (rm *SafeMap) AsMapOfSome() map[string]*Some {
+	rm.RLock()
+	defer rm.RUnlock()
+	newMap := make(map[string]*Some, len(rm.internal))
+	for k, v := range rm.internal {
+		newMap[k] = v.(*Some)
+	}
+	return newMap
+}

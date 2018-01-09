@@ -1,6 +1,7 @@
 package gogiven
 
 import (
+	"regexp"
 	"runtime"
 	"strings"
 )
@@ -39,14 +40,26 @@ func ParseGivenWhenThen(name string, testFileContent string) string {
 	lastDotInTestName := strings.LastIndex(name, ".")
 	testName := name[lastDotInTestName+1:]
 
-	funcIndex := strings.Index(testFileContent, "func "+testName) + len(testName)
-	openingBracketIndex := funcIndex + strings.Index(testFileContent[funcIndex:], "{")
-	funcEndIndex := openingBracketIndex + indexForFuncEnd(testFileContent[openingBracketIndex:])
+	openingBracketIndex, funcEndIndex := findOpenBracketFuncEndBracketIndices(testFileContent, testName)
 	var replace = testFileContent[openingBracketIndex:funcEndIndex]
-	for _, replacement := range []string{"func", ".", "{", "}", "var", ":=", "(", ")"} {
-		replace = strings.Replace(replace, replacement, "", -1)
+	replace = replaceAllNonAlphaNumericCharactersWithSpaces(replace)
+	return replace
+}
+
+func replaceAllNonAlphaNumericCharactersWithSpaces(replace string) string {
+	if allNonAlphaChar, err := regexp.Compile("(?sm:([\\W]))"); err != nil {
+		replace = err.Error()
+	} else {
+		replace = allNonAlphaChar.ReplaceAllString(replace, " ")
 	}
 	return replace
+}
+
+func findOpenBracketFuncEndBracketIndices(testFileContent string, testName string) (openBracketIndex int, funcEndIndex int) {
+	funcIndex := strings.Index(testFileContent, "func "+testName) + len(testName)
+	openingBracketIndex := funcIndex + strings.Index(testFileContent[funcIndex:], "{")
+	funcEndIndex = openingBracketIndex + indexForFuncEnd(testFileContent[openingBracketIndex:])
+	return openingBracketIndex + 1, funcEndIndex
 }
 
 func indexForFuncEnd(findIn string) int {
@@ -55,14 +68,10 @@ func indexForFuncEnd(findIn string) int {
 	for pos, char := range bytes {
 		switch char {
 		case '{':
-			if bracketCount == -1 {
-				bracketCount++
-			}
+			bracketCount = incBracketCountIfNegative(bracketCount)
 			bracketCount++
 		case '}':
-			if bracketCount == -1 {
-				bracketCount++
-			}
+			bracketCount = incBracketCountIfNegative(bracketCount)
 			bracketCount--
 		}
 		if bracketCount == 0 {
@@ -70,6 +79,12 @@ func indexForFuncEnd(findIn string) int {
 		}
 	}
 	return -1
+}
+func incBracketCountIfNegative(bracketCount int) int {
+	if bracketCount == -1 {
+		bracketCount++
+	}
+	return bracketCount
 }
 
 func testFunctionFileName() (*runtime.Func, string) {

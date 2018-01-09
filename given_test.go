@@ -12,14 +12,13 @@ import (
 	"testing"
 )
 
-type StubHtmlGenerator struct {
-	GoGivensOutputGenerator
-}
+type StubHtmlGenerator struct{}
 
 func (*StubHtmlGenerator) Generate(testContext *TestContext) string {
 	return "testing"
 }
-func (*StubHtmlGenerator) FileName() string {
+
+func (*StubHtmlGenerator) FileExtension() string {
 	return ".html"
 }
 

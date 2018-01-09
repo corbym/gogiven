@@ -1,7 +1,9 @@
 package gogiven
 
 import (
+	"bytes"
 	"fmt"
+	"html/template"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -31,28 +33,12 @@ func (generator *TestOutputGenerator) FileExtension() string {
 // Generate generates the default output for a test. The return string contains the html
 // that goes into the output file generated in gogivens.GenerateTestOutput()
 func (generator *TestOutputGenerator) Generate(context *TestContext) string {
-	html := testTemplate(context.fileName, string(context.fileContent[:]))
+	tmpl := template.Must(template.ParseFiles("htmltemplate.gtl"))
 	safeMap := context.someTests
-	for _, key := range safeMap.Keys() {
-		if some, ok := safeMap.Load(key); ok {
-			tests := some.(*Some)
-			html += tests.globalTestingT.Name()
-		}
-	}
-	html += footer()
-	return html
-}
-func footer() string {
-	return "</body></html>"
-}
-func testTemplate(fileName string, testFileContent string) string {
-	return testHeader(TransformFileNameToHeader(fileName))
-}
-
-func testHeader(title string) string {
-	return fmt.Sprintf(
-		"<html><title>%s</title>"+
-			"<body><h1>%s</h1>", title, title)
+	var buffer bytes.Buffer
+	mapOfSome := safeMap.AsMapOfSome()
+	tmpl.Execute(&buffer, mapOfSome)
+	return buffer.String()
 }
 
 // TransformFileNameToHeader takes a test filename e.g. /foo/bar/my_test.go and returns a header e.g. "My Test".
