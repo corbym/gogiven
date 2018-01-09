@@ -59,7 +59,7 @@ func TransformFileNameToHeader(fileName string) (header string) {
 	return strings.Title(strings.Replace(strings.TrimSuffix(filepath.Base(fileName), ".go"), "_", " ", -1))
 }
 
-// Global variable that holds the GoGivensOutputGenerator.
+// Generator is a global variable that holds the GoGivensOutputGenerator.
 // You can replace the generator with your own if you match the interface here
 // and set Generator = new(myFooGenerator).
 // Don't forget to add the call to the generator function in a "func TestMain(testing.M)" method
@@ -67,7 +67,7 @@ func TransformFileNameToHeader(fileName string) (header string) {
 // One file per test file will be generated containing output.
 var Generator GoGivensOutputGenerator = new(TestOutputGenerator)
 
-// Generates the test output. Call this method from TestMain.
+// GenerateTestOutput generates the test output. Call this method from TestMain.
 func GenerateTestOutput() {
 	for _, key := range globalTestContextMap.Keys() {
 		value, _ := globalTestContextMap.Load(key)
