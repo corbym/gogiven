@@ -9,14 +9,15 @@ type GivenContext interface {
 	FileName() string
 	FileContent() string
 }
-//TextContext contains a SafeMap of the TestMetaData for the current test file being processed and
+//TestContext contains a SafeMap of the TestMetaData for the current test file being processed and
 // a copy of the fileName with it's file content.
 type TestContext struct {
 	someTests   *SafeMap
 	fileName    string
 	fileContent string
 }
-
+//NewTestContext creates a new context. This will read the whole contents of filename 
+// in using ioutil.ReadFile into memory.
 func NewTestContext(fileName string) *TestContext {
 	content, err := ioutil.ReadFile(fileName)
 	if err != nil {
