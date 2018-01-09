@@ -1,5 +1,5 @@
 package gogiven
-
+//TestingT is a convenience interface that matches some methods of `testing.T`
 type TestingT interface {
 	Logf(format string, args ...interface{})
 	Errorf(format string, args ...interface{})
