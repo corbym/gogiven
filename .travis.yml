@@ -1,0 +1,15 @@
+sudo: false
+language: go
+go:
+  - 1.9.x
+  - master
+
+script:
+  - go test -v -race ./...
+
+matrix:
+  allow_failures:
+    - go: master
+  fast_finish: true
+notifications:
+  email: false
