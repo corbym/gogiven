@@ -31,7 +31,7 @@ func (rm *SafeMap) Store(key string, value interface{}) {
 	rm.internal[key] = value
 	rm.Unlock()
 }
-//Keysreturns an array of keys that the map contains
+//Keys returns an array of keys that the map contains
 func (rm *SafeMap) Keys() []string {
 	rm.RLock()
 	defer rm.RUnlock()
