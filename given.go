@@ -32,7 +32,7 @@ func Given(testing TestingT, given ...func(givens *InterestingGivens)) *Some {
 
 	return some
 }
-// Parses a test file for the Given/When/Then content of the test in question identified by the parameter "testName"
+// ParseGivenWhenThen parses a test file for the Given/When/Then content of the test in question identified by the parameter "testName"
 // Returns the content of the function with all metacharacters removed, spaces added to CamelCase and snake case too.
 func ParseGivenWhenThen(name string, testFileContent string) string {
 	lastDotInTestName := strings.LastIndex(name, ".")
