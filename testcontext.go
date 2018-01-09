@@ -36,6 +36,7 @@ func (t *TestMetaData) FailNow() {
 func (t *TestMetaData) Helper() {
 	// do nothing
 }
+//Name returns the id (the test name, possibly with some uniqueid appended)
 func (t *TestMetaData) Name() string {
 	return t.TestId
 }
