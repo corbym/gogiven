@@ -1,6 +1,10 @@
 # gogiven
 An alternative BDD spec framework for go. Builds on "go test" tool and builds on the go testing package.
 
+[![Build status](https://travis-ci.org/corbym/gogiven.svg?branch=master)](https://github.com/corbym/gogiven)
+[![Go Report Card](https://goreportcard.com/badge/github.com/corbym/gogiven)](https://goreportcard.com/report/github.com/corbym/gogiven)
+[![GoDoc](https://godoc.org/github.com/corbym/gogiven?status.svg)](http://godoc.org/github.com/corbym/gogiven)
+
 Inspired by [YATSPEC](https://github.com/bodar/yatspec).
 
 ## Example
