@@ -13,7 +13,7 @@ type GivenContext interface {
 type TestContext struct {
 	someTests   *SafeMap
 	fileName    string
-	fileContent []byte
+	fileContent string
 }
 
 func NewTestContext(fileName string) *TestContext {
@@ -24,7 +24,7 @@ func NewTestContext(fileName string) *TestContext {
 	context := new(TestContext)
 	context.someTests = newSafeMap()
 	context.fileName = fileName
-	context.fileContent = content
+	context.fileContent = string(content[:])
 	return context
 }
 
@@ -35,6 +35,6 @@ func (c *TestContext) FileName() string {
 func (c *TestContext) SomeTests() *SafeMap {
 	return c.someTests
 }
-func (c *TestContext) FileContent() []byte {
+func (c *TestContext) FileContent() string {
 	return c.fileContent
 }

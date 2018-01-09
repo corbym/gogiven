@@ -8,10 +8,12 @@ import (
 	"strings"
 )
 
-// Interface that anything that can generate file content to be output
+// Interface that can be implemented by anything that can generate file content to be output
 // after a test has completed.
 type GoGivensOutputGenerator interface {
+	//Called from GenerateTestOutput
 	Generate(context *TestContext) (html string)
+	//File Extension for the output generated, e.g ".html"
 	FileExtension() string
 }
 
@@ -20,11 +22,12 @@ type GoGivensOutputGenerator interface {
 type TestOutputGenerator struct {
 	GoGivensOutputGenerator
 }
-
+//File Extension for the output generated.
 func (generator *TestOutputGenerator) FileExtension() string {
 	return ".html"
 }
-
+// Generates the default output for a test. The return string contains the html
+// that goes into the output file generated in gogivens.GenerateTestOutput()
 func (generator *TestOutputGenerator) Generate(context *TestContext) string {
 	html := testTemplate(context.fileName, string(context.fileContent[:]))
 	safeMap := context.someTests
@@ -34,8 +37,11 @@ func (generator *TestOutputGenerator) Generate(context *TestContext) string {
 			html += tests.globalTestingT.Name()
 		}
 	}
-	html += "</body></html>"
+	html += footer()
 	return html
+}
+func footer() string {
+	return "</body></html>"
 }
 func testTemplate(fileName string, testFileContent string) string {
 	return testHeader(TransformFileNameToHeader(fileName))
@@ -55,9 +61,13 @@ func TransformFileNameToHeader(fileName string) (header string) {
 
 // Global variable that holds the GoGivensOutputGenerator.
 // You can replace the generator with your own if you match the interface here
-// and set GoGivensOutputGenerator = myFooGenerator
+// and set Generator = new(myFooGenerator).
+// Don't forget to add the call to the generator function in a "func TestMain(testing.M)" method
+// in your test package.
+// One file per test file will be generated containing output.
 var Generator GoGivensOutputGenerator = new(TestOutputGenerator)
 
+// Generates the test output. Call this method from TestMain.
 func GenerateTestOutput() {
 	for _, key := range globalTestContextMap.Keys() {
 		value, _ := globalTestContextMap.Load(key)

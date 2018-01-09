@@ -3,6 +3,7 @@ package gogiven
 import (
 	"runtime"
 	"strings"
+	"regexp"
 )
 
 var globalTestContextMap = newSafeMap()
@@ -22,11 +23,33 @@ func Given(testing TestingT, given ...func(givens *InterestingGivens)) *Some {
 	someTests := currentTestContext.someTests
 	keyFor := uniqueKeyFor(someTests, function.Name()) // this deals with table test for loops, we want different id for each
 
-	some := NewSome(testing, NewTestMetaData(keyFor), given...)
+	some := NewSome(
+		testing,
+		NewTestMetaData(keyFor),
+		ParseGivenWhenThen(function.Name(), currentTestContext.fileContent),
+		given...
+	)
 	someTests.Store(keyFor, some)
 
 	return some
 }
+
+func ParseGivenWhenThen(name string, testFileContent string) string {
+	lastDotInTestName := strings.LastIndex(name, ".")
+	testName := name[lastDotInTestName+1:]
+
+	compile, _ := regexp.Compile("(?ms:^func "+testName+".*?{(.*)^}$.*?func)")
+	if compile.MatchString(testFileContent) {
+		submatch := compile.FindStringSubmatch(testFileContent)
+		var replace= submatch[1]
+		for _, replacement := range []string{"func", ".", "{", "}", "var", ":=", "(", ")"} {
+			replace = strings.Replace(replace, replacement, "", -1)
+		}
+		return replace
+	}
+	return ""
+}
+
 func testFunctionFileName() (*runtime.Func, string) {
 	funcProgramCounters, function := findTestFpcFunction()
 	testFileName, _ := function.FileLine(funcProgramCounters[0] - 1)

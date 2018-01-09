@@ -43,9 +43,12 @@ func fileIsConvertedToHtml(actual *CapturedIO, givens *InterestingGivens) {
 	testName := "TestGivenWhenGeneratesHtml"
 	globalTestingT := NewTestMetaData(testName)
 	testMetaData := NewTestMetaData(testName)
-	some := NewSome(globalTestingT, testMetaData, func(givens *InterestingGivens) {
-		givens.Givens["foofar"]= "farfoo"
-	})
+	some := NewSome(globalTestingT,
+		testMetaData,
+		ParseGivenWhenThen(testName, fileContent(testFileName())),
+		func(givens *InterestingGivens) {
+			givens.Givens["foofar"] = "farfoo"
+		})
 	someTests.Store(testName, some)
 
 	html = Generator.Generate(context)

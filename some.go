@@ -14,17 +14,20 @@ type Some struct {
 	testingT          *TestMetaData
 	interestingGivens *InterestingGivens
 	capturedIO        *CapturedIO
+	givenWhenThen	  string
 }
 
 //NewSome creates a new Some context. This is an internal function that was exported for testing.
 func NewSome(
 	globalTestingT TestingT,
 	testContext *TestMetaData,
+	givenWhenThen string,
 	givenFunc ...func(givens *InterestingGivens)) *Some {
 
 	some := new(Some)
 	some.testingT = testContext
 	some.globalTestingT = globalTestingT
+	some.givenWhenThen = givenWhenThen
 	some.capturedIO = newCapturedIO()
 	givens := newInterestingGivens()
 
