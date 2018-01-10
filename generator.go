@@ -30,6 +30,7 @@ func (generator *TestOutputGenerator) FileExtension() string {
 	return ".html"
 }
 
+//PageData is the struct that populates the template with data from the test output.
 type PageData struct {
 	Title   string
 	SomeMap map[string]*Some
@@ -38,14 +39,25 @@ type PageData struct {
 // Generate generates the default output for a test. The return string contains the html
 // that goes into the output file generated in gogivens.GenerateTestOutput()
 func (generator *TestOutputGenerator) Generate(context *TestContext) string {
-	tmpl := template.Must(template.ParseFiles("htmltemplate.gtl"))
+	gopath := os.Getenv("GOPATH")
+
+	tmpl := template.Must(template.ParseFiles(
+		filepath.Join(gopath, "src/github.com/corbym/gogiven/htmltemplate.gtl"),
+		filepath.Join(gopath, "src/github.com/corbym/gogiven/style.gtl"),
+		filepath.Join(gopath, "src/github.com/corbym/gogiven/test-body.gtl"),
+		filepath.Join(gopath, "src/github.com/corbym/gogiven/contents.gtl"),
+		filepath.Join(gopath, "src/github.com/corbym/gogiven/javascript.gtl"),
+	))
 	safeMap := context.someTests
 	var buffer bytes.Buffer
 	pageData := &PageData{
 		Title:   TransformFileNameToHeader(context.fileName),
 		SomeMap: safeMap.AsMapOfSome(),
 	}
-	tmpl.Execute(&buffer, pageData)
+	err := tmpl.ExecuteTemplate(&buffer, "base", pageData)
+	if err != nil {
+		panic(err.Error())
+	}
 	return buffer.String()
 }
 
@@ -79,6 +91,6 @@ func GenerateTestOutput() {
 		if err != nil {
 			panic("error generating gogiven output:" + err.Error())
 		}
-		fmt.Printf("\ngenerated test output: file:///%s\n", strings.Replace(outputFileName, "\\", "/", -1))
+		fmt.Printf("\ngenerated test output: file://%s\n", strings.Replace(outputFileName, "\\", "/", -1))
 	}
 }

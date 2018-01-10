@@ -1,18 +1,10 @@
 package gogiven
 
-//TestingT is a convenience interface that matches some methods of `testing.T`
-type TestingT interface {
-	Logf(format string, args ...interface{})
-	Errorf(format string, args ...interface{})
-	FailNow()
-	Helper()
-	Name() string
-}
-
 // Some holds the test context and has a reference to the test's testing.T
 type Some struct {
 	globalTestingT    TestingT
 	TestingT          *TestMetaData
+	TestTitle         string
 	interestingGivens *InterestingGivens
 	capturedIO        *CapturedIO
 	GivenWhenThen     string
@@ -21,12 +13,14 @@ type Some struct {
 //NewSome creates a new Some context. This is an internal function that was exported for testing.
 func NewSome(
 	globalTestingT TestingT,
+	testTitle string,
 	testContext *TestMetaData,
 	givenWhenThen string,
 	givenFunc ...func(givens *InterestingGivens)) *Some {
 
 	some := new(Some)
 	some.TestingT = testContext
+	some.TestTitle = testTitle
 	some.globalTestingT = globalTestingT
 	some.GivenWhenThen = givenWhenThen
 	some.capturedIO = newCapturedIO()
@@ -57,19 +51,13 @@ func (some *Some) When(action ...func(actual *CapturedIO, givens *InterestingGiv
 	return some
 }
 
-// Then - call Then to perform assersions. Provide a function in which assertions will be made.
-func (some *Some) Then(assertions func(actual *CapturedIO, givens *InterestingGivens)) *Some {
-	assertions(some.capturedIO, some.interestingGivens)
-	return some
-}
-
-// ThenFor can be called in a table test (for loop). Provide a function in which assertions will be made.
+// Then can be called in a table test (for loop). Provide a function in which assertions will be made.
 // Use the TestingT typed var in place of testing.T.
 // The test state is recorded in TestingT type and goGiven fails the test if the error methods (ErrorF etc)
 // were called after the function exits.
-func (some *Some) ThenFor(assertions func(testingT TestingT, actual *CapturedIO, givens *InterestingGivens)) *Some {
+func (some *Some) Then(assertions func(testingT TestingT, actual *CapturedIO, givens *InterestingGivens)) *Some {
 	assertions(some.TestingT, some.capturedIO, some.interestingGivens)
-	if some.TestingT.Failed {
+	if some.TestingT.failed {
 		globalTestingT := some.globalTestingT
 		globalTestingT.Helper()
 		globalTestingT.Errorf(some.TestingT.TestOutput)

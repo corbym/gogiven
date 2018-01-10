@@ -8,7 +8,7 @@ import (
 // and the output it sent to t.Errorf or t.Error etc.
 type TestMetaData struct {
 	TestId     string
-	Failed     bool
+	failed     bool
 	TestOutput string
 }
 
@@ -16,25 +16,25 @@ type TestMetaData struct {
 func NewTestMetaData(testName string) *TestMetaData {
 	testContext := new(TestMetaData)
 	testContext.TestId = testName
-	testContext.Failed = false
+	testContext.failed = false
 	return testContext
 }
 
 //Logf marks this test as failed and sets the test output to the formatted string.
 func (t *TestMetaData) Logf(format string, args ...interface{}) {
 	t.TestOutput = fmt.Sprintf(format, args...)
-	t.Failed = true
+	t.failed = true
 }
 
 //Errorf marks this test as failed and sets the test output to the formatted string.
 func (t *TestMetaData) Errorf(format string, args ...interface{}) {
 	t.TestOutput = fmt.Sprintf(format, args...)
-	t.Failed = true
+	t.failed = true
 }
 
 //FailNow marks this test as failed.
 func (t *TestMetaData) FailNow() {
-	t.Failed = true
+	t.failed = true
 }
 
 //Helper does nothing. It's just in case some package that consumes t
@@ -46,4 +46,8 @@ func (t *TestMetaData) Helper() {
 //Name returns the id (the test name, possibly with some uniqueid appended)
 func (t *TestMetaData) Name() string {
 	return t.TestId
+}
+//
+func (t *TestMetaData) Failed() bool {
+	return t.failed
 }

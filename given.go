@@ -25,6 +25,7 @@ func Given(testing TestingT, given ...func(givens *InterestingGivens)) *Some {
 
 	some := NewSome(
 		testing,
+		testTitle(function.Name()),
 		NewTestMetaData(keyFor),
 		ParseGivenWhenThen(function.Name(), currentTestContext.fileContent),
 		given...,
@@ -32,6 +33,10 @@ func Given(testing TestingT, given ...func(givens *InterestingGivens)) *Some {
 	someTests.Store(keyFor, some)
 
 	return some
+}
+func testTitle(functionName string) string {
+	lastDotInTestName := strings.LastIndex(functionName, ".Test")
+	return strings.ToTitle(functionName[lastDotInTestName+1:])
 }
 
 // ParseGivenWhenThen parses a test file for the Given/When/Then content of the test in question identified by the parameter "testName"
@@ -42,20 +47,32 @@ func ParseGivenWhenThen(name string, testFileContent string) string {
 
 	openingBracketIndex, funcEndIndex := findOpenBracketFuncEndBracketIndices(testFileContent, testName)
 	var replace = testFileContent[openingBracketIndex:funcEndIndex]
+	replace = removeAllInnerFuncs(replace)
 	replace = replaceAllNonAlphaNumericCharactersWithSpaces(replace)
 	return replace
 }
 
+func removeAllInnerFuncs(content string) string {
+	regex := regexp.MustCompile("(?m:func\\s?\\(.*\\)\\s?{)")
+	content = regex.ReplaceAllString(content, " ")
+	return content
+}
+
 func replaceAllNonAlphaNumericCharactersWithSpaces(replace string) string {
-	r := regexp.MustCompile("(?sm:([^a-zA-Z0-9*\n\t]))")
+	r := regexp.MustCompile("(?sm:([^a-zA-Z0-9*\n\t<>]))")
 	replace = r.ReplaceAllString(replace, " ")
 	return replace
 }
 
-func findOpenBracketFuncEndBracketIndices(testFileContent string, testName string) (openBracketIndex int, funcEndIndex int) {
-	funcIndex := strings.Index(testFileContent, "func "+testName) + len(testName)
-	openingBracketIndex := funcIndex + strings.Index(testFileContent[funcIndex:], "{")
-	funcEndIndex = openingBracketIndex + indexForFuncEnd(testFileContent[openingBracketIndex:])
+func findOpenBracketFuncEndBracketIndices(content string, funcEnd string) (openBracketIndex int, funcEndIndex int) {
+	index := strings.Index(content, "func "+funcEnd)
+	if index == -1{
+		index = strings.Index(content, "func"+funcEnd)
+	}
+
+	funcIndex := index + len(funcEnd)
+	openingBracketIndex := funcIndex + strings.Index(content[funcIndex:], "{")
+	funcEndIndex = openingBracketIndex + indexForFuncEnd(content[openingBracketIndex:])
 	return openingBracketIndex + 1, funcEndIndex
 }
 

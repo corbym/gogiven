@@ -1,0 +1,26 @@
+{{define "test-body"}}
+{{range $testName, $some := .SomeMap}}
+<div class="testmethod">
+    <a id="{{$testName}}_{{$some.TestingT.TestId}}"></a>
+    <h2>{{$some.TestTitle}}</h2>
+
+
+    <div class="scenario" id="scenario_{{$some.TestingT.TestId}}">
+        <a id=""></a>
+        <h2>Specification</h2>
+        <pre class="highlight specification">
+        {{$some.GivenWhenThen}}</pre>
+
+        <h2>Test results:</h2>
+
+    {{if $some.TestingT.Failed}}
+        <pre class='highlight results test-failed'>TEST FAILED
+        {{$some.TestingT.TestOutput}}</pre>
+    {{else}}
+        <pre class='highlight results test-passed'>TEST PASSED
+        {{$some.TestingT.TestOutput}}</pre>
+    {{end}}
+    </div>
+</div>
+{{end}}
+{{end}}

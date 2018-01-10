@@ -31,10 +31,10 @@ func TestMain(testmain *testing.M) {
 func TestGivenWhenGeneratesHtml(testing *testing.T) {
 	Given(testing, someDataSetup).
 		When(someAction).
-		Then(func(actual *CapturedIO, givens *InterestingGivens) {
-			//do assertions
-			AssertThat(testing, actual.CapturedIO["foo"], is.EqualTo("foob"))
-		})
+		Then(func(t TestingT, actual *CapturedIO, givens *InterestingGivens) {
+		//do assertions
+		AssertThat(t, actual.CapturedIO["foo"], is.EqualTo("foob"))
+	})
 
 	AssertThat(testing, fileExists("given_test.html"), inTmpDir())
 	AssertThat(testing, fileContent(ofFileInTmpDir("given_test.html")), is.EqualTo("testing"))
@@ -59,29 +59,29 @@ func TestGivenWhenExercisingRanges(testing *testing.T) {
 			actual.CapturedIO["actual"] = test.actual
 			actual.CapturedIO["expected"] = test.expected
 		}).
-			ThenFor(func(t TestingT, actual *CapturedIO, givens *InterestingGivens) {
-				//do assertions
-				testMetaData = append(testMetaData, t.(*TestMetaData))
-				AssertThat(t, test.actual, has.Length(test.expected))
-			})
+			Then(func(t TestingT, actual *CapturedIO, givens *InterestingGivens) {
+			//do assertions
+			testMetaData = append(testMetaData, t.(*TestMetaData))
+			AssertThat(t, test.actual, has.Length(test.expected))
+		})
 	}
 	AssertThat(testing, some[0].CapturedIO()["actual"], is.EqualTo(""))
 	AssertThat(testing, some[0].CapturedIO()["expected"], is.EqualTo(0))
 	AssertThat(testing, some[1].CapturedIO()["actual"], is.EqualTo("a"))
 	AssertThat(testing, some[1].CapturedIO()["expected"], is.EqualTo(2))
-	AssertThat(testing, testMetaData[0].Failed, is.EqualTo(false))
-	AssertThat(testing, testMetaData[1].Failed, is.EqualTo(true))
+	AssertThat(testing, testMetaData[0].Failed(), is.EqualTo(false))
+	AssertThat(testing, testMetaData[1].Failed(), is.EqualTo(true))
 }
 
 func TestGivenWhenStacksGivens(testing *testing.T) {
 	Given(testing, someDataSetup, andMoreDataSetup).
 		When(someAction).
-		Then(func(actual *CapturedIO, givens *InterestingGivens) {
-			//do assertions
-			AssertThat(testing, givens.Givens, has.AllKeys("1", "2", "blarg"))
-			AssertThat(testing, givens.Givens, is.ValueContaining("hi", 12, "foo"))
-			AssertThat(testing, actual.CapturedIO, has.Key("foo"))
-		})
+		Then(func(testing TestingT, actual *CapturedIO, givens *InterestingGivens) {
+		//do assertions
+		AssertThat(testing, givens.Givens, has.AllKeys("1", "2", "blarg"))
+		AssertThat(testing, givens.Givens, is.ValueContaining("hi", 12, "foo"))
+		AssertThat(testing, actual.CapturedIO, has.Key("foo"))
+	})
 }
 
 func fileExists(fileName string) interface{} {
