@@ -12,10 +12,10 @@ type TestingT interface {
 // Some holds the test context and has a reference to the test's testing.T
 type Some struct {
 	globalTestingT    TestingT
-	testingT          *TestMetaData
+	TestingT          *TestMetaData
 	interestingGivens *InterestingGivens
 	capturedIO        *CapturedIO
-	givenWhenThen     string
+	GivenWhenThen     string
 }
 
 //NewSome creates a new Some context. This is an internal function that was exported for testing.
@@ -26,9 +26,9 @@ func NewSome(
 	givenFunc ...func(givens *InterestingGivens)) *Some {
 
 	some := new(Some)
-	some.testingT = testContext
+	some.TestingT = testContext
 	some.globalTestingT = globalTestingT
-	some.givenWhenThen = givenWhenThen
+	some.GivenWhenThen = givenWhenThen
 	some.capturedIO = newCapturedIO()
 	givens := newInterestingGivens()
 
@@ -68,11 +68,11 @@ func (some *Some) Then(assertions func(actual *CapturedIO, givens *InterestingGi
 // The test state is recorded in TestingT type and goGiven fails the test if the error methods (ErrorF etc)
 // were called after the function exits.
 func (some *Some) ThenFor(assertions func(testingT TestingT, actual *CapturedIO, givens *InterestingGivens)) *Some {
-	assertions(some.testingT, some.capturedIO, some.interestingGivens)
-	if some.testingT.Failed {
+	assertions(some.TestingT, some.capturedIO, some.interestingGivens)
+	if some.TestingT.Failed {
 		globalTestingT := some.globalTestingT
 		globalTestingT.Helper()
-		globalTestingT.Errorf(some.testingT.TestOutput)
+		globalTestingT.Errorf(some.TestingT.TestOutput)
 	}
 	return some
 }

@@ -47,11 +47,8 @@ func ParseGivenWhenThen(name string, testFileContent string) string {
 }
 
 func replaceAllNonAlphaNumericCharactersWithSpaces(replace string) string {
-	if allNonAlphaChar, err := regexp.Compile("(?sm:([\\W]))"); err != nil {
-		replace = err.Error()
-	} else {
-		replace = allNonAlphaChar.ReplaceAllString(replace, " ")
-	}
+	r := regexp.MustCompile("(?sm:([^a-zA-Z0-9*\n\t]))")
+	replace = r.ReplaceAllString(replace, " ")
 	return replace
 }
 
