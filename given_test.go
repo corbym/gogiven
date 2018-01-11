@@ -37,7 +37,7 @@ func TestGivenWhenGeneratesHtml(testing *testing.T) {
 		})
 
 	AssertThat(testing, fileExists("given_test.html"), inTmpDir())
-	AssertThat(testing, fileContent(ofFileInTmpDir("given_test.html")), is.EqualTo("testing"))
+	AssertThat(testing, fileContent(ofFileInTmpDir("given_test.html")), is.Not(is.Empty()))
 }
 
 func TestGivenWhenExercisingRanges(testing *testing.T) {
@@ -115,7 +115,7 @@ func inTmpDir() *gocrest.Matcher {
 }
 
 func aFakeGenerator(givens *InterestingGivens) {
-	Generator = new(StubHtmlGenerator) // you too can override Generator and generate any kind of file output.
+	//Generator = new(StubHtmlGenerator) // you too can override Generator and generate any kind of file output.
 }
 
 func someDataSetup(givens *InterestingGivens) {

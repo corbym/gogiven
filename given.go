@@ -48,46 +48,44 @@ func testTitle(functionName string) string {
 // ParseGivenWhenThen parses a test file for the Given/When/Then content of the test in question identified by the parameter "testName"
 // Returns the content of the function with all metacharacters removed, spaces added to CamelCase and snake case too.
 func ParseGivenWhenThen(functionName string, testFileContent string) string {
-	fset := token.NewFileSet()
-	testFile, err := parser.ParseFile(fset, functionName, testFileContent, 0)
+	buffer := bytes2.NewBuffer(make([]byte, 0))
+	for _, dcl := range mustParseFile(token.NewFileSet(), functionName, testFileContent).Decls {
+		findFunctionDeclAndAppendToBuffer(dcl, functionName, buffer, token.NewFileSet())
+	}
+	return replaceAllNonAlphaNumericCharactersWithSpaces(
+		removeAllInnerFuncs(strings.Join(camelcase.Split(buffer.String()), " ")),
+	)
+}
+func mustParseFile(fset *token.FileSet, functionName string, testFileContent string) *ast.File {
+	testFile, err := parser.ParseFile(fset, functionName, testFileContent, parser.ParseComments)
 	if err != nil {
 		panic(err.Error())
 	}
-	line := make([]byte, 0)
-	buffer := bytes2.NewBuffer(line)
-	for _, dcl := range testFile.Decls {
-		if fn, ok := dcl.(*ast.FuncDecl); ok {
-			if strings.Contains(functionName, fn.Name.Name) {
-				for _, statement := range fn.Body.List {
-					if exprStmt, ok := statement.(*ast.ExprStmt); ok {
-						if call, ok := exprStmt.X.(*ast.CallExpr); ok {
-							if fun, ok := call.Fun.(*ast.SelectorExpr); ok {
-								funcName := fun.Sel.Name
-								if funcName == "Given" || funcName == "When" || funcName == "Then" {
-									format.Node(buffer, fset, statement)
-								}
-							}
-						}
-					}
-				}
-
-			}
+	return testFile
+}
+func findFunctionDeclAndAppendToBuffer(dcl ast.Decl, functionName string, buffer *bytes2.Buffer, fset *token.FileSet) {
+	if fn, ok := dcl.(*ast.FuncDecl); ok {
+		if strings.Contains(functionName, fn.Name.Name) {
+			checkStatements(fn, buffer, fset)
 		}
 	}
-
-	return strings.TrimSpace(replaceAllNonAlphaNumericCharactersWithSpaces(
-		removeAllInnerFuncs(buffer.String()),
-	))
+}
+func checkStatements(fn *ast.FuncDecl, buffer *bytes2.Buffer, fset *token.FileSet) {
+	for _, statement := range fn.Body.List {
+		format.Node(buffer, fset, statement)
+	}
 }
 
 func removeAllInnerFuncs(content string) string {
-	regex := regexp.MustCompile("(?m:func\\s?\\(.*\\)\\s?{)")
-	content = regex.ReplaceAllString(content, " ")
+	regex := regexp.MustCompile("(?sm:func\\s?\\(.*\\)\\s?{)")
+	content = regex.ReplaceAllString(content, "")
 	return content
 }
 
 func replaceAllNonAlphaNumericCharactersWithSpaces(replace string) string {
-	r := regexp.MustCompile("(?sm:([^a-zA-Z0-9*\"\n\t<>]))")
+	r := regexp.MustCompile("(?sm:([^a-zA-Z0-9*!£$%+\\-^\" \n\t<>]))")
+	replace = r.ReplaceAllString(replace, "")
+	r = regexp.MustCompile("  +")
 	replace = r.ReplaceAllString(replace, " ")
 	return replace
 }

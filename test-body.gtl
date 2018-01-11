@@ -1,7 +1,7 @@
 {{define "test-body"}}
 {{range $testName, $some := .SomeMap}}
 <div class="testmethod">
-    <a id="{{$testName}}_{{$some.TestingT.TestId}}"></a>
+    <a id="{{$some.TestingT.TestId}}"></a>
     <h2>{{$some.TestTitle}}</h2>
 
 
