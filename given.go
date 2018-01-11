@@ -1,15 +1,15 @@
 package gogiven
 
 import (
+	bytes2 "bytes"
+	"github.com/fatih/camelcase"
+	"go/ast"
+	"go/format"
+	"go/parser"
+	"go/token"
 	"regexp"
 	"runtime"
 	"strings"
-	"go/parser"
-	"go/token"
-	"go/ast"
-	bytes2 "bytes"
-	"go/format"
-	"github.com/fatih/camelcase"
 )
 
 var globalTestContextMap = newSafeMap()

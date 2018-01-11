@@ -18,10 +18,10 @@ func TestGeneratorCreatesTestFirstTestHtml(testing *testing.T) {
 		When(fileIsConvertedToHtml).
 		Then(func(testing TestingT, actual *CapturedIO, givens *InterestingGivens) {
 
-		AssertThat(testing, html, is.ValueContaining("<title>Given Test</title>"))
-		AssertThat(testing, html, is.ValueContaining("<h1>Given Test</h1>"))
-		AssertThat(testing, html, is.ValueContaining("Given testing  someDataSetup"))
-	})
+			AssertThat(testing, html, is.ValueContaining("<title>Given Test</title>"))
+			AssertThat(testing, html, is.ValueContaining("<h1>Given Test</h1>"))
+			AssertThat(testing, html, is.ValueContaining("Given testing  someDataSetup"))
+		})
 }
 
 func fileIsConvertedToHtml(actual *CapturedIO, givens *InterestingGivens) {

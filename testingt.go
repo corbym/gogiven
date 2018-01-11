@@ -1,4 +1,5 @@
 package gogiven
+
 //TestingT is a convenience interface that matches some methods of `testing.T`
 type TestingT interface {
 	Failed() bool
