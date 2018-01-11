@@ -4,6 +4,12 @@ import (
 	"regexp"
 	"runtime"
 	"strings"
+	"go/parser"
+	"go/token"
+	"go/ast"
+	bytes2 "bytes"
+	"go/format"
+	"github.com/fatih/camelcase"
 )
 
 var globalTestContextMap = newSafeMap()
@@ -35,21 +41,43 @@ func Given(testing TestingT, given ...func(givens *InterestingGivens)) *Some {
 	return some
 }
 func testTitle(functionName string) string {
-	lastDotInTestName := strings.LastIndex(functionName, ".Test")
-	return strings.ToTitle(functionName[lastDotInTestName+1:])
+	lastDotInTestName := strings.LastIndex(functionName, ".Test") + (len(".Test") - 1)
+	return strings.Join(camelcase.Split(functionName[lastDotInTestName+1:]), " ")
 }
 
 // ParseGivenWhenThen parses a test file for the Given/When/Then content of the test in question identified by the parameter "testName"
 // Returns the content of the function with all metacharacters removed, spaces added to CamelCase and snake case too.
-func ParseGivenWhenThen(name string, testFileContent string) string {
-	lastDotInTestName := strings.LastIndex(name, ".")
-	testName := name[lastDotInTestName+1:]
+func ParseGivenWhenThen(functionName string, testFileContent string) string {
+	fset := token.NewFileSet()
+	testFile, err := parser.ParseFile(fset, functionName, testFileContent, 0)
+	if err != nil {
+		panic(err.Error())
+	}
+	line := make([]byte, 0)
+	buffer := bytes2.NewBuffer(line)
+	for _, dcl := range testFile.Decls {
+		if fn, ok := dcl.(*ast.FuncDecl); ok {
+			if strings.Contains(functionName, fn.Name.Name) {
+				for _, statement := range fn.Body.List {
+					if exprStmt, ok := statement.(*ast.ExprStmt); ok {
+						if call, ok := exprStmt.X.(*ast.CallExpr); ok {
+							if fun, ok := call.Fun.(*ast.SelectorExpr); ok {
+								funcName := fun.Sel.Name
+								if funcName == "Given" || funcName == "When" || funcName == "Then" {
+									format.Node(buffer, fset, statement)
+								}
+							}
+						}
+					}
+				}
 
-	openingBracketIndex, funcEndIndex := findOpenBracketFuncEndBracketIndices(testFileContent, testName)
-	var replace = testFileContent[openingBracketIndex:funcEndIndex]
-	replace = removeAllInnerFuncs(replace)
-	replace = replaceAllNonAlphaNumericCharactersWithSpaces(replace)
-	return replace
+			}
+		}
+	}
+
+	return strings.TrimSpace(replaceAllNonAlphaNumericCharactersWithSpaces(
+		removeAllInnerFuncs(buffer.String()),
+	))
 }
 
 func removeAllInnerFuncs(content string) string {
@@ -59,46 +87,9 @@ func removeAllInnerFuncs(content string) string {
 }
 
 func replaceAllNonAlphaNumericCharactersWithSpaces(replace string) string {
-	r := regexp.MustCompile("(?sm:([^a-zA-Z0-9*\n\t<>]))")
+	r := regexp.MustCompile("(?sm:([^a-zA-Z0-9*\"\n\t<>]))")
 	replace = r.ReplaceAllString(replace, " ")
 	return replace
-}
-
-func findOpenBracketFuncEndBracketIndices(content string, funcEnd string) (openBracketIndex int, funcEndIndex int) {
-	index := strings.Index(content, "func "+funcEnd)
-	if index == -1{
-		index = strings.Index(content, "func"+funcEnd)
-	}
-
-	funcIndex := index + len(funcEnd)
-	openingBracketIndex := funcIndex + strings.Index(content[funcIndex:], "{")
-	funcEndIndex = openingBracketIndex + indexForFuncEnd(content[openingBracketIndex:])
-	return openingBracketIndex + 1, funcEndIndex
-}
-
-func indexForFuncEnd(findIn string) int {
-	bytes := findIn[:]
-	var bracketCount = -1
-	for pos, char := range bytes {
-		switch char {
-		case '{':
-			bracketCount = incBracketCountIfNegative(bracketCount)
-			bracketCount++
-		case '}':
-			bracketCount = incBracketCountIfNegative(bracketCount)
-			bracketCount--
-		}
-		if bracketCount == 0 {
-			return pos
-		}
-	}
-	return -1
-}
-func incBracketCountIfNegative(bracketCount int) int {
-	if bracketCount == -1 {
-		bracketCount++
-	}
-	return bracketCount
 }
 
 func testFunctionFileName() (*runtime.Func, string) {

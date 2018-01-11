@@ -13,20 +13,14 @@ var rawContent string
 var html string
 
 func TestGeneratorCreatesTestFirstTestHtml(testing *testing.T) {
-	testing.SkipNow()
+
 	Given(testing, someFileContent).
 		When(fileIsConvertedToHtml).
 		Then(func(testing TestingT, actual *CapturedIO, givens *InterestingGivens) {
 
 		AssertThat(testing, html, is.ValueContaining("<title>Given Test</title>"))
 		AssertThat(testing, html, is.ValueContaining("<h1>Given Test</h1>"))
-		AssertThat(testing, html, is.ValueContaining("Given testing some data setup\n"+
-			"When some action\n"+
-			"Then\n"+
-			"//do assertions\n"+
-			"Assert that testing \"foo\" is equal to \"foob\"\n"+
-			"Assert that testing  file exists \"gogiven_test.TestGivenWhenGeneratesHtml.html\" in tmp dir\n"+
-			"Assert that testing file content of file in tmp dir \"gogiven_test.TestGivenWhenGeneratesHtml.html\" is equalto \"testing\"\n"))
+		AssertThat(testing, html, is.ValueContaining("Given testing  someDataSetup"))
 	})
 }
 
@@ -34,7 +28,17 @@ func fileIsConvertedToHtml(actual *CapturedIO, givens *InterestingGivens) {
 	context := NewTestContext(testFileName())
 
 	someTests := context.SomeTests()
-	funcName := "foo.TestGivenWhenGeneratesHtml"
+	for _, funcName := range []string{
+		"github.com.corbym.gogiven_test.TestGivenWhenGeneratesHtml",
+		"github.com.corbym.gogiven_test.TestGivenWhenStacksGivens",
+	} {
+		storeTests(someTests, funcName)
+	}
+
+	html = Generator.Generate(context)
+}
+
+func storeTests(someTests *SafeMap, funcName string) {
 	globalTestingT := NewTestMetaData(funcName)
 	testMetaData := NewTestMetaData(funcName)
 	some := NewSome(globalTestingT,
@@ -45,8 +49,6 @@ func fileIsConvertedToHtml(actual *CapturedIO, givens *InterestingGivens) {
 			givens.Givens["foofar"] = "farfoo"
 		})
 	someTests.Store(funcName, some)
-
-	html = Generator.Generate(context)
 }
 func someFileContent(givens *InterestingGivens) {
 	rawContent = fileContent(testFileName())

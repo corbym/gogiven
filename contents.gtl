@@ -4,7 +4,6 @@
 
     <ul class="contents">
     {{range $testName, $some := .SomeMap}}
-    {{$some.TestingT.Failed}}
     {{if $some.TestingT.Failed}}
         <li class='test-failed'><a href="#{{$some.TestingT.TestId}}">{{$some.TestTitle}}</a></li>
     {{else}}

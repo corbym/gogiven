@@ -39,14 +39,14 @@ type PageData struct {
 // Generate generates the default output for a test. The return string contains the html
 // that goes into the output file generated in gogivens.GenerateTestOutput()
 func (generator *TestOutputGenerator) Generate(context *TestContext) string {
-	gopath := os.Getenv("GOPATH")
+	goPath := os.Getenv("GOPATH")
 
 	tmpl := template.Must(template.ParseFiles(
-		filepath.Join(gopath, "src/github.com/corbym/gogiven/htmltemplate.gtl"),
-		filepath.Join(gopath, "src/github.com/corbym/gogiven/style.gtl"),
-		filepath.Join(gopath, "src/github.com/corbym/gogiven/test-body.gtl"),
-		filepath.Join(gopath, "src/github.com/corbym/gogiven/contents.gtl"),
-		filepath.Join(gopath, "src/github.com/corbym/gogiven/javascript.gtl"),
+		filepath.Join(goPath, "src/github.com/corbym/gogiven/htmltemplate.gtl"),
+		filepath.Join(goPath, "src/github.com/corbym/gogiven/style.gtl"),
+		filepath.Join(goPath, "src/github.com/corbym/gogiven/test-body.gtl"),
+		filepath.Join(goPath, "src/github.com/corbym/gogiven/contents.gtl"),
+		filepath.Join(goPath, "src/github.com/corbym/gogiven/javascript.gtl"),
 	))
 	safeMap := context.someTests
 	var buffer bytes.Buffer
