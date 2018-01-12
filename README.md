@@ -26,7 +26,7 @@ func TestMain(testmain *testing.M) {
 func TestMyFirst(testing *testing.T){
    Given(testing, someDataSetup).
         When(someAction).
-        Then(func(actual *CapturedIO, givens *InterestingGivens) {
+        Then(func(testing TestingT, actual *CapturedIO, givens *InterestingGivens) { // passed in testing should be used for assertions
         //do assertions
         AssertThat(testing, actual.CapturedIO["actual"], is.EqualTo("some output"))
     })
@@ -75,4 +75,4 @@ func TestMyFirst(testing *testing.T){
 ```
 This will still fail the test function as far as Go is concerned, but the test output will note that the iteration failed like this:
 
-(TBD)
+[Ranged Example Html](http://htmlpreview.github.com/?https://raw.githubusercontent.com/corbym/gogiven/master/resources/example2.html)
