@@ -11,7 +11,7 @@ Inspired by [YATSPEC](https://github.com/bodar/yatspec).
 1. [Introduction](#introduction)
 2. [Example One - GoGivens in practice](#example)
 3. [Example Two - Table Tests](#tabletest-example)
-4. [Setting the test file output](<a name="file-output-settings"></a>)
+4. [Setting the test file output](#file-output-settings)
 
 ## Introduction <a name="introduction"></a>
 
