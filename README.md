@@ -31,7 +31,7 @@ Captured inputs and outputs are data points that are registered by either your s
 
 Captured inputs and outputs are logged along side your test, for each test, so that interested parties can view them.
 
-## Example One 0 GoGivens in Practice <a name="example"></a>
+## Example One - GoGivens in Practice <a name="example"></a>
 ```
 import (
 	. "github.com/corbym/gocrest/then"
