@@ -42,11 +42,11 @@ func (generator *TestOutputGenerator) Generate(context *TestContext) string {
 	goPath := os.Getenv("GOPATH")
 
 	tmpl := template.Must(template.ParseFiles(
-		filepath.Join(goPath, "src/github.com/corbym/gogiven/htmltemplate.gtl"),
-		filepath.Join(goPath, "src/github.com/corbym/gogiven/style.gtl"),
-		filepath.Join(goPath, "src/github.com/corbym/gogiven/test-body.gtl"),
-		filepath.Join(goPath, "src/github.com/corbym/gogiven/contents.gtl"),
-		filepath.Join(goPath, "src/github.com/corbym/gogiven/javascript.gtl"),
+		filepath.Join(goPath, "src/github.com/corbym/gogiven/resources/htmltemplate.gtl"),
+		filepath.Join(goPath, "src/github.com/corbym/gogiven/resources/style.gtl"),
+		filepath.Join(goPath, "src/github.com/corbym/gogiven/resources/test-body.gtl"),
+		filepath.Join(goPath, "src/github.com/corbym/gogiven/resources/contents.gtl"),
+		filepath.Join(goPath, "src/github.com/corbym/gogiven/resources/javascript.gtl"),
 	))
 	safeMap := context.someTests
 	var buffer bytes.Buffer
@@ -83,7 +83,7 @@ func GenerateTestOutput() {
 
 		output := Generator.Generate(currentTestContext)
 		extension := Generator.FileExtension()
-		outputFileName := fmt.Sprintf("%s%c%s", os.TempDir(),
+		outputFileName := fmt.Sprintf("%s%c%s", outputDirectory(),
 			os.PathSeparator,
 			strings.Replace(filepath.Base(currentTestContext.fileName), ".go", extension, 1))
 
@@ -93,4 +93,16 @@ func GenerateTestOutput() {
 		}
 		fmt.Printf("\ngenerated test output: file://%s\n", strings.Replace(outputFileName, "\\", "/", -1))
 	}
+}
+func outputDirectory() string {
+	outputDir := os.Getenv("GOGIVENS_OUTPUT_DIR")
+	if outputDir == "" {
+		os.Stdout.WriteString("env var GOGIVENS_OUTPUT_DIR was not found, using TempDir " + os.TempDir())
+		outputDir = os.TempDir()
+	}
+	if _, err := os.Stat(outputDir); err == nil {
+		return outputDir
+	}
+	os.Stderr.WriteString("output dir not found:" + outputDir + ", defaulting to ./")
+	return "."
 }

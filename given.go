@@ -53,7 +53,7 @@ func ParseGivenWhenThen(functionName string, testFileContent string) string {
 		findFunctionDeclAndAppendToBuffer(dcl, functionName, buffer, token.NewFileSet())
 	}
 	return replaceAllNonAlphaNumericCharactersWithSpaces(
-		removeAllInnerFuncs(strings.Join(camelcase.Split(buffer.String()), " ")),
+		removeAllUninterestingStatements(strings.Join(camelcase.Split(buffer.String()), " ")),
 	)
 }
 func mustParseFile(fset *token.FileSet, functionName string, testFileContent string) *ast.File {
@@ -66,17 +66,24 @@ func mustParseFile(fset *token.FileSet, functionName string, testFileContent str
 func findFunctionDeclAndAppendToBuffer(dcl ast.Decl, functionName string, buffer *bytes2.Buffer, fset *token.FileSet) {
 	if fn, ok := dcl.(*ast.FuncDecl); ok {
 		if strings.Contains(functionName, fn.Name.Name) {
-			checkStatements(fn, buffer, fset)
+			printFunc(fn, buffer, fset)
 		}
 	}
 }
-func checkStatements(fn *ast.FuncDecl, buffer *bytes2.Buffer, fset *token.FileSet) {
+func printFunc(fn *ast.FuncDecl, buffer *bytes2.Buffer, fset *token.FileSet) {
 	for _, statement := range fn.Body.List {
-		format.Node(buffer, fset, statement)
+		switch t := statement.(type) {
+		case *ast.ReturnStmt:
+		case *ast.AssignStmt:
+		case *ast.DeclStmt:
+			break
+		default:
+			format.Node(buffer, fset, t)
+		}
 	}
 }
 
-func removeAllInnerFuncs(content string) string {
+func removeAllUninterestingStatements(content string) string {
 	regex := regexp.MustCompile("(?sm:func\\s?\\(.*\\)\\s?{)")
 	content = regex.ReplaceAllString(content, "")
 	return content
