@@ -37,3 +37,9 @@ func NewTestContext(fileName string) *TestContext {
 func (c *TestContext) SomeTests() *safeMap {
 	return c.someTests
 }
+
+//FileName is a string containing the filename of the test
+// that are being executed.
+func (c *TestContext) FileName() string {
+	return c.fileName
+}

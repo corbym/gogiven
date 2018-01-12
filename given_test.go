@@ -27,14 +27,13 @@ func TestMain(testmain *testing.M) {
 	GenerateTestOutput()
 	os.Exit(runOutput)
 }
-
 func TestGivenWhenGeneratesHtml(testing *testing.T) {
 	Given(testing, someDataSetup).
 		When(someAction).
 		Then(func(t TestingT, actual *CapturedIO, givens *InterestingGivens) {
-			//do assertions
-			AssertThat(t, actual.CapturedIO["foo"], is.EqualTo("foob"))
-		})
+		//do assertions
+		AssertThat(t, actual.CapturedIO["foo"], is.EqualTo("foob"))
+	})
 	//TODO: find out why this fails on TravisCI
 	//AssertThat(testing, fileExists("given_test.html"), inTmpDir())
 	//AssertThat(testing, fileContent(ofFileInTmpDir("given_test.html")), is.Not(is.Empty()))
@@ -60,10 +59,10 @@ func TestGivenWhenExercisingRanges(testing *testing.T) {
 			actual.CapturedIO["expected"] = test.expected
 		}).
 			Then(func(t TestingT, actual *CapturedIO, givens *InterestingGivens) {
-				//do assertions
-				testMetaData = append(testMetaData, t.(*TestMetaData))
-				AssertThat(t, test.actual, has.Length(test.expected))
-			})
+			//do assertions
+			testMetaData = append(testMetaData, t.(*TestMetaData))
+			AssertThat(t, test.actual, has.Length(test.expected))
+		})
 	}
 	AssertThat(testing, some[0].CapturedIO()["actual"], is.EqualTo(""))
 	AssertThat(testing, some[0].CapturedIO()["expected"], is.EqualTo(0))
@@ -77,11 +76,11 @@ func TestGivenWhenStacksGivens(testing *testing.T) {
 	Given(testing, someDataSetup, andMoreDataSetup).
 		When(someAction).
 		Then(func(testing TestingT, actual *CapturedIO, givens *InterestingGivens) {
-			//do assertions
-			AssertThat(testing, givens.Givens, has.AllKeys("1", "2", "blarg"))
-			AssertThat(testing, givens.Givens, is.ValueContaining("hi", 12, "foo"))
-			AssertThat(testing, actual.CapturedIO, has.Key("foo"))
-		})
+		//do assertions
+		AssertThat(testing, givens.Givens, has.AllKeys("1", "2", "blarg"))
+		AssertThat(testing, givens.Givens, is.ValueContaining("hi", 12, "foo"))
+		AssertThat(testing, actual.CapturedIO, has.Key("foo"))
+	})
 }
 
 func fileExists(fileName string) interface{} {

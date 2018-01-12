@@ -19,7 +19,7 @@ type GoGivensOutputGenerator interface {
 	FileExtension() string
 }
 
-//TestOutputGenerator is an implmentation of the GoGivensOutputGenerator that generates an html file per
+//TestOutputGenerator is an implementation of the GoGivensOutputGenerator that generates an html file per
 // test.
 type TestOutputGenerator struct {
 	GoGivensOutputGenerator
@@ -71,7 +71,7 @@ func TransformFileNameToHeader(fileName string) (header string) {
 
 // Generator is a global variable that holds the GoGivensOutputGenerator.
 // You can replace the generator with your own if you match the interface here
-// and set Generator = new(myFooGenerator).
+// and set Generator = new(myFooGenerator) in a method (usually TestMain or init).
 // Don't forget to add the call to the generator function in a "func TestMain(testing.M)" method
 // in your test package.
 // One file per test file will be generated containing output.
