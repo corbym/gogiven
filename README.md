@@ -46,7 +46,7 @@ Note you do not have to use "gocrest" assertions, you can still call all of test
 
 When run, the above will produce an HTML output:
 
-(TBD)
+[Example Html](http://htmlpreview.github.com/?https://raw.githubusercontent.com/corbym/gogiven/master/resources/example.html)
 
 ## Table Tests
 
