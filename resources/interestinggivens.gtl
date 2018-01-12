@@ -1,0 +1,7 @@
+{{define "interesting-givens"}}
+
+{{range $key, $value := . }}
+<h3 class="logKey" logkey="{{$key}}">{{$key}}</h3>
+<div class="logValue highlight xml WebResource">{{$value}}</div>
+{{end}}
+{{end}}

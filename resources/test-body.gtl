@@ -20,6 +20,8 @@
         <pre class='highlight results test-passed'>TEST PASSED
         {{$some.TestingT.TestOutput}}</pre>
     {{end}}
+        {{template "interesting-givens" $some.InterestingGivens}}
+        {{template "captured-io" $some.CapturedIO}}
     </div>
 </div>
 {{end}}

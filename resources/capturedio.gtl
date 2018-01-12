@@ -1,0 +1,14 @@
+{{define "captured-io"}}
+
+<h3 class="logKey">Interesting Givens</h3>
+
+<table class="interestingGivens logValue">
+    {{range $key, $value := . }}
+    <tr>
+        <th class="key">{{$key}}</th>
+        <td class="interestingGiven">{{$value}}</td>
+    </tr>
+    {{end}}
+</table>
+
+{{end}}

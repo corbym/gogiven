@@ -43,6 +43,8 @@ func (generator *TestOutputGenerator) Generate(context *TestContext) string {
 
 	tmpl := template.Must(template.ParseFiles(
 		filepath.Join(goPath, "src/github.com/corbym/gogiven/resources/htmltemplate.gtl"),
+		filepath.Join(goPath, "src/github.com/corbym/gogiven/resources/capturedio.gtl"),
+		filepath.Join(goPath, "src/github.com/corbym/gogiven/resources/interestinggivens.gtl"),
 		filepath.Join(goPath, "src/github.com/corbym/gogiven/resources/style.gtl"),
 		filepath.Join(goPath, "src/github.com/corbym/gogiven/resources/test-body.gtl"),
 		filepath.Join(goPath, "src/github.com/corbym/gogiven/resources/contents.gtl"),
