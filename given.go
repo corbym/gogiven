@@ -14,9 +14,21 @@ import (
 
 var globalTestContextMap = newSafeMap()
 
+// GivenData is a func type that gets given some interesting givens as a parameter
+type GivenData func(givens *InterestingGivens)
+
+// CapturedIOData is a func type that gets given a reference to some CapturedIO data for the test
+type CapturedIOData func(capturedIO *CapturedIO)
+
+//CapturedIOGivenData is a combination of GivenData and CapturedIOData types
+type CapturedIOGivenData func(capturedIO *CapturedIO, givens *InterestingGivens)
+
+// TestingWithGiven gives a func declaration including testingT, CapturedIO and InterestingGivens parameters.
+type TestingWithGiven func(testingT TestingT, actual *CapturedIO, givens *InterestingGivens)
+
 //Given sets up some interesting givens for the test.
 //Pass in testing.T here and a function which adds some givens to the map.
-func Given(testing TestingT, given ...func(givens *InterestingGivens)) *Some {
+func Given(testing TestingT, given ...GivenData) *Some {
 	function, testFileName := testFunctionFileName()
 	var currentTestContext *TestContext
 
@@ -122,7 +134,7 @@ func findTestFpcFunction() ([]uintptr, *runtime.Func) {
 	return funcProgramCounters, function
 }
 
-func uniqueKeyFor(somes *SafeMap, name string) string {
+func uniqueKeyFor(somes *safeMap, name string) string {
 	if _, ok := somes.Load(name); !ok {
 		return name
 	}

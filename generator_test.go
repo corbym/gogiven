@@ -39,7 +39,12 @@ func fileIsConvertedToHtml(actual *CapturedIO, givens *InterestingGivens) {
 	html = Generator.Generate(context)
 }
 
-func storeTests(someTests *SafeMap, funcName string) {
+// SafeMap matches the internal *safeMap interface
+type SafeMap interface {
+	Store(key string, value interface{})
+}
+
+func storeTests(someTests SafeMap, funcName string) {
 	globalTestingT := NewTestMetaData(funcName)
 	testMetaData := NewTestMetaData(funcName)
 	some := NewSome(globalTestingT,

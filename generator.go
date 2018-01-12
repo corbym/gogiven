@@ -96,6 +96,7 @@ func GenerateTestOutput() {
 		fmt.Printf("\ngenerated test output: file://%s\n", strings.Replace(outputFileName, "\\", "/", -1))
 	}
 }
+
 func outputDirectory() string {
 	outputDir := os.Getenv("GOGIVENS_OUTPUT_DIR")
 	if outputDir == "" {

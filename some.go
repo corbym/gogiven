@@ -16,7 +16,7 @@ func NewSome(
 	testTitle string,
 	testContext *TestMetaData,
 	givenWhenThen string,
-	givenFunc ...func(givens *InterestingGivens)) *Some {
+	givenFunc ...GivenData) *Some {
 
 	some := new(Some)
 	some.TestingT = testContext
@@ -46,16 +46,17 @@ func (some *Some) InterestingGivens() map[string]interface{} {
 }
 
 // When - call When when you want to perform some action, call a function, or perform a test operation.
-func (some *Some) When(action ...func(actual *CapturedIO, givens *InterestingGivens)) *Some {
+func (some *Some) When(action ...CapturedIOGivenData) *Some {
 	action[0](some.capturedIO, some.interestingGivens) // TODO: there could be multiple actions..
 	return some
 }
 
-// Then can be called in a table test (for loop). Provide a function in which assertions will be made.
+// Then is a function that executes the given function and asserts whether the test has failed.
+// It can be called in a table test (for loop). Provide a function in which assertions will be made.
 // Use the TestingT typed var in place of testing.T.
 // The test state is recorded in TestingT type and goGiven fails the test if the error methods (ErrorF etc)
 // were called after the function exits.
-func (some *Some) Then(assertions func(testingT TestingT, actual *CapturedIO, givens *InterestingGivens)) *Some {
+func (some *Some) Then(assertions TestingWithGiven) *Some {
 	assertions(some.TestingT, some.capturedIO, some.interestingGivens)
 	if some.TestingT.failed {
 		globalTestingT := some.globalTestingT

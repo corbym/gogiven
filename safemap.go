@@ -2,20 +2,20 @@ package gogiven
 
 import "sync"
 
-// SafeMap is used internally to hold a threadsafe copy of the global test state.
-type SafeMap struct {
+// safeMap is used internally to hold a threadsafe copy of the global test state.
+type safeMap struct {
 	sync.RWMutex
 	internal map[string]interface{}
 }
 
-func newSafeMap() *SafeMap {
-	return &SafeMap{
+func newSafeMap() *safeMap {
+	return &safeMap{
 		internal: make(map[string]interface{}),
 	}
 }
 
 //Load a key from the map
-func (rm *SafeMap) Load(key string) (value interface{}, ok bool) {
+func (rm *safeMap) Load(key string) (value interface{}, ok bool) {
 	rm.RLock()
 	defer rm.RUnlock()
 	result, ok := rm.internal[key]
@@ -23,21 +23,21 @@ func (rm *SafeMap) Load(key string) (value interface{}, ok bool) {
 }
 
 //Delete a key from the map
-func (rm *SafeMap) Delete(key string) {
+func (rm *safeMap) Delete(key string) {
 	rm.Lock()
 	delete(rm.internal, key)
 	rm.Unlock()
 }
 
 //Store a value against a key from the map
-func (rm *SafeMap) Store(key string, value interface{}) {
+func (rm *safeMap) Store(key string, value interface{}) {
 	rm.Lock()
 	rm.internal[key] = value
 	rm.Unlock()
 }
 
 //Keys returns an array of keys that the map contains
-func (rm *SafeMap) Keys() []string {
+func (rm *safeMap) Keys() []string {
 	rm.RLock()
 	defer rm.RUnlock()
 	keys := make([]string, 0, len(rm.internal))
@@ -47,14 +47,15 @@ func (rm *SafeMap) Keys() []string {
 	return keys
 }
 
-// Len reports the lenght of the map, same as len(myMap) for the primitive go map.
-func (rm *SafeMap) Len() int {
+// Len reports the length of the map, same as len(myMap) for the primitive go map.
+func (rm *safeMap) Len() int {
 	rm.RLock()
 	defer rm.RUnlock()
 	return len(rm.internal)
 }
 
-func (rm *SafeMap) AsMapOfSome() map[string]*Some {
+// AsMapOfSome copies the safeMap into a normal map[string]*Some type
+func (rm *safeMap) AsMapOfSome() map[string]*Some {
 	rm.RLock()
 	defer rm.RUnlock()
 	newMap := make(map[string]*Some, len(rm.internal))

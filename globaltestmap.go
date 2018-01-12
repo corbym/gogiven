@@ -11,10 +11,10 @@ type GivenContext interface {
 	FileContent() string
 }
 
-//TestContext contains a SafeMap of the TestMetaData for the current test file being processed and
+//TestContext contains a safeMap of the TestMetaData for the current test file being processed and
 // a copy of the fileName with it's file content.
 type TestContext struct {
-	someTests   *SafeMap
+	someTests   *safeMap
 	fileName    string
 	fileContent string
 }
@@ -40,7 +40,7 @@ func (c *TestContext) FileName() string {
 
 //SomeTests is a map containing the TestMetaData for this TestContext's tests
 // that are being executed.
-func (c *TestContext) SomeTests() *SafeMap {
+func (c *TestContext) SomeTests() *safeMap {
 	return c.someTests
 }
 

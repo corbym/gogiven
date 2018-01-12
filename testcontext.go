@@ -48,7 +48,7 @@ func (t *TestMetaData) Name() string {
 	return t.TestId
 }
 
-//
+//Failed reports the test has failed to the meta data.
 func (t *TestMetaData) Failed() bool {
 	return t.failed
 }
