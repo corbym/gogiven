@@ -8,7 +8,6 @@ import (
 type GivenContext interface {
 	SomeTests() map[string]interface{}
 	FileName() string
-	FileContent() string
 }
 
 //TestContext contains a safeMap of the TestMetaData for the current test file being processed and
@@ -42,10 +41,4 @@ func (c *TestContext) FileName() string {
 // that are being executed.
 func (c *TestContext) SomeTests() *safeMap {
 	return c.someTests
-}
-
-// FileContent is a copy of the contents of the file in memory. eg the contents of /foo/far/mygo_test.go
-// verbatum.
-func (c *TestContext) FileContent() string {
-	return c.fileContent
 }
