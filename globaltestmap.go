@@ -32,11 +32,6 @@ func NewTestContext(fileName string) *TestContext {
 	return context
 }
 
-//FileName exports the name of the test file, eg. /foo/far/mygo_test.go
-func (c *TestContext) FileName() string {
-	return c.fileName
-}
-
 //SomeTests is a map containing the TestMetaData for this TestContext's tests
 // that are being executed.
 func (c *TestContext) SomeTests() *safeMap {

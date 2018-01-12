@@ -25,7 +25,7 @@ func TestGeneratorCreatesTestFirstTestHtml(testing *testing.T) {
 		})
 }
 
-func fileIsConvertedToHtml(actual *CapturedIO, givens *InterestingGivens) {
+func fileIsConvertedToHtml(_ *CapturedIO, _ *InterestingGivens) {
 	context := NewTestContext(testFileName())
 
 	someTests := context.SomeTests()
@@ -39,7 +39,7 @@ func fileIsConvertedToHtml(actual *CapturedIO, givens *InterestingGivens) {
 	html = Generator.Generate(context)
 }
 
-// SafeMap matches the internal *safeMap interface
+// SafeMap matches the internal *safeMap interface. goVet doesn't like it much.
 type SafeMap interface {
 	Store(key string, value interface{})
 }
