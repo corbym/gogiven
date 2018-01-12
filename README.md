@@ -50,7 +50,7 @@ When run, the above will produce an HTML output:
 
 ## Table Tests
 
-Table tests work the same way as normal go table tests, but we use ThenFor which provides test context. goGivens will then mark which test in your loop failed. Example:
+Table tests work the same way as normal go table tests. goGivens will then mark which test in your loop failed. Example:
 
 ```
 ...
