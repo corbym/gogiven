@@ -31,6 +31,11 @@ func TestMain(testmain *testing.M) {
 }
 
 func TestGenerateTestOutput(t *testing.T) {
+	os.Remove(ofFileInTmpDir("given_test.html"))
+
+	Given(t, func(givens *testdata.InterestingGivens) {
+
+	})
 	GenerateTestOutput()
 	AssertThat(t, fileExists("given_test.html"), inTmpDir())
 }
