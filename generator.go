@@ -18,9 +18,7 @@ import (
 // One file per test file will be generated containing output.
 var Generator generator.GoGivensOutputGenerator = new(htmlspec.TestOutputGenerator)
 
-// TransformFileNameToHeader takes a test filename e.g. /foo/bar/my_test.go and returns a header e.g. "My Test".
-// Strips off the file path and removes the extension.
-func TransformFileNameToHeader(fileName string) (header string) {
+func transformFileNameToHeader(fileName string) (header string) {
 	return strings.Title(strings.Replace(strings.TrimSuffix(filepath.Base(fileName), ".go"), "_", " ", -1))
 }
 
@@ -30,7 +28,7 @@ func GenerateTestOutput() {
 		value, _ := globalTestContextMap.Load(key)
 		currentTestContext := value.(*TestContext)
 		pageData := &generator.PageData{
-			Title:   TransformFileNameToHeader(currentTestContext.FileName()),
+			Title:   transformFileNameToHeader(currentTestContext.FileName()),
 			SomeMap: currentTestContext.SomeTests().AsMapOfSome(),
 		}
 		output := Generator.Generate(pageData)
