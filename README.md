@@ -57,7 +57,7 @@ Captured inputs and outputs are logged along side your test, for each test, so t
 
 The test framework parses your test file, and grabs the content. It strips all non-interesting parts out and leaves the Given/When/Then format in plain text ready for a GoGivensOutputGenerator to process the text.
 
-A complete example of how to write a GoGivensOutputGenerator is given in the sister project [html spec](https//github.com/corbym/htmlspec) - written in Go.
+A complete example of how to write a GoGivensOutputGenerator is given in the sister project [html spec](https://github.com/corbym/htmlspec) - written in Go.
 
 ## Example One - GoGivens in Practice <a name="example"></a>
 ```
