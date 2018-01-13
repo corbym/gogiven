@@ -1,6 +1,9 @@
 package gogiven
 
-import "sync"
+import (
+	"sync"
+	"github.com/corbym/gogiven/base"
+)
 
 // safeMap is used internally to hold a threadsafe copy of the global test state.
 type safeMap struct {
@@ -55,12 +58,12 @@ func (rm *safeMap) Len() int {
 }
 
 // AsMapOfSome copies the safeMap into a normal map[string]*Some type
-func (rm *safeMap) AsMapOfSome() map[string]*Some {
+func (rm *safeMap) AsMapOfSome() *base.SomeMap {
 	rm.RLock()
 	defer rm.RUnlock()
-	newMap := make(map[string]*Some, len(rm.internal))
+	var newMap = &base.SomeMap{}
 	for k, v := range rm.internal {
-		newMap[k] = v.(*Some)
+		(*newMap)[k] = v.(*base.Some)
 	}
 	return newMap
 }

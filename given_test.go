@@ -10,6 +10,8 @@ import (
 	"io/ioutil"
 	"os"
 	"testing"
+	"github.com/corbym/gogiven/testdata"
+	"github.com/corbym/gogiven/base"
 )
 
 type StubHtmlGenerator struct{}
@@ -30,7 +32,7 @@ func TestMain(testmain *testing.M) {
 func TestGivenWhenGeneratesHtml(testing *testing.T) {
 	Given(testing, someDataSetup).
 		When(someAction).
-		Then(func(t TestingT, actual *CapturedIO, givens *InterestingGivens) {
+		Then(func(t base.TestingT, actual *testdata.CapturedIO, givens *testdata.InterestingGivens) {
 			//do assertions
 			AssertThat(t, actual.CapturedIO["foo"], is.EqualTo("foob"))
 		})
@@ -40,9 +42,9 @@ func TestGivenWhenGeneratesHtml(testing *testing.T) {
 }
 
 func TestGivenWhenExercisingRanges(testing *testing.T) {
-	var testMetaData []*TestMetaData
-	var testingT = new(TestMetaData)
-	var some []*Some
+	var testMetaData []*base.TestMetaData
+	var testingT = new(base.TestMetaData)
+	var some []*base.Some
 
 	var someRange = []struct {
 		actual   string
@@ -54,13 +56,13 @@ func TestGivenWhenExercisingRanges(testing *testing.T) {
 	for _, test := range someRange {
 		given := Given(testingT, aFakeGenerator)
 		some = append(some, given)
-		given.When(func(actual *CapturedIO, givens *InterestingGivens) {
+		given.When(func(actual *testdata.CapturedIO, givens *testdata.InterestingGivens) {
 			actual.CapturedIO["actual"] = test.actual
 			actual.CapturedIO["expected"] = test.expected
 		}).
-			Then(func(t TestingT, actual *CapturedIO, givens *InterestingGivens) {
+			Then(func(t base.TestingT, actual *testdata.CapturedIO, givens *testdata.InterestingGivens) {
 				//do assertions
-				testMetaData = append(testMetaData, t.(*TestMetaData))
+				testMetaData = append(testMetaData, t.(*base.TestMetaData))
 				AssertThat(t, test.actual, has.Length(test.expected))
 			})
 	}
@@ -75,7 +77,7 @@ func TestGivenWhenExercisingRanges(testing *testing.T) {
 func TestGivenWhenStacksGivens(testing *testing.T) {
 	Given(testing, someDataSetup, andMoreDataSetup).
 		When(someAction).
-		Then(func(testing TestingT, actual *CapturedIO, givens *InterestingGivens) {
+		Then(func(testing base.TestingT, actual *testdata.CapturedIO, givens *testdata.InterestingGivens) {
 			//do assertions
 			AssertThat(testing, givens.Givens, has.AllKeys("1", "2", "blarg"))
 			AssertThat(testing, givens.Givens, is.ValueContaining("hi", 12, "foo"))
@@ -113,21 +115,21 @@ func inTmpDir() *gocrest.Matcher {
 	return matcher
 }
 
-func aFakeGenerator(givens *InterestingGivens) {
+func aFakeGenerator(givens *testdata.InterestingGivens) {
 	//Generator = new(StubHtmlGenerator) // you too can override Generator and generate any kind of file output.
 }
 
-func someDataSetup(givens *InterestingGivens) {
+func someDataSetup(givens *testdata.InterestingGivens) {
 	givens.Givens["1"] = "hi"
 	givens.Givens["2"] = "foo"
 	aFakeGenerator(givens)
 }
 
-func andMoreDataSetup(givens *InterestingGivens) {
+func andMoreDataSetup(givens *testdata.InterestingGivens) {
 	givens.Givens["blarg"] = 12
 }
 
-func someAction(capturedIo *CapturedIO, givens *InterestingGivens) {
+func someAction(capturedIo *testdata.CapturedIO, givens *testdata.InterestingGivens) {
 	capturedIo.CapturedIO["foo"] = "foob"
 }
 

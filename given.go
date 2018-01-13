@@ -10,25 +10,14 @@ import (
 	"regexp"
 	"runtime"
 	"strings"
+	"github.com/corbym/gogiven/base"
 )
 
 var globalTestContextMap = newSafeMap()
 
-// GivenData is a func type that gets given some interesting givens as a parameter
-type GivenData func(givens *InterestingGivens)
-
-// CapturedIOData is a func type that gets given a reference to some CapturedIO data for the test
-type CapturedIOData func(capturedIO *CapturedIO)
-
-//CapturedIOGivenData is a combination of GivenData and CapturedIOData types
-type CapturedIOGivenData func(capturedIO *CapturedIO, givens *InterestingGivens)
-
-// TestingWithGiven gives a func declaration including testingT, CapturedIO and InterestingGivens parameters.
-type TestingWithGiven func(testingT TestingT, actual *CapturedIO, givens *InterestingGivens)
-
 //Given sets up some interesting givens for the test.
 //Pass in testing.T here and a function which adds some givens to the map.
-func Given(testing TestingT, given ...GivenData) *Some {
+func Given(testing base.TestingT, given ...base.GivenData) *base.Some {
 	function, testFileName := testFunctionFileName()
 	var currentTestContext *TestContext
 
@@ -41,10 +30,10 @@ func Given(testing TestingT, given ...GivenData) *Some {
 	someTests := currentTestContext.someTests
 	keyFor := uniqueKeyFor(someTests, function.Name()) // this deals with table test for loops, we want different id for each
 
-	some := NewSome(
+	some := base.NewSome(
 		testing,
 		testTitle(function.Name()),
-		NewTestMetaData(keyFor),
+		base.NewTestMetaData(keyFor),
 		ParseGivenWhenThen(function.Name(), currentTestContext.fileContent),
 		given...,
 	)

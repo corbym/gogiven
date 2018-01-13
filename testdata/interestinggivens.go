@@ -1,4 +1,4 @@
-package gogiven
+package testdata
 
 //InterestingGivens contains a map which can hold the values used to set up the test.
 // You can add actual vs. expected output for example.
@@ -8,7 +8,7 @@ type InterestingGivens struct {
 	Givens map[string]interface{} ``
 }
 
-func newInterestingGivens() *InterestingGivens {
+func NewInterestingGivens() *InterestingGivens {
 	givens := new(InterestingGivens)
 	givens.Givens = map[string]interface{}{}
 	return givens

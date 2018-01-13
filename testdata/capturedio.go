@@ -1,4 +1,4 @@
-package gogiven
+package testdata
 
 //CapturedIO contains the captured inputs and outputs for the test.
 // These could be the interactions between the system and the stubbed endpoints,
@@ -9,7 +9,7 @@ type CapturedIO struct {
 	CapturedIO map[string]interface{}
 }
 
-func newCapturedIO() *CapturedIO {
+func NewCapturedIO() *CapturedIO {
 	capturedIO := new(CapturedIO)
 	capturedIO.CapturedIO = map[string]interface{}{}
 	return capturedIO

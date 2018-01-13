@@ -1,12 +1,14 @@
-package gogiven
+package base
+
+import "github.com/corbym/gogiven/testdata"
 
 // Some holds the test context and has a reference to the test's testing.T
 type Some struct {
 	globalTestingT    TestingT
 	TestingT          *TestMetaData
 	TestTitle         string
-	interestingGivens *InterestingGivens
-	capturedIO        *CapturedIO
+	interestingGivens *testdata.InterestingGivens
+	capturedIO        *testdata.CapturedIO
 	GivenWhenThen     string
 }
 
@@ -23,8 +25,8 @@ func NewSome(
 	some.TestTitle = testTitle
 	some.globalTestingT = globalTestingT
 	some.GivenWhenThen = givenWhenThen
-	some.capturedIO = newCapturedIO()
-	givens := newInterestingGivens()
+	some.capturedIO = testdata.NewCapturedIO()
+	givens := testdata.NewInterestingGivens()
 
 	if len(givenFunc) > 0 {
 		for _, someGivenFunc := range givenFunc {
