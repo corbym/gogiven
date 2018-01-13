@@ -1,8 +1,8 @@
 package gogiven
 
 import (
-	"sync"
 	"github.com/corbym/gogiven/base"
+	"sync"
 )
 
 // safeMap is used internally to hold a threadsafe copy of the global test state.

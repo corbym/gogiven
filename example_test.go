@@ -3,9 +3,9 @@ package gogiven
 import (
 	"github.com/corbym/gocrest/has"
 	"github.com/corbym/gocrest/then"
-	"testing"
 	"github.com/corbym/gogiven/base"
 	"github.com/corbym/gogiven/testdata"
+	"testing"
 )
 
 type ActualExpected struct {
@@ -24,9 +24,9 @@ func TestMyFirst(testing *testing.T) {
 		}).
 			When(someAction(test)).
 			Then(func(t base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
-			//do assertions
-			then.AssertThat(t, test.actual, has.Length(test.expected))
-		})
+				//do assertions
+				then.AssertThat(t, test.actual, has.Length(test.expected))
+			})
 	}
 }
 func someAction(data ActualExpected) base.CapturedIOGivenData {

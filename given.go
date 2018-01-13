@@ -2,6 +2,7 @@ package gogiven
 
 import (
 	bytes2 "bytes"
+	"github.com/corbym/gogiven/base"
 	"github.com/fatih/camelcase"
 	"go/ast"
 	"go/format"
@@ -10,7 +11,6 @@ import (
 	"regexp"
 	"runtime"
 	"strings"
-	"github.com/corbym/gogiven/base"
 )
 
 var globalTestContextMap = newSafeMap()
