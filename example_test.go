@@ -19,22 +19,22 @@ func TestMyFirst(testing *testing.T) {
 		{actual: "a", expected: 1},
 	}
 	for _, test := range someRange {
-		Given(testing, someDataSetup, func(givens *testdata.InterestingGivens) {
-			givens.Givens["actual"] = test.actual
+		Given(testing, someDataSetup, func(givens testdata.InterestingGivens) {
+			givens["actual"] = test.actual
 		}).
 			When(someAction(test)).
-			Then(func(t base.TestingT, actual *testdata.CapturedIO, givens *testdata.InterestingGivens) {
+			Then(func(t base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
 			//do assertions
 			then.AssertThat(t, test.actual, has.Length(test.expected))
 		})
 	}
 }
 func someAction(data ActualExpected) base.CapturedIOGivenData {
-	return func(capturedIO *testdata.CapturedIO, givens *testdata.InterestingGivens) {
-		capturedIO.CapturedIO[data.actual] = data.expected
+	return func(capturedIO testdata.CapturedIO, givens testdata.InterestingGivens) {
+		capturedIO[data.actual] = data.expected
 	}
 }
 
-func someDataSetup(givens *testdata.InterestingGivens) {
-	givens.Givens["foofar"] = "faff"
+func someDataSetup(givens testdata.InterestingGivens) {
+	givens["foofar"] = "faff"
 }

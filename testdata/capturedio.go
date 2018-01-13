@@ -5,12 +5,4 @@ package testdata
 // or any value that the system under test produces.
 // Underlying the CapturedIO is a map[string]interface{}.
 // CapturedIO objects are provided to the test by the When() and Then() functions.
-type CapturedIO struct {
-	CapturedIO map[string]interface{}
-}
-
-func NewCapturedIO() *CapturedIO {
-	capturedIO := new(CapturedIO)
-	capturedIO.CapturedIO = map[string]interface{}{}
-	return capturedIO
-}
+type CapturedIO map[string]interface{}

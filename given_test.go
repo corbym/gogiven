@@ -32,8 +32,8 @@ func TestMain(testmain *testing.M) {
 
 func TestGenerateTestOutput(t *testing.T) {
 	os.Remove(ofFileInTmpDir("given_test.html"))
-
-	Given(t, func(givens *testdata.InterestingGivens) {
+	t.Parallel()
+	Given(t, func(givens testdata.InterestingGivens) {
 
 	})
 	GenerateTestOutput()
@@ -41,13 +41,14 @@ func TestGenerateTestOutput(t *testing.T) {
 }
 
 func TestGivenWhenGeneratesHtml(testing *testing.T) {
+	testing.Parallel()
 	Given(testing, someDataSetup).
 		When(someAction).
 		Then(func(t base.TestingT,
-		actual *testdata.CapturedIO,
-		givens *testdata.InterestingGivens) {
+		actual testdata.CapturedIO,
+		givens testdata.InterestingGivens) {
 		//do assertions
-		AssertThat(t, actual.CapturedIO["foo"], is.EqualTo("foob"))
+		AssertThat(t, actual["foo"], is.EqualTo("foob"))
 	})
 }
 
@@ -55,7 +56,7 @@ func TestGivenWhenExercisingRanges(testing *testing.T) {
 	var testMetaData []*base.TestMetaData
 	var testingT = new(base.TestMetaData)
 	var some []*base.Some
-
+	testing.Parallel()
 	var someRange = []struct {
 		actual   string
 		expected int
@@ -66,11 +67,11 @@ func TestGivenWhenExercisingRanges(testing *testing.T) {
 	for _, test := range someRange {
 		given := Given(testingT, aFakeGenerator)
 		some = append(some, given)
-		given.When(func(actual *testdata.CapturedIO, givens *testdata.InterestingGivens) {
-			actual.CapturedIO["actual"] = test.actual
-			actual.CapturedIO["expected"] = test.expected
+		given.When(func(actual testdata.CapturedIO, givens testdata.InterestingGivens) {
+			actual["actual"] = test.actual
+			actual["expected"] = test.expected
 		}).
-			Then(func(t base.TestingT, actual *testdata.CapturedIO, givens *testdata.InterestingGivens) {
+			Then(func(t base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
 			//do assertions
 			testMetaData = append(testMetaData, t.(*base.TestMetaData))
 			AssertThat(t, test.actual, has.Length(test.expected))
@@ -87,11 +88,11 @@ func TestGivenWhenExercisingRanges(testing *testing.T) {
 func TestGivenWhenStacksGivens(testing *testing.T) {
 	Given(testing, someDataSetup, andMoreDataSetup).
 		When(someAction).
-		Then(func(testing base.TestingT, actual *testdata.CapturedIO, givens *testdata.InterestingGivens) {
+		Then(func(testing base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
 		//do assertions
-		AssertThat(testing, givens.Givens, has.AllKeys("1", "2", "blarg"))
-		AssertThat(testing, givens.Givens, is.ValueContaining("hi", 12, "foo"))
-		AssertThat(testing, actual.CapturedIO, has.Key("foo"))
+		AssertThat(testing, givens, has.AllKeys("1", "2", "blarg"))
+		AssertThat(testing, givens, is.ValueContaining("hi", 12, "foo"))
+		AssertThat(testing, actual, has.Key("foo"))
 	})
 }
 
@@ -125,22 +126,22 @@ func inTmpDir() *gocrest.Matcher {
 	return matcher
 }
 
-func aFakeGenerator(givens *testdata.InterestingGivens) {
+func aFakeGenerator(givens testdata.InterestingGivens) {
 	//Generator = new(StubHtmlGenerator) // you too can override Generator and generate any kind of file output.
 }
 
-func someDataSetup(givens *testdata.InterestingGivens) {
-	givens.Givens["1"] = "hi"
-	givens.Givens["2"] = "foo"
+func someDataSetup(givens testdata.InterestingGivens) {
+	givens["1"] = "hi"
+	givens["2"] = "foo"
 	aFakeGenerator(givens)
 }
 
-func andMoreDataSetup(givens *testdata.InterestingGivens) {
-	givens.Givens["blarg"] = 12
+func andMoreDataSetup(givens testdata.InterestingGivens) {
+	givens["blarg"] = 12
 }
 
-func someAction(capturedIo *testdata.CapturedIO, givens *testdata.InterestingGivens) {
-	capturedIo.CapturedIO["foo"] = "foob"
+func someAction(capturedIo testdata.CapturedIO, givens testdata.InterestingGivens) {
+	capturedIo["foo"] = "foob"
 }
 
 func ofFileInTmpDir(fileName string) string {

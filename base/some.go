@@ -7,8 +7,8 @@ type Some struct {
 	globalTestingT    TestingT
 	TestingT          *TestMetaData
 	TestTitle         string
-	interestingGivens *testdata.InterestingGivens
-	capturedIO        *testdata.CapturedIO
+	interestingGivens testdata.InterestingGivens
+	capturedIO        testdata.CapturedIO
 	GivenWhenThen     string
 }
 
@@ -25,26 +25,25 @@ func NewSome(
 	some.TestTitle = testTitle
 	some.globalTestingT = globalTestingT
 	some.GivenWhenThen = givenWhenThen
-	some.capturedIO = testdata.NewCapturedIO()
-	givens := testdata.NewInterestingGivens()
+	some.interestingGivens = make(testdata.InterestingGivens)
+	some.capturedIO = make(testdata.CapturedIO)
 
 	if len(givenFunc) > 0 {
 		for _, someGivenFunc := range givenFunc {
-			someGivenFunc(givens)
+			someGivenFunc(some.interestingGivens)
 		}
 	}
-	some.interestingGivens = givens
 	return some
 }
 
 // CapturedIO is a convenience method for retrieving the CapturedIO map
 func (some *Some) CapturedIO() map[string]interface{} {
-	return some.capturedIO.CapturedIO
+	return some.capturedIO
 }
 
 // InterestingGivens is a convenience method for retrieving the InterestingGivens map
 func (some *Some) InterestingGivens() map[string]interface{} {
-	return some.interestingGivens.Givens
+	return some.interestingGivens
 }
 
 // When - call When when you want to perform some action, call a function, or perform a test operation.
