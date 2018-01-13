@@ -26,14 +26,18 @@ Go Givens was inspired by YATSPEC, a BDD framework employed extensively by Sky N
 Capturing your test method as test output is the only real way to show it's intention. You can refactor a test, and have the output update accordingly when the test runs. Unlike other frameworks, you can use function names to declare intent, and refactoring the function will affect the test. E.g.
 
 ```
-func givenSomeData(..)
+Given(testing, someData)..
+..
+
+func someData(..)
 ```
 
 .. will be rendered as:
 
 ```
-Given some data
+Given testing some data
 ```
+
 This data can be captured in a map of interesting givens, and as the test progresses, the actuals can be captured in a map of captured inputs and outputs.
 
 
@@ -48,6 +52,12 @@ Interesting givens are generated as output along side your test output in a tabl
 Captured inputs and outputs are data points that are registered by either your system under test (stubs, mocks etc) or the output from your system its self.
 
 Captured inputs and outputs are logged along side your test, for each test, so that interested parties can view them.
+
+### Rendered how?
+
+The test framework parses your test file, and grabs the content. It strips all non-interesting parts out and leaves the Given/When/Then format in plain text ready for a GoGivensOutputGenerator to process the text.
+
+A complete example of how to write a GoGivensOutputGenerator is given in the sister project [html spec](https//github.com/corbym/htmlspec) - written in Go.
 
 ## Example One - GoGivens in Practice <a name="example"></a>
 ```
