@@ -19,6 +19,24 @@ Go Givens is a lightweight TDD framework for producing test specifications direc
 
 Go Givens parses your test file and produces a human-readable output in a specified directory, containing all the tests, captured data and other related information regarding your test such as success or failure.
 
+Go Givens was inspired by YATSPEC, a BDD framework employed extensively by Sky Network Services (part of Sky, a UK tv company).
+
+### Why?
+
+Capturing your test method as test output is the only real way to show it's intention. You can refactor a test, and have the output update accordingly when the test runs. Unlike other frameworks, you can use function names to declare intent, and refactoring the function will affect the test. E.g.
+
+```
+func givenSomeData(..)
+```
+
+.. will be rendered as:
+
+```
+Given some data
+```
+This data can be captured in a map of interesting givens, and as the test progresses, the actuals can be captured in a map of captured inputs and outputs.
+
+
 ### Interesting whats?
 
 Interesting givens are data points that you want to use in your tests that are important for it to function correctly. "Given" data is then used by your application to fulfil some sort of request or process.
@@ -36,6 +54,9 @@ Captured inputs and outputs are logged along side your test, for each test, so t
 import (
 	. "github.com/corbym/gocrest/then"
 	. "github.com/corbym/gogiven"
+	. "github.com/corbym/gogiven/testdata"
+	. "github.com/corbym/gogiven/base"
+
 	"github.com/corbym/gocrest/is"
 	"github.com/corbym/gocrest/has"
 	"github.com/corbym/gocrest"
