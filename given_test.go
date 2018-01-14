@@ -2,6 +2,9 @@ package gogiven_test
 
 import (
 	"fmt"
+	"os"
+	"testing"
+
 	"github.com/corbym/gocrest"
 	"github.com/corbym/gocrest/has"
 	"github.com/corbym/gocrest/is"
@@ -9,8 +12,6 @@ import (
 	. "github.com/corbym/gogiven"
 	"github.com/corbym/gogiven/base"
 	"github.com/corbym/gogiven/testdata"
-	"os"
-	"testing"
 )
 
 type StubHtmlGenerator struct{}
@@ -128,4 +129,12 @@ func someAction(capturedIo testdata.CapturedIO, givens testdata.InterestingGiven
 
 func ofFileInTmpDir(fileName string) string {
 	return fmt.Sprintf("%s%c%s", os.TempDir(), os.PathSeparator, fileName)
+}
+
+func TestParseGivenWhenThen(t *testing.T) {
+	defer func() {
+		rcv := recover()
+		AssertThat(t, rcv, is.Not(is.Nil()))
+	}()
+	ParseGivenWhenThen("foo", "Arfg")
 }
