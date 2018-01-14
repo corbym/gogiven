@@ -16,7 +16,7 @@ import (
 // Don't forget to add the call to the generator function in a "func TestMain(testing.M)" method
 // in your test package.
 // One file per test file will be generated containing output.
-var Generator generator.GoGivensOutputGenerator = new(htmlspec.TestOutputGenerator)
+var Generator generator.GoGivensOutputGenerator = htmlspec.NewTestOutputGenerator()
 
 func transformFileNameToHeader(fileName string) (header string) {
 	return strings.Title(strings.Replace(strings.TrimSuffix(filepath.Base(fileName), ".go"), "_", " ", -1))
