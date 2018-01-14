@@ -2,11 +2,13 @@ package base
 
 import (
 	"fmt"
+	"sync"
 )
 
 // TestMetaData holds some information about the test, it's id, whether it failed or not
 // and the output it sent to t.Errorf or t.Error etc.
 type TestMetaData struct {
+	sync.RWMutex
 	TestId     string
 	failed     bool
 	TestOutput string
@@ -23,17 +25,23 @@ func NewTestMetaData(testName string) *TestMetaData {
 //Logf marks this test as failed and sets the test output to the formatted string.
 func (t *TestMetaData) Logf(format string, args ...interface{}) {
 	t.TestOutput = fmt.Sprintf(format, args...)
+	t.Lock()
+	defer t.Unlock()
 	t.failed = true
 }
 
 //Errorf marks this test as failed and sets the test output to the formatted string.
 func (t *TestMetaData) Errorf(format string, args ...interface{}) {
+	t.Lock()
+	defer t.Unlock()
 	t.TestOutput = fmt.Sprintf(format, args...)
 	t.failed = true
 }
 
 //FailNow marks this test as failed.
 func (t *TestMetaData) FailNow() {
+	t.Lock()
+	defer t.Unlock()
 	t.failed = true
 }
 
@@ -45,10 +53,14 @@ func (t *TestMetaData) Helper() {
 
 //Name returns the id (the test name, possibly with some uniqueid appended)
 func (t *TestMetaData) Name() string {
+	t.RLock()
+	defer t.RUnlock()
 	return t.TestId
 }
 
 //Failed reports the test has failed to the meta data.
 func (t *TestMetaData) Failed() bool {
+	t.RLock()
+	defer t.RUnlock()
 	return t.failed
 }

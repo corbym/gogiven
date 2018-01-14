@@ -59,6 +59,7 @@ func TestGivenWhenExercisingRanges(testing *testing.T) {
 		given.When(func(actual testdata.CapturedIO, givens testdata.InterestingGivens) {
 			actual["actual"] = test.actual
 			actual["expected"] = test.expected
+			return
 		}).
 			Then(func(t base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
 				//do assertions

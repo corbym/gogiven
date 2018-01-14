@@ -2,6 +2,7 @@ package gogiven
 
 import (
 	"fmt"
+	"github.com/corbym/gogiven/base"
 	"github.com/corbym/gogiven/generator"
 	"github.com/corbym/htmlspec"
 	"io/ioutil"
@@ -31,7 +32,9 @@ func GenerateTestOutput() {
 			Title:   transformFileNameToHeader(currentTestContext.FileName()),
 			SomeMap: currentTestContext.SomeTests().AsMapOfSome(),
 		}
+		base.CopyLock.Lock()
 		output := Generator.Generate(pageData)
+		base.CopyLock.Unlock()
 		extension := Generator.FileExtension()
 
 		outputFileName := fmt.Sprintf("%s%c%s", outputDirectory(),

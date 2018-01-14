@@ -43,17 +43,12 @@ func (rm *safeMap) Keys() []string {
 	return keys
 }
 
-// Len reports the length of the map, same as len(myMap) for the primitive go map.
-func (rm *safeMap) Len() int {
-	rm.RLock()
-	defer rm.RUnlock()
-	return len(rm.internal)
-}
-
 // AsMapOfSome copies the safeMap into a normal map[string]*Some type
 func (rm *safeMap) AsMapOfSome() *base.SomeMap {
 	rm.RLock()
 	defer rm.RUnlock()
+	base.CopyLock.Lock()
+	defer base.CopyLock.Unlock()
 	var newMap = &base.SomeMap{}
 	for k, v := range rm.internal {
 		(*newMap)[k] = v.(*base.Some)

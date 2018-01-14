@@ -9,7 +9,7 @@ import (
 )
 
 func TestGenerateTestOutput(t *testing.T) {
-	os.Remove(ofFileInTmpDir("generator_test.html"))
+	defer os.Remove(ofFileInTmpDir("generator_test.html"))
 	t.Parallel()
 	gogiven.Given(t, func(givens testdata.InterestingGivens) {
 
@@ -19,7 +19,7 @@ func TestGenerateTestOutput(t *testing.T) {
 }
 
 func TestGenerateTestOutput_DefaultsToCurrentDir(t *testing.T) {
-	os.Remove(ofFileInTmpDir("generator_test.html"))
+	defer os.Remove(ofFileInTmpDir("generator_test.html"))
 	defer func() { os.Setenv("GOGIVENS_OUTPUT_DIR", "") }()
 	os.Setenv("GOGIVENS_OUTPUT_DIR", "doesnotexist")
 	gogiven.Given(t)
