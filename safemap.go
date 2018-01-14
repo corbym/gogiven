@@ -25,13 +25,6 @@ func (rm *safeMap) Load(key string) (value interface{}, ok bool) {
 	return result, ok
 }
 
-//Delete a key from the map
-func (rm *safeMap) Delete(key string) {
-	rm.Lock()
-	delete(rm.internal, key)
-	rm.Unlock()
-}
-
 //Store a value against a key from the map
 func (rm *safeMap) Store(key string, value interface{}) {
 	rm.Lock()

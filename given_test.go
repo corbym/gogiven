@@ -29,16 +29,6 @@ func TestMain(testmain *testing.M) {
 	os.Exit(runOutput)
 }
 
-func TestGenerateTestOutput(t *testing.T) {
-	os.Remove(ofFileInTmpDir("given_test.html"))
-	t.Parallel()
-	Given(t, func(givens testdata.InterestingGivens) {
-
-	})
-	GenerateTestOutput()
-	AssertThat(t, fileExists("given_test.html"), inTmpDir())
-}
-
 func TestGivenWhenGeneratesHtml(testing *testing.T) {
 	testing.Parallel()
 	Given(testing, someDataSetup).
@@ -96,9 +86,8 @@ func TestGivenWhenStacksGivens(testing *testing.T) {
 		})
 }
 
-func fileExists(fileName string) interface{} {
-	dir := ofFileInTmpDir(fileName)
-	fileInfo, err := os.Stat(dir)
+func fileExists(pathToFile string) interface{} {
+	fileInfo, err := os.Stat(pathToFile)
 	if err != nil {
 		return err
 	}
