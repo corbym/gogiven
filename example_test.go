@@ -14,6 +14,7 @@ type ActualExpected struct {
 }
 
 func TestMyFirst(testing *testing.T) {
+	testing.Parallel()
 	var someRange = []ActualExpected{
 		{actual: "", expected: 0},
 		{actual: "a", expected: 1},

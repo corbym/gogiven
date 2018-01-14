@@ -9,7 +9,6 @@ import (
 	. "github.com/corbym/gogiven"
 	"github.com/corbym/gogiven/base"
 	"github.com/corbym/gogiven/testdata"
-	"io/ioutil"
 	"os"
 	"testing"
 )
@@ -86,6 +85,7 @@ func TestGivenWhenExercisingRanges(testing *testing.T) {
 }
 
 func TestGivenWhenStacksGivens(testing *testing.T) {
+	testing.Parallel()
 	Given(testing, someDataSetup, andMoreDataSetup).
 		When(someAction).
 		Then(func(testing base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
@@ -103,14 +103,6 @@ func fileExists(fileName string) interface{} {
 		return err
 	}
 	return fileInfo
-}
-
-func fileContent(fileName string) string {
-	dat, err := ioutil.ReadFile(fileName)
-	if err != nil {
-		return ""
-	}
-	return string(dat[:])
 }
 
 func inTmpDir() *gocrest.Matcher {
