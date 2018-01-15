@@ -26,12 +26,12 @@ Go Givens was inspired by YATSPEC, a BDD framework employed extensively by Sky N
 
 Capturing your test method as test output is the only real way to show it's intention. You can refactor a test, and have the output update accordingly when the test runs. Unlike other frameworks, you can use function names to declare intent, and refactoring the function will affect the test. E.g.
 
-```
+```go
 Given(testing, someData)..
 ..
 
 func someData(..)
-```
+```go
 
 .. will be rendered as:
 
@@ -61,7 +61,7 @@ The test framework parses your test file, and grabs the content. It strips all n
 A complete example of how to write a GoGivensOutputGenerator is given in the sister project [html spec](https://github.com/corbym/htmlspec) - written in Go.
 
 ## Example One - GoGivens in Practice <a name="example"></a>
-```
+```go
 import (
 	. "github.com/corbym/gocrest/then"
 	. "github.com/corbym/gogiven"
@@ -98,7 +98,7 @@ When run, the above will produce an HTML output:
 
 Table tests work the same way as normal go table tests. GoGivens will then mark which test in your loop failed. Example:
 
-```
+```go
 ...
 func TestMyFirst(testing *testing.T){
    var someRange = []struct {
