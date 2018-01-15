@@ -82,7 +82,7 @@ func TestMain(testmain *testing.M) {
 func TestMyFirst(testing *testing.T){
    Given(testing, someDataSetup).
         When(someAction).
-        Then(func(testing TestingT, actual *CapturedIO, givens *InterestingGivens) { // passed in testing should be used for assertions
+        Then(func(testing TestingT, actual CapturedIO, givens InterestingGivens) { // passed in testing should be used for assertions
         //do assertions
         AssertThat(testing, actual.CapturedIO["actual"], is.EqualTo("some output"))
     })
@@ -111,7 +111,7 @@ func TestMyFirst(testing *testing.T){
 	for _, test := range someRange {
 	   Given(testing, someDataSetup).
 		When(someAction).
-		Then(func(t *TestingT, actual *CapturedIO, givens *InterestingGivens) {
+		Then(func(t TestingT, actual CapturedIO, givens InterestingGivens) {
 		//do assertions
 		AssertThat(t, actual.CapturedIO["actual"], is.EqualTo("some output"))
 	    })
