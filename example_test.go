@@ -28,7 +28,7 @@ func TestMyFirst_Ranged(testing *testing.T) {
 		expected int
 	}{
 		{actual: "", expected: 0},
-		{actual: "a", expected: 2},
+		{actual: "a", expected: 1},
 	}
 	for _, test := range someRange {
 		Given(testing, someDataSetup, func(givens testdata.InterestingGivens) {
