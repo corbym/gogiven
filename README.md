@@ -31,7 +31,7 @@ Given(testing, someData)..
 ..
 
 func someData(..)
-```go
+```
 
 .. will be rendered as:
 
