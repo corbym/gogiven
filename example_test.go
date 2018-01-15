@@ -2,22 +2,33 @@ package gogiven
 
 import (
 	"github.com/corbym/gocrest/has"
+	"github.com/corbym/gocrest/is"
 	"github.com/corbym/gocrest/then"
 	"github.com/corbym/gogiven/base"
 	"github.com/corbym/gogiven/testdata"
 	"testing"
 )
 
-type ActualExpected struct {
-	actual   string
-	expected int
+func TestMyFirst(testing *testing.T) {
+	Given(testing, someDataSetup).
+		When(somethingHappens).
+		Then(func(testing base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) { // passed in testing should be used for assertions
+			//do assertions
+			then.AssertThat(testing, actual["actual"], is.EqualTo("some output"))
+		})
 }
 
-func TestMyFirst(testing *testing.T) {
-	testing.Parallel()
-	var someRange = []ActualExpected{
+func somethingHappens(actual testdata.CapturedIO, expected testdata.InterestingGivens) {
+	actual["actual"] = "some output"
+}
+
+func TestMyFirst_Ranged(testing *testing.T) {
+	var someRange = []struct {
+		actual   string
+		expected int
+	}{
 		{actual: "", expected: 0},
-		{actual: "a", expected: 1},
+		{actual: "a", expected: 2},
 	}
 	for _, test := range someRange {
 		Given(testing, someDataSetup, func(givens testdata.InterestingGivens) {
@@ -30,7 +41,11 @@ func TestMyFirst(testing *testing.T) {
 			})
 	}
 }
-func someAction(data ActualExpected) base.CapturedIOGivenData {
+
+func someAction(data struct {
+	actual   string
+	expected int
+}) base.CapturedIOGivenData {
 	return func(capturedIO testdata.CapturedIO, givens testdata.InterestingGivens) {
 		capturedIO[data.actual] = data.expected
 	}
