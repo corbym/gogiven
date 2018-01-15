@@ -126,6 +126,6 @@ This will still fail the test function as far as Go is concerned, but the test o
 
 ## Setting the test file output <a name="file-output-settings"></a>
 
-You can add the environment variable GOGIVENS_OUTPUT_DIR to your env properties that points to a direectory you want goGivens to report the test output to.
+You can add the environment variable GOGIVENS_OUTPUT_DIR to your env properties that points to a directory you want goGivens to report the test output to.
 
 Default is the os's tmp directory.
