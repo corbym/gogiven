@@ -58,7 +58,7 @@ func TestGivenWhenExercisingRanges(testing *testing.T) {
 		given := Given(testingT, aFakeGenerator)
 		some = append(some, given)
 		given.When(func(actual testdata.CapturedIO, givens testdata.InterestingGivens) {
-			actual["actual"] = test.actual
+			actual["value"] = test.actual
 			actual["expected"] = test.expected
 			return
 		}).
@@ -68,12 +68,34 @@ func TestGivenWhenExercisingRanges(testing *testing.T) {
 				AssertThat(t, test.actual, has.Length(test.expected))
 			})
 	}
-	AssertThat(testing, some[0].CapturedIO()["actual"], is.EqualTo(""))
+	AssertThat(testing, some[0].CapturedIO()["value"], is.EqualTo(""))
 	AssertThat(testing, some[0].CapturedIO()["expected"], is.EqualTo(0))
-	AssertThat(testing, some[1].CapturedIO()["actual"], is.EqualTo("a"))
+	AssertThat(testing, some[1].CapturedIO()["value"], is.EqualTo("a"))
 	AssertThat(testing, some[1].CapturedIO()["expected"], is.EqualTo(2))
 	AssertThat(testing, testMetaData[0].Failed(), is.EqualTo(false))
 	AssertThat(testing, testMetaData[1].Failed(), is.EqualTo(true))
+}
+
+func TestInnerTestRangesOverValues(t *testing.T) {
+	var someRange = []struct {
+		value    string
+		expected int
+	}{
+		{value: "n", expected: 1},
+		{value: "aa", expected: 2},
+	}
+	for _, test := range someRange {
+		t.Run(test.value, func(tInner *testing.T) {
+			Given(tInner).
+				When(func(capturedIO testdata.CapturedIO, givens testdata.InterestingGivens) {
+					givens["value"] = test.value
+					givens["expected"] = test.expected
+					capturedIO["actual"] = len(test.value)
+				}).Then(func(testingT base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
+				AssertThat(testingT, actual["actual"], is.EqualTo(test.expected))
+			})
+		})
+	}
 }
 
 func TestGivenWhenStacksGivens(testing *testing.T) {

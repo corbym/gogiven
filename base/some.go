@@ -42,16 +42,16 @@ func NewSome(
 
 // CapturedIO is a convenience method for retrieving the CapturedIO map
 func (some *Some) CapturedIO() map[string]interface{} {
-	some.Lock()
-	defer some.Unlock()
-	return copyMap(some.capturedIO)
+	some.RLock()
+	defer some.RUnlock()
+	return some.capturedIO
 }
 
 // InterestingGivens is a convenience method for retrieving the InterestingGivens map
 func (some *Some) InterestingGivens() map[string]interface{} {
-	some.Lock()
-	defer some.Unlock()
-	return copyMap(some.interestingGivens)
+	some.RLock()
+	defer some.RUnlock()
+	return some.interestingGivens
 }
 
 // When - call When when you want to perform some action, call a function, or perform a test operation.
@@ -77,12 +77,4 @@ func (some *Some) Then(assertions TestingWithGiven) *Some {
 		globalTestingT.Errorf(some.TestingT.TestOutput)
 	}
 	return some
-}
-
-func copyMap(ios map[string]interface{}) map[string]interface{} {
-	var newMap = make(map[string]interface{})
-	for k, v := range ios {
-		newMap[k] = v.(interface{})
-	}
-	return newMap
 }

@@ -26,7 +26,7 @@ func TestMyFirst(testing *testing.T) {
 			When(someAction(test)).
 			Then(func(t base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
 				//do assertions
-				then.AssertThat(t, test.actual, has.Length(test.expected))
+				then.AssertThat(t, givens["actual"], has.Length(test.expected))
 			})
 	}
 }

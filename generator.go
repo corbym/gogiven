@@ -2,7 +2,6 @@ package gogiven
 
 import (
 	"fmt"
-	"github.com/corbym/gogiven/base"
 	"github.com/corbym/gogiven/generator"
 	"github.com/corbym/htmlspec"
 	"io/ioutil"
@@ -28,13 +27,12 @@ func GenerateTestOutput() {
 	for _, key := range globalTestContextMap.Keys() {
 		value, _ := globalTestContextMap.Load(key)
 		currentTestContext := value.(*TestContext)
+		tests := currentTestContext.SomeTests()
 		pageData := &generator.PageData{
 			Title:   transformFileNameToHeader(currentTestContext.FileName()),
-			SomeMap: currentTestContext.SomeTests().AsMapOfSome(),
+			SomeMap: tests.AsMapOfSome(),
 		}
-		base.CopyLock.Lock()
 		output := Generator.Generate(pageData)
-		base.CopyLock.Unlock()
 		extension := Generator.FileExtension()
 
 		outputFileName := fmt.Sprintf("%s%c%s", outputDirectory(),

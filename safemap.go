@@ -47,8 +47,6 @@ func (rm *safeMap) Keys() []string {
 func (rm *safeMap) AsMapOfSome() *base.SomeMap {
 	rm.RLock()
 	defer rm.RUnlock()
-	base.CopyLock.Lock()
-	defer base.CopyLock.Unlock()
 	var newMap = &base.SomeMap{}
 	for k, v := range rm.internal {
 		(*newMap)[k] = v.(*base.Some)
