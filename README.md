@@ -63,14 +63,12 @@ A complete example of how to write a GoGivensOutputGenerator is given in the sis
 ## Example One - GoGivens in Practice <a name="example"></a>
 ```go
 import (
-	. "github.com/corbym/gocrest/then"
-	. "github.com/corbym/gogiven"
-	. "github.com/corbym/gogiven/testdata"
-	. "github.com/corbym/gogiven/base"
-
-	"github.com/corbym/gocrest/is"
 	"github.com/corbym/gocrest/has"
-	"github.com/corbym/gocrest"
+	"github.com/corbym/gocrest/then"
+	"github.com/corbym/gogiven/base"
+	"github.com/corbym/gogiven/testdata"
+	"testing"
+	"github.com/corbym/gocrest/is"
 )
 
 func TestMain(testmain *testing.M) {
@@ -79,20 +77,22 @@ func TestMain(testmain *testing.M) {
 	os.Exit(runOutput)
 }
 
-func TestMyFirst(testing *testing.T){
-   Given(testing, someDataSetup).
-        When(someAction).
-        Then(func(testing TestingT, actual CapturedIO, givens InterestingGivens) { // passed in testing should be used for assertions
-        //do assertions
-        AssertThat(testing, actual.CapturedIO["actual"], is.EqualTo("some output"))
-    })
+func TestMyFirst(testing *testing.T) {
+	Given(testing, someDataSetup).
+
+		When(somethingHappens).
+
+		Then(func(testing base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) { // passed in testing should be used for assertions
+		//do assertions
+		then.AssertThat(testing, actual["actual"], is.EqualTo("some output"))
+	})
 }
 ```
 Note you do not have to use "gocrest" assertions, you can still call all of testing.T's functions to fail the test or you can use any go testing assertion package compatible with testing.T.
 
 When run, the above will produce an HTML output:
 
-[Example Html](http://htmlpreview.github.com/?https://raw.githubusercontent.com/corbym/gogiven/master/resources/example.html)
+[Example Html](http://htmlpreview.github.com/?https://raw.githubusercontent.com/corbym/gogiven/master/resources/example.htmlexample_test.html#github.com%2fcorbym%2fgogiven.TestMyFirst)
 
 ## Example Two - Table Tests <a name="tabletest-example"></a>
 
@@ -121,7 +121,7 @@ func TestMyFirst(testing *testing.T){
 ```
 This will still fail the test function as far as Go is concerned, but the test output will note that the iteration failed like this:
 
-[Ranged Example Html](http://htmlpreview.github.com/?https://raw.githubusercontent.com/corbym/gogiven/master/resources/example2.html)
+[Ranged Example Html](http://htmlpreview.github.com/?https://raw.githubusercontent.com/corbym/gogiven/master/resources/example.html#github.com%2fcorbym%2fgogiven.TestMyFirst_Ranged)
 
 
 ## Setting the test file output <a name="file-output-settings"></a>
