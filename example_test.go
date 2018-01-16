@@ -3,7 +3,7 @@ package gogiven
 import (
 	"github.com/corbym/gocrest/has"
 	"github.com/corbym/gocrest/is"
-	"github.com/corbym/gocrest/then"
+	. "github.com/corbym/gocrest/then"
 	"github.com/corbym/gogiven/base"
 	"github.com/corbym/gogiven/testdata"
 	"testing"
@@ -12,9 +12,12 @@ import (
 func TestMyFirst(testing *testing.T) {
 	Given(testing, someDataSetup).
 		When(somethingHappens).
-		Then(func(testing base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) { // passed in testing should be used for assertions
+		Then(func(testing base.TestingT,
+			actual testdata.CapturedIO,
+			givens testdata.InterestingGivens,
+		) { // passed in testing should be used for assertions
 			//do assertions
-			then.AssertThat(testing, actual["actual"], is.EqualTo("some output"))
+			AssertThat(testing, actual["actual"], is.EqualTo("some output"))
 		})
 }
 
@@ -37,9 +40,17 @@ func TestMyFirst_Ranged(testing *testing.T) {
 			When(someAction(test)).
 			Then(func(t base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
 				//do assertions
-				then.AssertThat(t, givens["actual"], has.Length(test.expected))
+				AssertThat(t, givens["actual"], has.Length(test.expected))
 			})
 	}
+}
+
+func TestWithoutGiven(t *testing.T) {
+	When(t, somethingHappens).
+		Then(func(testing base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
+			//do assertions
+			AssertThat(testing, actual["actual"], is.EqualTo("some output"))
+		})
 }
 
 func someAction(data struct {

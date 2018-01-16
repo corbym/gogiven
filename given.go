@@ -1,7 +1,7 @@
 package gogiven
 
 import (
-	bytes2 "bytes"
+	"bytes"
 	"github.com/corbym/gogiven/base"
 	"github.com/fatih/camelcase"
 	"go/ast"
@@ -18,7 +18,7 @@ var globalTestContextMap = newSafeMap()
 //Given sets up some interesting givens for the test.
 //Pass in testing.T here and a function which adds some givens to the map.
 func Given(testing base.TestingT, given ...base.GivenData) *base.Some {
-	function, testFileName := testFunctionFileName()
+	currentFunction, testFileName := testFunctionFileName()
 	var currentTestContext *TestContext
 
 	if value, ok := globalTestContextMap.Load(testFileName); ok {
@@ -28,74 +28,88 @@ func Given(testing base.TestingT, given ...base.GivenData) *base.Some {
 		globalTestContextMap.Store(testFileName, currentTestContext)
 	}
 	someTests := currentTestContext.someTests
-	keyFor := uniqueKeyFor(someTests, function.Name()) // this deals with table test for loops, we want different id for each
+	keyFor := uniqueKeyFor(someTests, currentFunction.Name()) // this deals with table test for loops, we want different id for each
 
 	some := base.NewSome(
 		testing,
-		testTitle(function.Name()),
+		testTitle(currentFunction.Name()),
 		base.NewTestMetaData(keyFor),
-		ParseGivenWhenThen(function.Name(), currentTestContext.fileContent),
+		ParseGivenWhenThen(currentFunction.Name(), currentTestContext.fileName),
 		given...,
 	)
 	someTests.Store(keyFor, some)
 
 	return some
 }
+
+func When(testing base.TestingT, action ...base.CapturedIOGivenData) *base.Some {
+	some := Given(testing)
+	action[0](some.CapturedIO(), some.InterestingGivens())
+	return some
+}
+
 func testTitle(functionName string) string {
 	lastDotInTestName := strings.LastIndex(functionName, ".Test") + (len(".Test") - 1)
-	return strings.Join(camelcase.Split(functionName[lastDotInTestName+1:]), " ")
+	return strings.Replace(strings.Join(camelcase.Split(functionName[lastDotInTestName+1:]), " "), "_", " ", -1)
 }
 
 // ParseGivenWhenThen parses a test file for the Given/When/Then content of the test in question identified by the parameter "testName"
 // Returns the content of the function with all metacharacters removed, spaces added to CamelCase and snake case too.
-func ParseGivenWhenThen(functionName string, testFileContent string) string {
-	buffer := bytes2.NewBuffer(make([]byte, 0))
-	for _, dcl := range mustParseFile(token.NewFileSet(), functionName, testFileContent).Decls {
-		findFunctionDeclAndAppendToBuffer(dcl, functionName, buffer, token.NewFileSet())
+func ParseGivenWhenThen(functionName string, testFileName string) (formattedOutput string) {
+
+	buffer := new(bytes.Buffer)
+
+	split := strings.Split(functionName, ".")
+	functionName = split[len(split)-1]
+	for i := 2; functionName == "func1"; i++ {
+		functionName = split[len(split)-i]
 	}
-	return replaceAllNonAlphaNumericCharactersWithSpaces(
-		removeAllUninterestingStatements(strings.Join(camelcase.Split(buffer.String()), " ")),
-	)
-}
-func mustParseFile(fset *token.FileSet, functionName string, testFileContent string) *ast.File {
-	testFile, err := parser.ParseFile(fset, functionName, testFileContent, parser.ParseComments)
-	if err != nil {
-		panic(err.Error())
-	}
-	return testFile
-}
-func findFunctionDeclAndAppendToBuffer(dcl ast.Decl, functionName string, buffer *bytes2.Buffer, fset *token.FileSet) {
-	if fn, ok := dcl.(*ast.FuncDecl); ok {
-		if strings.Contains(functionName, fn.Name.Name) {
-			printFunc(fn, buffer, fset)
-		}
-	}
-}
-func printFunc(fn *ast.FuncDecl, buffer *bytes2.Buffer, fset *token.FileSet) {
-	for _, statement := range fn.Body.List {
-		switch t := statement.(type) {
-		case *ast.ReturnStmt:
-		case *ast.AssignStmt:
-		case *ast.DeclStmt:
-			break
-		default:
-			format.Node(buffer, fset, t)
-		}
-	}
+	fset, fun, _ := parseFile(testFileName, functionName)
+	format.Node(buffer, fset, fun.Body)
+
+	formattedOutput = buffer.String()
+	formattedOutput = formattedOutput[1 : len(formattedOutput)-1]
+	formattedOutput = strings.Join(camelcase.Split(removeAllUninterestingStatements(formattedOutput)), " ")
+	formattedOutput = replaceAllNonAlphaNumericCharacters(formattedOutput)
+	formattedOutput = strings.TrimSpace(strings.Replace(formattedOutput, "\n\t", "\n", -1))
+	return
 }
 
-func removeAllUninterestingStatements(content string) string {
-	regex := regexp.MustCompile("(?sm:func\\s?\\(.*\\)\\s?{)")
-	content = regex.ReplaceAllString(content, "")
-	return content
+func parseFile(fileName string, functionName string) (fset *token.FileSet, fun *ast.FuncDecl, error error) {
+	fset = token.NewFileSet()
+	if file, err := parser.ParseFile(fset, fileName, nil, parser.ParseComments); err == nil {
+		for _, d := range file.Decls {
+			if f, ok := d.(*ast.FuncDecl); ok && f.Name.Name == functionName {
+				fun = f
+				return
+			}
+		}
+	}
+	panic("could not find function " + functionName)
 }
 
-func replaceAllNonAlphaNumericCharactersWithSpaces(replace string) string {
-	r := regexp.MustCompile("(?sm:([^a-zA-Z0-9*!£$%+\\-^\" \n\t<>]))")
+func removeAllUninterestingStatements(content string) (removed string) {
+	regex := regexp.MustCompile("(?sm:func\\s?\\(.*?\\)\\s?.*?}?)")
+	removed = regex.ReplaceAllString(content, "")
+
+	index := strings.Index(removed, "Given")
+	if index == -1 {
+		index = strings.Index(removed, "When")
+	}
+	removed = removed[index:]
+	return
+}
+
+func replaceAllNonAlphaNumericCharacters(replace string) (replaced string) {
+	r := regexp.MustCompile("(?sm:([^a-zA-Z0-9*!£$%+\\-^\"= \\r\\n\\t<>]))")
 	replace = r.ReplaceAllString(replace, "")
 	r = regexp.MustCompile("  +")
 	replace = r.ReplaceAllString(replace, " ")
-	return replace
+	r = regexp.MustCompile("\t\t+")
+	replace = r.ReplaceAllString(replace, "\t\t")
+	r = regexp.MustCompile("[\r\n]+")
+	replaced = r.ReplaceAllString(replace, "\r\n")
+	return
 }
 
 func testFunctionFileName() (*runtime.Func, string) {

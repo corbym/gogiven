@@ -12,6 +12,7 @@ import (
 	. "github.com/corbym/gogiven"
 	"github.com/corbym/gogiven/base"
 	"github.com/corbym/gogiven/testdata"
+	"strings"
 )
 
 type StubHtmlGenerator struct{}
@@ -30,7 +31,7 @@ func TestMain(testmain *testing.M) {
 	os.Exit(runOutput)
 }
 
-func TestGivenWhenGeneratesHtml(testing *testing.T) {
+func TestGivenWhenSetsInterestingGiven(testing *testing.T) {
 	testing.Parallel()
 	Given(testing, someDataSetup).
 		When(someAction).
@@ -110,6 +111,41 @@ func TestGivenWhenStacksGivens(testing *testing.T) {
 		})
 }
 
+func TestParseGivenWhenThen_Panics(t *testing.T) {
+	defer func() {
+		rcv := recover()
+		AssertThat(t, rcv, is.Not(is.Nil()))
+	}()
+	ParseGivenWhenThen("foo", "Arfg")
+}
+
+const expectedOutput = `Given testing some Data Setup 
+			 When something Happens 
+			 Then 
+		
+				 Assert That testing actual " actual " is Equal To " some output "`
+
+func TestParseGivenWhenThen_TextOutput(testing *testing.T) {
+	testing.Skip("skipped because whitespace")
+	givenWhenThen := ParseGivenWhenThen(".TestMyFirst", "./example_test.go")
+
+	AssertThat(testing, strings.TrimSpace(givenWhenThen), is.EqualTo(expectedOutput))
+}
+
+func TestParseGivenWhenThen_RangedTextOutput(testing *testing.T) {
+	testing.Skip("skipped because whitespace")
+	givenWhenThen := ParseGivenWhenThen(".TestMyFirst_Ranged", "./example_test.go")
+	AssertThat(testing, givenWhenThen, is.EqualTo(
+		`Given testing some Data Setup 
+				 givens " actual " test actual 
+		
+				 When some Action test 
+				 Then 
+		
+					 Assert That t givens " actual " has Length test expected`))
+
+}
+
 func fileExists(pathToFile string) interface{} {
 	fileInfo, err := os.Stat(pathToFile)
 	if err != nil {
@@ -151,12 +187,4 @@ func someAction(capturedIo testdata.CapturedIO, givens testdata.InterestingGiven
 
 func ofFileInTmpDir(fileName string) string {
 	return fmt.Sprintf("%s%c%s", os.TempDir(), os.PathSeparator, fileName)
-}
-
-func TestParseGivenWhenThen(t *testing.T) {
-	defer func() {
-		rcv := recover()
-		AssertThat(t, rcv, is.Not(is.Nil()))
-	}()
-	ParseGivenWhenThen("foo", "Arfg")
 }
