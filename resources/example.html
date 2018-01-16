@@ -319,11 +319,15 @@
 
 
 
-        <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven.TestMyFirst_Ranged">My First _ Ranged</a></li>
+        <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven.TestMyFirst_Ranged">My First   Ranged</a></li>
 
 
 
-        <li class='test-failed'><a href="#github.com%2fcorbym%2fgogiven.TestMyFirst_Ranged_1">My First _ Ranged</a></li>
+        <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven.TestMyFirst_Ranged_1">My First   Ranged</a></li>
+
+
+
+        <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven.TestWithoutGiven">Without Given</a></li>
 
 
     </ul>
@@ -341,9 +345,10 @@
         <a id=""></a>
         <h2>Specification</h2>
         <pre class="highlight specification">
-        Given testing some Data Setup When something Happens Then 
-	 then Assert That testing actual &#34; actual &#34; is Equal To &#34; some output &#34;
-</pre>
+        Given testing some Data Setup 
+	 When something Happens 
+	 Then 
+	 Assert That testing actual &#34; actual &#34; is Equal To &#34; some output &#34;</pre>
 
         <h2>Test results:</h2>
 
@@ -377,17 +382,19 @@
 
 <div class="testmethod">
     <a id="github.com/corbym/gogiven.TestMyFirst_Ranged"></a>
-    <h2>My First _ Ranged</h2>
+    <h2>My First   Ranged</h2>
 
 
     <div class="scenario" id="scenario_github.com/corbym/gogiven.TestMyFirst_Ranged">
         <a id=""></a>
         <h2>Specification</h2>
         <pre class="highlight specification">
-        Given testing some Data Setup When something Happens Then 
-		 then Assert That t givens &#34; actual &#34; has Length test expected 
+        Given testing some Data Setup 
+	 givens &#34; actual &#34; = test actual 
 	
-</pre>
+	 When some Action test 
+	 Then 
+	 Assert That t givens &#34; actual &#34; has Length test expected</pre>
 
         <h2>Test results:</h2>
 
@@ -426,26 +433,25 @@
 
 <div class="testmethod">
     <a id="github.com/corbym/gogiven.TestMyFirst_Ranged_1"></a>
-    <h2>My First _ Ranged</h2>
+    <h2>My First   Ranged</h2>
 
 
     <div class="scenario" id="scenario_github.com/corbym/gogiven.TestMyFirst_Ranged_1">
         <a id=""></a>
         <h2>Specification</h2>
         <pre class="highlight specification">
-        Given testing some Data Setup When something Happens Then 
-		 then Assert That t givens &#34; actual &#34; has Length test expected 
+        Given testing some Data Setup 
+	 givens &#34; actual &#34; = test actual 
 	
-</pre>
+	 When some Action test 
+	 Then 
+	 Assert That t givens &#34; actual &#34; has Length test expected</pre>
 
         <h2>Test results:</h2>
 
 
-        <pre class='highlight results test-failed'>TEST FAILED
-        
-Expected: value with length 2
-     but: a
-</pre>
+        <pre class='highlight results test-passed'>TEST PASSED
+        </pre>
 
 
 
@@ -470,7 +476,45 @@ Expected: value with length 2
 
 
         <h3 class="logKey" logkey="a">a</h3>
-        <div class="logValue highlight xml WebResource">2</div>
+        <div class="logValue highlight xml WebResource">1</div>
+
+
+    </div>
+</div>
+
+<div class="testmethod">
+    <a id="github.com/corbym/gogiven.TestWithoutGiven"></a>
+    <h2>Without Given</h2>
+
+
+    <div class="scenario" id="scenario_github.com/corbym/gogiven.TestWithoutGiven">
+        <a id=""></a>
+        <h2>Specification</h2>
+        <pre class="highlight specification">
+        When t something Happens 
+	 Then 
+	 Assert That testing actual &#34; actual &#34; is Equal To &#34; some output &#34;</pre>
+
+        <h2>Test results:</h2>
+
+
+        <pre class='highlight results test-passed'>TEST PASSED
+        </pre>
+
+
+
+        <h3 class="logKey">Interesting Givens</h3>
+
+        <table class="interestingGivens logValue">
+
+        </table>
+
+
+
+
+
+        <h3 class="logKey" logkey="actual">actual</h3>
+        <div class="logValue highlight xml WebResource">some output</div>
 
 
     </div>
