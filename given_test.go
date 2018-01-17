@@ -121,7 +121,7 @@ func TestGivenWhenSkips(testing *testing.T) {
 			//do assertions
 		})
 		AssertThat(testing, t.Skipped(), is.EqualTo(true))
-		AssertThat(testing, t.TestOutput, is.EqualTo("some reason"))
+		AssertThat(testing, t.TestOutput(), is.EqualTo("some reason"))
 }
 
 func TestParseGivenWhenThen_Panics(t *testing.T) {
