@@ -42,6 +42,7 @@ func Given(testing base.TestingT, given ...base.GivenData) *base.Some {
 	return some
 }
 
+//When is a shortcut method when no Given is required.
 func When(testing base.TestingT, action ...base.CapturedIOGivenData) *base.Some {
 	some := Given(testing)
 	action[0](some.CapturedIO(), some.InterestingGivens())
