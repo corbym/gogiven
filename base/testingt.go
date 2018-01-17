@@ -8,4 +8,5 @@ type TestingT interface {
 	FailNow()
 	Helper()
 	Name() string
+	Skipf(format string, args ...interface{})
 }

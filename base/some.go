@@ -41,14 +41,14 @@ func NewSome(
 }
 
 // CapturedIO is a convenience method for retrieving the CapturedIO map
-func (some *Some) CapturedIO() map[string]interface{} {
+func (some *Some) CapturedIO() map[interface{}]interface{} {
 	some.RLock()
 	defer some.RUnlock()
 	return some.capturedIO
 }
 
 // InterestingGivens is a convenience method for retrieving the InterestingGivens map
-func (some *Some) InterestingGivens() map[string]interface{} {
+func (some *Some) InterestingGivens() map[interface{}]interface{} {
 	some.RLock()
 	defer some.RUnlock()
 	return some.interestingGivens
@@ -74,7 +74,13 @@ func (some *Some) Then(assertions TestingWithGiven) *Some {
 	if some.TestingT.failed {
 		globalTestingT := some.globalTestingT
 		globalTestingT.Helper()
-		globalTestingT.Errorf(some.TestingT.TestOutput)
+		globalTestingT.Errorf(some.TestingT.TestOutput())
 	}
+	return some
+}
+//SkippingThisOne still records we have a skipped tests in our test output generator
+func (some *Some) SkippingThisOne(reason string, args ...interface{}) *Some {
+	some.TestingT.Skipf(reason, args ...)
+	some.globalTestingT.Skipf(reason, args...) // skip so we don't worry about it
 	return some
 }

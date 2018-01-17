@@ -45,7 +45,8 @@ func TestGivenWhenSetsInterestingGiven(testing *testing.T) {
 
 func TestGivenWhenExercisingRanges(testing *testing.T) {
 	var testMetaData []*base.TestMetaData
-	var testingT = new(base.TestMetaData)
+	var testingT = &base.TestMetaData{TestId:"title"}
+
 	var some []*base.Some
 	testing.Parallel()
 	var someRange = []struct {
@@ -109,6 +110,18 @@ func TestGivenWhenStacksGivens(testing *testing.T) {
 			AssertThat(testing, givens, is.ValueContaining("hi", 12, "foo"))
 			AssertThat(testing, actual, has.Key("foo"))
 		})
+}
+func TestGivenWhenSkips(testing *testing.T) {
+	testing.Parallel()
+	t := &base.TestMetaData{TestId:"skiptest"}
+	Given(t, someDataSetup, andMoreDataSetup).
+		SkippingThisOne("some reason").
+		When(someAction).
+		Then(func(testing base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
+			//do assertions
+		})
+		AssertThat(testing, t.Skipped(), is.EqualTo(true))
+		AssertThat(testing, t.TestOutput, is.EqualTo("some reason"))
 }
 
 func TestParseGivenWhenThen_Panics(t *testing.T) {

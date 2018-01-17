@@ -11,7 +11,8 @@ type TestMetaData struct {
 	sync.RWMutex
 	TestId     string
 	failed     bool
-	TestOutput string
+	skipped    bool
+	testOutput string
 }
 
 //NewTestMetaData creates a new TestMetaData object. Used internally.
@@ -19,14 +20,15 @@ func NewTestMetaData(testName string) *TestMetaData {
 	testContext := new(TestMetaData)
 	testContext.TestId = testName
 	testContext.failed = false
+	testContext.skipped = false
 	return testContext
 }
 
 //Logf marks this test as failed and sets the test output to the formatted string.
 func (t *TestMetaData) Logf(format string, args ...interface{}) {
-	t.TestOutput = fmt.Sprintf(format, args...)
 	t.Lock()
 	defer t.Unlock()
+	t.testOutput = fmt.Sprintf(format, args...)
 	t.failed = true
 }
 
@@ -34,7 +36,7 @@ func (t *TestMetaData) Logf(format string, args ...interface{}) {
 func (t *TestMetaData) Errorf(format string, args ...interface{}) {
 	t.Lock()
 	defer t.Unlock()
-	t.TestOutput = fmt.Sprintf(format, args...)
+	t.testOutput = fmt.Sprintf(format, args...)
 	t.failed = true
 }
 
@@ -63,4 +65,23 @@ func (t *TestMetaData) Failed() bool {
 	t.RLock()
 	defer t.RUnlock()
 	return t.failed
+}
+
+func (t *TestMetaData) Skipf(format string, args ...interface{}) {
+	t.Lock()
+	defer t.Unlock()
+	t.skipped = true
+	t.testOutput = fmt.Sprintf(format, args...)
+}
+
+func (t *TestMetaData) Skipped() bool {
+	t.RLock()
+	defer t.RUnlock()
+	return t.skipped
+}
+
+func (t *TestMetaData) TestOutput() string{
+	t.RLock()
+	defer t.RUnlock()
+	return t.testOutput
 }

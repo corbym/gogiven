@@ -5,4 +5,4 @@ package testdata
 // or any value that the system under test produces.
 // Underlying the CapturedIO is a map[string]interface{}.
 // CapturedIO objects are provided to the test by the When() and Then() functions.
-type CapturedIO map[string]interface{}
+type CapturedIO map[interface{}]interface{}

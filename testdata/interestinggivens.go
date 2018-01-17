@@ -4,4 +4,4 @@ package testdata
 // You can add actual vs. expected output for example.
 // InterestingGivens is created by the test framework and passed into the When() and Then()
 // functions.
-type InterestingGivens  map[string]interface{}
+type InterestingGivens  map[interface{}]interface{}

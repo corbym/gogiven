@@ -16,23 +16,21 @@ import (
 var globalTestContextMap = newSafeMap()
 
 //Given sets up some interesting givens for the test.
-//Pass in testing.T here and a function which adds some givens to the map.
+//Pass in testing.T here and a function which adds some givens to
+//the map.
+//
+// *Warning:* if you call this method twice in a test, you will start a new test
+//which will appear in the test output.
 func Given(testing base.TestingT, given ...base.GivenData) *base.Some {
 	currentFunction, testFileName := testFunctionFileName()
-	var currentTestContext *TestContext
+	currentTestContext := loadTestContext(testFileName)
 
-	if value, ok := globalTestContextMap.Load(testFileName); ok {
-		currentTestContext = value.(*TestContext)
-	} else {
-		currentTestContext = NewTestContext(testFileName)
-		globalTestContextMap.Store(testFileName, currentTestContext)
-	}
 	someTests := currentTestContext.someTests
 	keyFor := uniqueKeyFor(someTests, currentFunction.Name()) // this deals with table test for loops, we want different id for each
 
 	some := base.NewSome(
 		testing,
-		testTitle(currentFunction.Name()),
+		testTitle(testing.Name()),
 		base.NewTestMetaData(keyFor),
 		ParseGivenWhenThen(currentFunction.Name(), currentTestContext.fileName),
 		given...,
@@ -42,11 +40,20 @@ func Given(testing base.TestingT, given ...base.GivenData) *base.Some {
 	return some
 }
 
+func loadTestContext(testFileName string) (currentTestContext *TestContext) {
+	if value, ok := globalTestContextMap.Load(testFileName); ok {
+		currentTestContext = value.(*TestContext)
+	} else {
+		currentTestContext = NewTestContext(testFileName)
+		globalTestContextMap.Store(testFileName, currentTestContext)
+	}
+	return
+}
+
 //When is a shortcut method when no Given is required.
 func When(testing base.TestingT, action ...base.CapturedIOGivenData) *base.Some {
 	some := Given(testing)
-	action[0](some.CapturedIO(), some.InterestingGivens())
-	return some
+	return some.When(action ...)
 }
 
 func testTitle(functionName string) string {
@@ -69,7 +76,7 @@ func ParseGivenWhenThen(functionName string, testFileName string) (formattedOutp
 	format.Node(buffer, fset, fun.Body)
 
 	formattedOutput = buffer.String()
-	formattedOutput = formattedOutput[1 : len(formattedOutput)-1]
+	formattedOutput = formattedOutput[1: len(formattedOutput)-1]
 	formattedOutput = strings.Join(camelcase.Split(removeAllUninterestingStatements(formattedOutput)), " ")
 	formattedOutput = replaceAllNonAlphaNumericCharacters(formattedOutput)
 	formattedOutput = strings.TrimSpace(strings.Replace(formattedOutput, "\n\t", "\n", -1))

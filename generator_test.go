@@ -23,11 +23,12 @@ func TestGenerateTestOutput(t *testing.T) {
 }
 
 func TestGenerateTestOutput_DefaultsToCurrentDir(t *testing.T) {
+	old := os.Getenv("GOGIVENS_OUTPUT_DIR")
 	defer func() {
 		remove := os.Remove("./generator_test.html")
 		then.AssertThat(t, remove, is.Nil())
 	}()
-	defer func() { os.Setenv("GOGIVENS_OUTPUT_DIR", "") }()
+	defer func() { os.Setenv("GOGIVENS_OUTPUT_DIR", old) }()
 	os.Setenv("GOGIVENS_OUTPUT_DIR", "doesnotexist")
 	gogiven.Given(t)
 	gogiven.GenerateTestOutput()
