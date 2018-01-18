@@ -44,7 +44,7 @@ func TestGivenWhenSetsInterestingGiven(testing *testing.T) {
 
 func TestGivenWhenExercisingRanges(testing *testing.T) {
 	var testMetaData []*base.TestMetaData
-	var testingT = &base.TestMetaData{TestId:"title"}
+	var testingT = &base.TestMetaData{TestId: "title"}
 
 	var some []*base.Some
 	testing.Parallel()
@@ -112,15 +112,15 @@ func TestGivenWhenStacksGivens(testing *testing.T) {
 }
 func TestGivenWhenSkips(testing *testing.T) {
 	testing.Parallel()
-	t := &base.TestMetaData{TestId:"skiptest"}
+	t := &base.TestMetaData{TestId: "skiptest"}
 	Given(t, someDataSetup, andMoreDataSetup).
 		SkippingThisOne("some reason").
 		When(someAction).
 		Then(func(testing base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
 			//do assertions
 		})
-		AssertThat(testing, t.Skipped(), is.EqualTo(true))
-		AssertThat(testing, t.TestOutput(), is.EqualTo("some reason"))
+	AssertThat(testing, t.Skipped(), is.EqualTo(true))
+	AssertThat(testing, t.TestOutput(), is.EqualTo("some reason"))
 }
 
 func TestParseGivenWhenThen_Panics(t *testing.T) {
@@ -146,7 +146,7 @@ func TestParseGivenWhenThen_FuncWithReturnType(testing *testing.T) {
 
 	AssertThat(testing, givenWhenThen, is.Not(is.ValueContaining(`Skipping This One If bool 
 	 return test actual == " fff "
-	 " some data % s does not work yet " test actual`)));
+	 " some data % s does not work yet " test actual`)))
 }
 
 func TestParseGivenWhenThen_RangedTextOutput(testing *testing.T) {

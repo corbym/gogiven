@@ -53,7 +53,7 @@ func loadTestContext(testFileName string) (currentTestContext *TestContext) {
 //When is a shortcut method when no Given is required.
 func When(testing base.TestingT, action ...base.CapturedIOGivenData) *base.Some {
 	some := Given(testing)
-	return some.When(action ...)
+	return some.When(action...)
 }
 
 func testTitle(functionName string) string {
@@ -76,7 +76,7 @@ func ParseGivenWhenThen(functionName string, testFileName string) (formattedOutp
 	format.Node(buffer, fset, fun.Body)
 
 	formattedOutput = buffer.String()
-	formattedOutput = formattedOutput[1: len(formattedOutput)-1]
+	formattedOutput = formattedOutput[1 : len(formattedOutput)-1]
 	formattedOutput = strings.Join(camelcase.Split(removeAllUninterestingStatements(formattedOutput)), " ")
 	formattedOutput = replaceAllNonAlphaNumericCharacters(formattedOutput)
 	formattedOutput = strings.TrimSpace(strings.Replace(formattedOutput, "\n\t", "\n", -1))
@@ -119,7 +119,7 @@ func removeDeclarations(content string, keyWord string, openBracket string, clos
 func findBalancedBracketFor(remove string, openBracket string, closeBracket string) (currentPosition int) {
 	currentPosition = 0
 	balance := -1
-	for balance != 0 && currentPosition < (len(remove) - 1) {
+	for balance != 0 && currentPosition < (len(remove)-1) {
 		if remove[currentPosition:currentPosition+1] == openBracket {
 			if balance == -1 {
 				balance++

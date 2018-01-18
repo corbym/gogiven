@@ -83,7 +83,7 @@ func (some *Some) Then(assertions TestingWithGiven) *Some {
 
 //SkippingThisOne still records we have a skipped tests in our test output generator
 func (some *Some) SkippingThisOne(reason string, args ...interface{}) *Some {
-	some.TestingT.Skipf(reason, args ...)
+	some.TestingT.Skipf(reason, args...)
 	some.globalTestingT.Skipf(reason, args...) // skip so we don't worry about it
 	return some
 }
@@ -91,9 +91,9 @@ func (some *Some) SkippingThisOne(reason string, args ...interface{}) *Some {
 //SkippingThisOneIf skips if the condition is true, and still records we have a skipped tests in our test output generator.
 // This will be best used in a table test (range) when running sub-tests, since in a main test the entire test will be skipped
 // and the condition pointless.
-func (some *Some) SkippingThisOneIf(why func(someData ...interface{}) (bool), reason string, args ...interface{}) *Some {
+func (some *Some) SkippingThisOneIf(why func(someData ...interface{}) bool, reason string, args ...interface{}) *Some {
 	if why() {
-		some.TestingT.Skipf(reason, args ...)
+		some.TestingT.Skipf(reason, args...)
 		some.globalTestingT.Skipf(reason, args...) // skip so we don't worry about it
 	}
 	return some

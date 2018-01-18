@@ -80,7 +80,7 @@ func (t *TestMetaData) Skipped() bool {
 	return t.skipped
 }
 
-func (t *TestMetaData) TestOutput() string{
+func (t *TestMetaData) TestOutput() string {
 	t.RLock()
 	defer t.RUnlock()
 	return t.testOutput
