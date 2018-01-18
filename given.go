@@ -102,31 +102,31 @@ func removeAllUninterestingStatements(content string) (removed string) {
 		index = strings.Index(content, "When")
 	}
 	removed = content[index:]
-	removed = removeFuncDeclarations(removed, "interface{")
-	removed = removeFuncDeclarations(removed, "func")
+	removed = removeDeclarations(removed, "interface", "{", "}")
+	removed = removeDeclarations(removed, "func", "(", ")")
 	return
 }
-func removeFuncDeclarations(content string, keyWord string) string {
+func removeDeclarations(content string, keyWord string, openBracket string, closeBracket string) string {
 	for strings.Contains(content, keyWord) {
 		firstInstance := strings.Index(content, keyWord)
-		lastBracketOfFunc := firstInstance + findBalancedBracketFor(content[firstInstance:])
+		lastBracketOfFunc := firstInstance + findBalancedBracketFor(content[firstInstance:], openBracket, closeBracket)
 		funcString := content[firstInstance:lastBracketOfFunc]
 		content = strings.Replace(content, funcString, "", 1)
 	}
 	return content
 }
 
-func findBalancedBracketFor(remove string) (currentPosition int) {
+func findBalancedBracketFor(remove string, openBracket string, closeBracket string) (currentPosition int) {
 	currentPosition = 0
 	balance := -1
 	for balance != 0 && currentPosition < (len(remove) - 1) {
-		if remove[currentPosition:currentPosition+1] == "{" {
+		if remove[currentPosition:currentPosition+1] == openBracket {
 			if balance == -1 {
 				balance++
 			}
 			balance++
 		}
-		if remove[currentPosition:currentPosition+1] == "}" {
+		if remove[currentPosition:currentPosition+1] == closeBracket {
 			balance--
 		}
 		currentPosition++

@@ -131,17 +131,13 @@ func TestParseGivenWhenThen_Panics(t *testing.T) {
 	ParseGivenWhenThen("foo", "Arfg")
 }
 
-const expectedOutput = `Given testing some Data Setup 
-			 When something Happens 
-			 Then 
-		
-				 Assert That testing actual " actual " is Equal To " some output "`
-
-func TestParseGivenWhenThen_TextOutput(testing *testing.T) {
-	testing.Skip("skipped because whitespace")
+func TestParseGivenWhenThen_TextOutputContent(testing *testing.T) {
 	givenWhenThen := ParseGivenWhenThen(".TestMyFirst", "./example_test.go")
 
-	AssertThat(testing, givenWhenThen, is.EqualTo(expectedOutput))
+	AssertThat(testing, givenWhenThen, is.EqualToIgnoringWhitespace(`
+			Given testing some Data Setup 
+			When something Happens 
+			Then Assert That testing actual " actual " is Equal To " some output "`))
 }
 
 func TestParseGivenWhenThen_FuncWithReturnType(testing *testing.T) {
@@ -158,12 +154,11 @@ func TestParseGivenWhenThen_RangedTextOutput(testing *testing.T) {
 	givenWhenThen := ParseGivenWhenThen(".TestMyFirst_Ranged", "./example_test.go")
 	AssertThat(testing, givenWhenThen, is.EqualTo(
 		`Given testing some Data Setup 
-				 givens " actual " test actual 
-		
-				 When some Action test 
-				 Then 
-		
-					 Assert That t givens " actual " has Length test expected`))
+			 givens " actual " = test actual 
+			
+			 When some Action test 
+			 Then 
+			 Assert That t givens " actual " has Length test expected`))
 
 }
 
