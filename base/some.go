@@ -70,17 +70,31 @@ func (some *Some) When(action ...CapturedIOGivenData) *Some {
 func (some *Some) Then(assertions TestingWithGiven) *Some {
 	some.Lock()
 	defer some.Unlock()
-	assertions(some.TestingT, some.capturedIO, some.interestingGivens)
-	if some.TestingT.failed {
-		globalTestingT := some.globalTestingT
-		globalTestingT.Helper()
-		globalTestingT.Errorf(some.TestingT.TestOutput())
+	if !some.TestingT.skipped {
+		assertions(some.TestingT, some.capturedIO, some.interestingGivens)
+		if some.TestingT.failed {
+			globalTestingT := some.globalTestingT
+			globalTestingT.Helper()
+			globalTestingT.Errorf(some.TestingT.TestOutput())
+		}
 	}
 	return some
 }
+
 //SkippingThisOne still records we have a skipped tests in our test output generator
 func (some *Some) SkippingThisOne(reason string, args ...interface{}) *Some {
 	some.TestingT.Skipf(reason, args ...)
 	some.globalTestingT.Skipf(reason, args...) // skip so we don't worry about it
+	return some
+}
+
+//SkippingThisOneIf skips if the condition is true, and still records we have a skipped tests in our test output generator.
+// This will be best used in a table test (range) when running sub-tests, since in a main test the entire test will be skipped
+// and the condition pointless.
+func (some *Some) SkippingThisOneIf(why func(someData ...interface{}) (bool), reason string, args ...interface{}) *Some {
+	if why() {
+		some.TestingT.Skipf(reason, args ...)
+		some.globalTestingT.Skipf(reason, args...) // skip so we don't worry about it
+	}
 	return some
 }

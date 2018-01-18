@@ -12,7 +12,6 @@ import (
 	. "github.com/corbym/gogiven"
 	"github.com/corbym/gogiven/base"
 	"github.com/corbym/gogiven/testdata"
-	"strings"
 )
 
 type StubHtmlGenerator struct{}
@@ -142,7 +141,16 @@ func TestParseGivenWhenThen_TextOutput(testing *testing.T) {
 	testing.Skip("skipped because whitespace")
 	givenWhenThen := ParseGivenWhenThen(".TestMyFirst", "./example_test.go")
 
-	AssertThat(testing, strings.TrimSpace(givenWhenThen), is.EqualTo(expectedOutput))
+	AssertThat(testing, givenWhenThen, is.EqualTo(expectedOutput))
+}
+
+func TestParseGivenWhenThen_FuncWithReturnType(testing *testing.T) {
+	testing.Skip("skipped because whitespace")
+	givenWhenThen := ParseGivenWhenThen(".TestMyFirst_Skipped", "./example_test.go")
+
+	AssertThat(testing, givenWhenThen, is.Not(is.ValueContaining(`Skipping This One If bool 
+	 return test actual == " fff "
+	 " some data % s does not work yet " test actual`)));
 }
 
 func TestParseGivenWhenThen_RangedTextOutput(testing *testing.T) {

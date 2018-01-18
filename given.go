@@ -97,14 +97,40 @@ func parseFile(fileName string, functionName string) (fset *token.FileSet, fun *
 }
 
 func removeAllUninterestingStatements(content string) (removed string) {
-	regex := regexp.MustCompile("(?sm:func\\s?\\(.*?\\)\\s?.*?}?)")
-	removed = regex.ReplaceAllString(content, "")
-
-	index := strings.Index(removed, "Given")
+	index := strings.Index(content, "Given")
 	if index == -1 {
-		index = strings.Index(removed, "When")
+		index = strings.Index(content, "When")
 	}
-	removed = removed[index:]
+	removed = content[index:]
+	removed = removeFuncDeclarations(removed, "interface{")
+	removed = removeFuncDeclarations(removed, "func")
+	return
+}
+func removeFuncDeclarations(content string, keyWord string) string {
+	for strings.Contains(content, keyWord) {
+		firstInstance := strings.Index(content, keyWord)
+		lastBracketOfFunc := firstInstance + findBalancedBracketFor(content[firstInstance:])
+		funcString := content[firstInstance:lastBracketOfFunc]
+		content = strings.Replace(content, funcString, "", 1)
+	}
+	return content
+}
+
+func findBalancedBracketFor(remove string) (currentPosition int) {
+	currentPosition = 0
+	balance := -1
+	for balance != 0 && currentPosition < (len(remove) - 1) {
+		if remove[currentPosition:currentPosition+1] == "{" {
+			if balance == -1 {
+				balance++
+			}
+			balance++
+		}
+		if remove[currentPosition:currentPosition+1] == "}" {
+			balance--
+		}
+		currentPosition++
+	}
 	return
 }
 
