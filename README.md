@@ -17,6 +17,7 @@ Feel free to contact me and help improve the code base or let me know if you hav
 2. [Example One - GoGivens in practice](#example)
 3. [Example Two - Table Tests](#tabletest-example)
 4. [Setting the test file output](#file-output-settings)
+5. [List of pre-written output generators](#output-generator-list)
 
 ## Introduction <a name="introduction"></a>
 
@@ -133,3 +134,7 @@ This will still fail the test function as far as Go is concerned, but the test o
 You can add the environment variable GOGIVENS_OUTPUT_DIR to your env properties that points to a directory you want goGivens to report the test output to.
 
 Default is the os's tmp directory.
+
+## List of Pre-written Ouput Generators <a name="output-generator-list></a>
+
+* HTML Spec: https://github.com/corbym/htmlspec - generates the output files used in the test example. 
