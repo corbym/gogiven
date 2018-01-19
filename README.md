@@ -138,3 +138,4 @@ Default is the os's tmp directory.
 ## List of Pre-written Ouput Generators <a name="output-generator-list"></a>
 
 * HTML Spec: https://github.com/corbym/htmlspec - generates the output files used in the test example. 
+* JSON Spec: https://github.com/corbym/jsonspec - generates the output files in JSON format. 
