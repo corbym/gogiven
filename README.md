@@ -6,9 +6,9 @@ An alternative BDD spec framework for go. Builds on "go test" tool and builds on
 [![GoDoc](https://godoc.org/github.com/corbym/gogiven?status.svg)](http://godoc.org/github.com/corbym/gogiven)
 [![Coverage Status](https://coveralls.io/repos/github/corbym/gogiven/badge.svg?branch=master)](https://coveralls.io/github/corbym/gogiven?branch=master)
 
-Inspired by [YATSPEC](https://github.com/bodar/yatspec). Another similar idea is [jGiven](http://jgiven.org), although both are Java based.
+Inspired by [YATSPEC](https://github.com/bodar/yatspec). Another similar idea is [JGiven](http://jgiven.org), although both are Java based.
 
-Feel free to contact me and improve the code base!
+Feel free to contact me and help improve the code base or let me know if you have any issues or questions!
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -22,11 +22,11 @@ Go Givens is a lightweight TDD framework for producing test specifications direc
 
 Go Givens parses your test file and produces a human-readable output in a specified directory, containing all the tests, captured data and other related information regarding your test such as success or failure.
 
-Go Givens was inspired by YATSPEC, a BDD framework employed extensively by Sky Network Services (part of Sky, a UK tv company). As mentioned above, another similar product is jGiven](http://jgiven.org).
+Go Givens was inspired by YATSPEC, a BDD framework employed extensively by Sky Network Services (part of Sky, a UK tv company). As mentioned above, another similar product is [JGiven](http://jgiven.org).
 
 ### Why?
 
-Capturing your test method as test output is the only real way to show it's intention. You can refactor a test, and have the output update accordingly when the test runs. Unlike other frameworks, you can use function names to declare intent, and refactoring the function will affect the test. E.g.
+Capturing your test method as test output is the only real way to show it's intention. You can refactor a test, and have the output update accordingly when the test runs. Unlike other go BDD frameworks, you can use function names to declare intent, and refactoring the function will affect the test. E.g.
 
 ```go
 Given(testing, someData)..
