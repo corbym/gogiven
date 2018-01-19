@@ -8,6 +8,8 @@ An alternative BDD spec framework for go. Builds on "go test" tool and builds on
 
 Inspired by [YATSPEC](https://github.com/bodar/yatspec). Another similar idea is [JGiven](http://jgiven.org), although both are Java based.
 
+Check out the HTML output generator used as a default here: [htmlspec](https://github.com/corbym/htmlspec) - using go's own template/html package.
+
 Feel free to contact me and help improve the code base or let me know if you have any issues or questions!
 
 ## Table of Contents
