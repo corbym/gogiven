@@ -135,6 +135,6 @@ You can add the environment variable GOGIVENS_OUTPUT_DIR to your env properties 
 
 Default is the os's tmp directory.
 
-## List of Pre-written Ouput Generators <a name="output-generator-list></a>
+## List of Pre-written Ouput Generators <a name="output-generator-list"></a>
 
 * HTML Spec: https://github.com/corbym/htmlspec - generates the output files used in the test example. 
