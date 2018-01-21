@@ -99,7 +99,7 @@ func cleanUpGivenWhenThenOutput(splitByLines []string) (formattedOutput []string
 }
 
 func positionOfGivenOrWhen(currentFuncBody *ast.BlockStmt, fset *token.FileSet) int {
-	visitor := &IdentVisitor{fset: fset, fileOffsetPos: -1}
+	visitor := &identVisitor{fset: fset, fileOffsetPos: -1}
 	ast.Walk(visitor, currentFuncBody)
 	if visitor.fileOffsetPos == -1 {
 		panic("could not find position of first given or when statment in func body")

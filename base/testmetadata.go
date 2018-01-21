@@ -67,6 +67,7 @@ func (t *TestMetaData) Failed() bool {
 	return t.failed
 }
 
+//Skipf reports the test as skipped with a formatted message to the test meta data
 func (t *TestMetaData) Skipf(format string, args ...interface{}) {
 	t.Lock()
 	defer t.Unlock()
@@ -74,12 +75,14 @@ func (t *TestMetaData) Skipf(format string, args ...interface{}) {
 	t.testOutput = fmt.Sprintf(format, args...)
 }
 
+//Skipf returns the state of the test meta data, if skipped then it's true
 func (t *TestMetaData) Skipped() bool {
 	t.RLock()
 	defer t.RUnlock()
 	return t.skipped
 }
 
+//TestOutput returns the recorded test output
 func (t *TestMetaData) TestOutput() string {
 	t.RLock()
 	defer t.RUnlock()
