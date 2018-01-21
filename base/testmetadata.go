@@ -75,7 +75,7 @@ func (t *TestMetaData) Skipf(format string, args ...interface{}) {
 	t.testOutput = fmt.Sprintf(format, args...)
 }
 
-//Skipf returns the state of the test meta data, if skipped then it's true
+//Skipped returns the state of the test meta data, if skipped then it's true
 func (t *TestMetaData) Skipped() bool {
 	t.RLock()
 	defer t.RUnlock()
