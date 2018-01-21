@@ -101,7 +101,9 @@ When run, the above will produce an HTML output:
 
 ## Example Two - Table Tests <a name="tabletest-example"></a>
 
-Table tests work the same way as normal go table tests. GoGivens will then mark which test in your loop failed. Example:
+Table tests work the same way as normal go table tests. GoGivens will then mark which test failed, if they do, in your test output. 
+
+Example:
 
 ```go
 ...
@@ -114,20 +116,24 @@ func TestMyFirst(testing *testing.T){
 		{actual: "a", expected: 2},
 	}
 	for _, test := range someRange {
-	   Given(testing, someDataSetup).
-		When(someAction).
-		Then(func(t TestingT, actual CapturedIO, givens InterestingGivens) {
-		//do assertions
+	   tst.Run(test.actual, func(weAreTesting *testing.T) {
+	   	Given(weAreTesting, someDataSetup).
+			When(someAction).
+			Then(func(t TestingT, actual CapturedIO, givens InterestingGivens) {
+			//do assertions
 		AssertThat(t, actual.CapturedIO["actual"], is.EqualTo("some output"))
-	    })
+	   	})
+	   }	
 	}
 }
 ...
 ```
-This will still fail the test function as far as Go is concerned, but the test output will note that the iteration failed like this:
+
+The above test will still fail the test function as far as Go is concerned, but the test output will note that the iteration failed like this:
 
 [Ranged Example Html](http://htmlpreview.github.com/?https://raw.githubusercontent.com/corbym/gogiven/master/resources/example.html#github.com%2fcorbym%2fgogiven.TestMyFirst_Ranged)
 
+**Note that comments are now rendered as "Noting that ..". In the above, the comment //do assertions would become "Noting that do assertions".**
 
 ## Setting the test file output <a name="file-output-settings"></a>
 
