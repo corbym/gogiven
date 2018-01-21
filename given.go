@@ -102,7 +102,7 @@ func positionOfGivenOrWhen(currentFuncBody *ast.BlockStmt, fset *token.FileSet) 
 	visitor := &identVisitor{fset: fset, fileOffsetPos: -1}
 	ast.Walk(visitor, currentFuncBody)
 	if visitor.fileOffsetPos == -1 {
-		panic("could not find position of first given or when statment in func body")
+		panic("could not find position of first given or when statement in func body")
 	}
 	return visitor.fileOffsetPos
 }
