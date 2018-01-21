@@ -13,7 +13,7 @@ type Some struct {
 	TestTitle         string
 	interestingGivens testdata.InterestingGivens
 	capturedIO        testdata.CapturedIO
-	GivenWhenThen     string
+	GivenWhenThen     []string
 }
 
 //NewSome creates a new Some context. This is an internal function that was exported for testing.
@@ -21,7 +21,7 @@ func NewSome(
 	globalTestingT TestingT,
 	testTitle string,
 	testContext *TestMetaData,
-	givenWhenThen string,
+	givenWhenThen []string,
 	givenFunc ...GivenData) *Some {
 
 	some := new(Some)

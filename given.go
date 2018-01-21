@@ -1,16 +1,15 @@
 package gogiven
 
 import (
-	"bytes"
 	"github.com/corbym/gogiven/base"
 	"github.com/fatih/camelcase"
 	"go/ast"
-	"go/format"
 	"go/parser"
 	"go/token"
 	"regexp"
 	"runtime"
 	"strings"
+	"io/ioutil"
 )
 
 var globalTestContextMap = newSafeMap()
@@ -61,31 +60,64 @@ func testTitle(functionName string) string {
 	return strings.Replace(strings.Join(camelcase.Split(functionName[lastDotInTestName+1:]), " "), "_", " ", -1)
 }
 
-// ParseGivenWhenThen parses a test file for the Given/When/Then content of the test in question identified by the parameter "testName"
+// ParseGivenWhenThen parses a test file for the Given/When/Then content of the test in question identified by the parameter "testName".
 // Returns the content of the function with all metacharacters removed, spaces added to CamelCase and snake case too.
-func ParseGivenWhenThen(functionName string, testFileName string) (formattedOutput string) {
-
-	buffer := new(bytes.Buffer)
-
+func ParseGivenWhenThen(functionName string, testFileName string) (formattedOutput []string) {
 	split := strings.Split(functionName, ".")
+	functionName = rawFuncName(functionName, split)
+	source, _ := ioutil.ReadFile(testFileName)
+	fset, testFunction, _ := parseFile(testFileName, functionName, source)
+
+	givenWhenIndex := positionOfGivenOrWhen(testFunction.Body, fset)
+	source = source[givenWhenIndex:fset.Position(testFunction.End()).Offset]
+	interestingStatements := removeAllUninterestingStatements(string(source[:]))
+	interestingStatements = markupComments(interestingStatements)
+	splitByLines := strings.Split(interestingStatements, "\n")
+	formattedOutput = cleanUpGivenWhenThenOutput(splitByLines)
+	return
+}
+
+func markupComments(source string) (replaced string) {
+	r := regexp.MustCompile(`(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/)|(//.*)`)
+	replaced = r.ReplaceAllStringFunc(source, func(comment string) string {
+		return "Noting that " + strings.TrimSpace(strings.Replace(comment, "/", "", -1))
+	})
+	return
+}
+
+func cleanUpGivenWhenThenOutput(splitByLines []string) (formattedOutput []string) {
+	for _, str := range splitByLines {
+		str = strings.TrimSpace(strings.Join(camelcase.Split(str), " "))
+		str = strings.Replace(str, "return", "", -1)
+		str = strings.TrimSpace(replaceAllNonAlphaNumericCharacters(str))
+		if str != "" {
+			str = strings.ToUpper(str[:1]) + strings.ToLower(str[1:])
+			formattedOutput = append(formattedOutput, str)
+		}
+	}
+	return
+}
+
+func positionOfGivenOrWhen(currentFuncBody *ast.BlockStmt, fset *token.FileSet) int {
+	visitor := &IdentVisitor{fset: fset, fileOffsetPos: -1}
+	ast.Walk(visitor, currentFuncBody)
+	if visitor.fileOffsetPos == -1 {
+		panic("could not find position of first given or when statment in func body")
+	}
+	return visitor.fileOffsetPos
+}
+
+func rawFuncName(functionName string, split []string) string {
 	functionName = split[len(split)-1]
 	for i := 2; functionName == "func1"; i++ {
 		functionName = split[len(split)-i]
 	}
-	fset, fun, _ := parseFile(testFileName, functionName)
-	format.Node(buffer, fset, fun.Body)
-
-	formattedOutput = buffer.String()
-	formattedOutput = formattedOutput[1 : len(formattedOutput)-1]
-	formattedOutput = strings.Join(camelcase.Split(removeAllUninterestingStatements(formattedOutput)), " ")
-	formattedOutput = replaceAllNonAlphaNumericCharacters(formattedOutput)
-	formattedOutput = strings.TrimSpace(strings.Replace(formattedOutput, "\n\t", "\n", -1))
-	return
+	return functionName
 }
 
-func parseFile(fileName string, functionName string) (fset *token.FileSet, fun *ast.FuncDecl, error error) {
+func parseFile(fileName string, functionName string, src []byte) (fset *token.FileSet, fun *ast.FuncDecl, error error) {
 	fset = token.NewFileSet()
-	if file, err := parser.ParseFile(fset, fileName, nil, parser.ParseComments); err == nil {
+	if file, err := parser.ParseFile(fset, fileName, src, parser.ParseComments); err == nil {
 		for _, d := range file.Decls {
 			if f, ok := d.(*ast.FuncDecl); ok && f.Name.Name == functionName {
 				fun = f
@@ -97,12 +129,7 @@ func parseFile(fileName string, functionName string) (fset *token.FileSet, fun *
 }
 
 func removeAllUninterestingStatements(content string) (removed string) {
-	index := strings.Index(content, "Given")
-	if index == -1 {
-		index = strings.Index(content, "When")
-	}
-	removed = content[index:]
-	removed = removeDeclarations(removed, "interface", "{", "}")
+	removed = removeDeclarations(content, "interface", "{", "}")
 	removed = removeDeclarations(removed, "func", "(", ")")
 	return
 }
@@ -135,14 +162,14 @@ func findBalancedBracketFor(remove string, openBracket string, closeBracket stri
 }
 
 func replaceAllNonAlphaNumericCharacters(replace string) (replaced string) {
-	r := regexp.MustCompile("(?sm:([^a-zA-Z0-9*!£$%+\\-^\"= \\r\\n\\t<>]))")
-	replace = r.ReplaceAllString(replace, "")
-	r = regexp.MustCompile("  +")
-	replace = r.ReplaceAllString(replace, " ")
-	r = regexp.MustCompile("\t\t+")
-	replace = r.ReplaceAllString(replace, "\t\t")
-	r = regexp.MustCompile("[\r\n]+")
-	replaced = r.ReplaceAllString(replace, "\r\n")
+	r := regexp.MustCompile("(?sm:([^a-zA-Z0-9*!£$%+/\\-^\"= \\r\\n\\t<>]))")
+	replaced = r.ReplaceAllString(replace, "")
+	r = regexp.MustCompile("\\s+")
+	replaced = r.ReplaceAllString(replaced, " ")
+	r = regexp.MustCompile(`".*?"`)
+	replaced = r.ReplaceAllStringFunc(replaced, func(quoted string) string {
+		return "\"" + strings.TrimSpace(strings.Replace(quoted, "\"", "", -1)) + "\""
+	})
 	return
 }
 
