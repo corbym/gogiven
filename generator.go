@@ -3,11 +3,11 @@ package gogiven
 import (
 	"fmt"
 	"github.com/corbym/gogiven/generator"
+	"github.com/corbym/htmlspec"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
-	"github.com/corbym/htmlspec"
 )
 
 // Generator is a global variable that holds the GoGivensOutputGenerator.

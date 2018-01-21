@@ -6,10 +6,10 @@ import (
 	"go/ast"
 	"go/parser"
 	"go/token"
+	"io/ioutil"
 	"regexp"
 	"runtime"
 	"strings"
-	"io/ioutil"
 )
 
 var globalTestContextMap = newSafeMap()

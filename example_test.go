@@ -13,13 +13,13 @@ func TestMyFirst(testing *testing.T) {
 	Given(testing, theSystemSetup).
 		When(somethingHappens).
 		Then(func(testing base.TestingT,
-		actual testdata.CapturedIO,
-		givens testdata.InterestingGivens,
-	) { // passed in testing should be used for assertions
+			actual testdata.CapturedIO,
+			givens testdata.InterestingGivens,
+		) { // passed in testing should be used for assertions
 
-		//we do some assertions here, commenting why
-		AssertThat(testing, actual["actual"], is.EqualTo("some output"))
-	})
+			//we do some assertions here, commenting why
+			AssertThat(testing, actual["actual"], is.EqualTo("some output"))
+		})
 }
 
 func somethingHappens(actual testdata.CapturedIO, expected testdata.InterestingGivens) {
@@ -40,9 +40,9 @@ func TestMyFirst_Ranged(testing *testing.T) {
 		}).
 			When(somethingHappensWithThe(test)).
 			Then(func(t base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
-			//do assertions
-			AssertThat(t, givens["actual"], has.Length(test.expected))
-		})
+				//do assertions
+				AssertThat(t, givens["actual"], has.Length(test.expected))
+			})
 	}
 }
 
@@ -60,12 +60,12 @@ func TestMyFirst_Skipped(tst *testing.T) {
 				givens["actual"] = test.actual
 			}).
 				SkippingThisOneIf(func(someData ...interface{}) bool {
-				return test.actual == "fff"
-			}, "some data %s does not work yet", test.actual).
+					return test.actual == "fff"
+				}, "some data %s does not work yet", test.actual).
 				When(somethingHappensWithThe(test)).
 				Then(func(t base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
-				AssertThat(t, test.actual, is.EqualTo("a").Reason("we only want to assert if test actual is a not empty"))
-			})
+					AssertThat(t, test.actual, is.EqualTo("a").Reason("we only want to assert if test actual is a not empty"))
+				})
 		})
 	}
 }
@@ -73,8 +73,8 @@ func TestMyFirst_Skipped(tst *testing.T) {
 func TestWithoutGiven(t *testing.T) {
 	When(t, somethingHappens).
 		Then(func(testing base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
-		AssertThat(testing, actual["actual"], is.EqualTo("some output"))
-	})
+			AssertThat(testing, actual["actual"], is.EqualTo("some output"))
+		})
 }
 
 func somethingHappensWithThe(data struct {

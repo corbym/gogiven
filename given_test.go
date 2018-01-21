@@ -35,11 +35,11 @@ func TestGivenWhenSetsInterestingGiven(testing *testing.T) {
 	Given(testing, someDataSetup).
 		When(someAction).
 		Then(func(t base.TestingT,
-		actual testdata.CapturedIO,
-		givens testdata.InterestingGivens) {
-		//do assertions
-		AssertThat(t, actual["foo"], is.EqualTo("foob"))
-	})
+			actual testdata.CapturedIO,
+			givens testdata.InterestingGivens) {
+			//do assertions
+			AssertThat(t, actual["foo"], is.EqualTo("foob"))
+		})
 }
 
 func TestGivenWhenExercisingRanges(testing *testing.T) {
@@ -64,10 +64,10 @@ func TestGivenWhenExercisingRanges(testing *testing.T) {
 			return
 		}).
 			Then(func(t base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
-			//do assertions
-			testMetaData = append(testMetaData, t.(*base.TestMetaData))
-			AssertThat(t, test.actual, has.Length(test.expected))
-		})
+				//do assertions
+				testMetaData = append(testMetaData, t.(*base.TestMetaData))
+				AssertThat(t, test.actual, has.Length(test.expected))
+			})
 	}
 	AssertThat(testing, some[0].CapturedIO()["value"], is.EqualTo(""))
 	AssertThat(testing, some[0].CapturedIO()["expected"], is.EqualTo(0))
@@ -90,10 +90,10 @@ func TestInnerTestRangesOverValues(t *testing.T) {
 
 			Given(tInner, givenSome_Stuffs("a")).
 				When(func(capturedIO testdata.CapturedIO, givens testdata.InterestingGivens) {
-				givens["value"] = test.value
-				givens["expected"] = test.expected
-				capturedIO["actual"] = len(test.value)
-			}).Then(func(testingT base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
+					givens["value"] = test.value
+					givens["expected"] = test.expected
+					capturedIO["actual"] = len(test.value)
+				}).Then(func(testingT base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
 				AssertThat(testingT, actual["actual"], is.EqualTo(test.expected))
 			})
 		})
@@ -110,11 +110,11 @@ func TestGivenWhenStacksGivens(testing *testing.T) {
 	Given(testing, someDataSetup, andMoreDataSetup).
 		When(someAction).
 		Then(func(testing base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
-		//do assertions
-		AssertThat(testing, givens, has.AllKeys("1", "2", "blarg"))
-		AssertThat(testing, givens, is.ValueContaining("hi", 12, "foo"))
-		AssertThat(testing, actual, has.Key("foo"))
-	})
+			//do assertions
+			AssertThat(testing, givens, has.AllKeys("1", "2", "blarg"))
+			AssertThat(testing, givens, is.ValueContaining("hi", 12, "foo"))
+			AssertThat(testing, actual, has.Key("foo"))
+		})
 }
 func TestGivenWhenSkips(testing *testing.T) {
 	testing.Parallel()
@@ -123,8 +123,8 @@ func TestGivenWhenSkips(testing *testing.T) {
 		SkippingThisOne("some reason").
 		When(someAction).
 		Then(func(testing base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
-		//do assertions
-	})
+			//do assertions
+		})
 	AssertThat(testing, t.Skipped(), is.EqualTo(true))
 	AssertThat(testing, t.TestOutput(), is.EqualTo("some reason"))
 }
