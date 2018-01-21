@@ -11,6 +11,9 @@ type IdentVisitor struct {
 	fileOffsetPos int
 }
 
+// Visit visits the ast nodes and finds the position of the Given or When Identity calls.
+// fileOffset is set, which is the position of the Given/When relative to the beginning
+// of the source file.
 func (visitor *IdentVisitor) Visit(node ast.Node) ast.Visitor {
 	if visitor.fileOffsetPos != -1 {
 		return visitor
