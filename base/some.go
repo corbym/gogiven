@@ -84,6 +84,7 @@ func (some *Some) Then(assertions TestingWithGiven) *Some {
 //SkippingThisOne still records we have a skipped tests in our test output generator
 func (some *Some) SkippingThisOne(reason string, args ...interface{}) *Some {
 	some.TestingT.Skipf(reason, args...)
+	some.globalTestingT.Helper()
 	some.globalTestingT.Skipf(reason, args...) // skip so we don't worry about it
 	return some
 }
@@ -94,6 +95,7 @@ func (some *Some) SkippingThisOne(reason string, args ...interface{}) *Some {
 func (some *Some) SkippingThisOneIf(why func(someData ...interface{}) bool, reason string, args ...interface{}) *Some {
 	if why() {
 		some.TestingT.Skipf(reason, args...)
+		some.globalTestingT.Helper()
 		some.globalTestingT.Skipf(reason, args...) // skip so we don't worry about it
 	}
 	return some
