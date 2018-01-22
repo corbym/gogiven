@@ -44,7 +44,7 @@ func someData(..)
 Given testing some data
 ```
 
-This data can be captured in a map of interesting givens, and as the test progresses, the actuals can be captured in a map of captured inputs and outputs.
+Test data (set by the func ```someData``` in the example above) can be captured in a map of interesting givens, and as the test progresses, the actuals can be captured in a map of captured inputs and outputs.
 
 
 ### Interesting whats?
@@ -59,9 +59,16 @@ Captured inputs and outputs are data points that are registered by either your s
 
 Captured inputs and outputs are logged along side your test, for each test, so that interested parties can view them.
 
+### That's all great, but still.. WHY would I want to log this stuff??
+
+In BDD, a system's inputs and outputs are important to the business. Capturing the relationships between your data and the way the system handles can be demonstrated to your client. For example, your system could call a 3rd party, and you might want to model the interaction with stubs. 
+
+GoGivens gives you a standardised way of rendering captured data alongside your tests so you don't have to worry about it.
+
+
 ### Rendered how?
 
-The test framework parses your test file, and grabs the content. It strips all non-interesting parts out and leaves the Given/When/Then format in plain text ready for a GoGivensOutputGenerator to process the text.
+The test framework parses your test file, and grabs the content. It strips all non-interesting parts out and leaves the Given/When/Then format in plain text ready for a GoGivensOutputGenerator to process the text. Interesting givens and Captured inputs and outputs are maps, which are rendered alongside your test givens as table data -- interesting givens are tablulated, and captured IO is listed.
 
 A complete example of how to write a GoGivensOutputGenerator is given in the sister project [html spec](https://github.com/corbym/htmlspec) - written in Go.
 
