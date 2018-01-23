@@ -28,10 +28,12 @@ func GenerateTestOutput() {
 		value, _ := globalTestContextMap.Load(key)
 		currentTestContext := value.(*TestContext)
 		tests := currentTestContext.SomeTests()
-		pageData := &generator.PageData{
-			Title:   transformFileNameToHeader(currentTestContext.FileName()),
-			SomeMap: tests.AsMapOfSome(),
-		}
+
+		pageData := generator.NewPageData(
+			transformFileNameToHeader(currentTestContext.fileName),
+			tests.asMapOfSome(),
+		)
+
 		output := Generator.Generate(pageData)
 		extension := Generator.FileExtension()
 

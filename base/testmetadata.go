@@ -5,7 +5,7 @@ import (
 	"sync"
 )
 
-// TestMetaData holds some information about the test, it's id, whether it failed or not
+// TestMetaData holds Some information about the test, it's id, whether it failed or not
 // and the output it sent to t.Errorf or t.Error etc.
 type TestMetaData struct {
 	sync.RWMutex
@@ -47,13 +47,13 @@ func (t *TestMetaData) FailNow() {
 	t.failed = true
 }
 
-//Helper does nothing. It's just in case some package that consumes t
+//Helper does nothing. It's just in case Some package that consumes t
 // calls it.
 func (t *TestMetaData) Helper() {
 	// do nothing
 }
 
-//Name returns the id (the test name, possibly with some uniqueid appended)
+//Name returns the id (the test name, possibly with Some uniqueid appended)
 func (t *TestMetaData) Name() string {
 	t.RLock()
 	defer t.RUnlock()

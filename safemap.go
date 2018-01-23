@@ -43,8 +43,7 @@ func (rm *safeMap) Keys() []string {
 	return keys
 }
 
-// AsMapOfSome copies the safeMap into a normal map[string]*Some type
-func (rm *safeMap) AsMapOfSome() *base.SomeMap {
+func (rm *safeMap) asMapOfSome() *base.SomeMap {
 	rm.RLock()
 	defer rm.RUnlock()
 	var newMap = &base.SomeMap{}
