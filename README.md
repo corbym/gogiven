@@ -149,7 +149,7 @@ Gogivens comes defaultly configured with an html generator (```htmlspec.NewTestO
 ```go
 type GoGivensOutputGenerator interface {
 	Generate(data *PageData) (output io.Reader)
-	//ContentType is text/html, text/json or other mime type
+	//ContentType is text/html, application/json or other mime type
 	ContentType() string
 }
 ```
