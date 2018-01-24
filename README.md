@@ -152,9 +152,10 @@ type GoGivensOutputGenerator interface {
 	//ContentType is text/html, text/json or other mime type
 	ContentType() string
 }
-```. 
+```
 
 The generated content ```(output io.Reader)``` is then consumed by an OutputListener:
+
 
 ```go
 type OutputListener interface {
