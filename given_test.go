@@ -14,16 +14,6 @@ import (
 	"github.com/corbym/gogiven/testdata"
 )
 
-type StubHtmlGenerator struct{}
-
-func (*StubHtmlGenerator) Generate(testContext *TestContext) string {
-	return "testing"
-}
-
-func (*StubHtmlGenerator) FileExtension() string {
-	return ".html"
-}
-
 func TestMain(testmain *testing.M) {
 	runOutput := testmain.Run()
 	GenerateTestOutput()

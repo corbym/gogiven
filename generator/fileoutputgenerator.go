@@ -10,6 +10,8 @@ import (
 	"strings"
 )
 
+var _ = mime.AddExtensionType(".json", "application/json") // default .json to application/json type as mime does not know about it
+
 type FileOutputGenerator struct {
 	OutputListener
 }
