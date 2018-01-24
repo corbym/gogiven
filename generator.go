@@ -1,11 +1,8 @@
 package gogiven
 
 import (
-	"fmt"
 	"github.com/corbym/gogiven/generator"
 	"github.com/corbym/htmlspec"
-	"io/ioutil"
-	"os"
 	"path/filepath"
 	"strings"
 )
@@ -17,6 +14,7 @@ import (
 // in your test package.
 // One file per test file will be generated containing output.
 var Generator generator.GoGivensOutputGenerator = htmlspec.NewTestOutputGenerator()
+var OutputListeners = []generator.OutputListener{new(generator.FileOutputGenerator)}
 
 func transformFileNameToHeader(fileName string) (header string) {
 	return strings.Title(strings.Replace(strings.TrimSuffix(filepath.Base(fileName), ".go"), "_", " ", -1))
@@ -35,29 +33,9 @@ func GenerateTestOutput() {
 		)
 
 		output := Generator.Generate(pageData)
-		extension := Generator.FileExtension()
-
-		outputFileName := fmt.Sprintf("%s%c%s", outputDirectory(),
-			os.PathSeparator,
-			strings.Replace(filepath.Base(currentTestContext.fileName), ".go", extension, 1))
-
-		err := ioutil.WriteFile(outputFileName, []byte(output), 0644)
-		if err != nil {
-			panic("error generating gogiven output:" + err.Error())
+		contentType := Generator.ContentType()
+		for _, listener := range OutputListeners {
+			listener.Notify(currentTestContext.fileName, contentType, output)
 		}
-		fmt.Printf("\ngenerated test output: file://%s\n", strings.Replace(outputFileName, "\\", "/", -1))
 	}
-}
-
-func outputDirectory() string {
-	outputDir := os.Getenv("GOGIVENS_OUTPUT_DIR")
-	if outputDir == "" {
-		os.Stdout.WriteString("env var GOGIVENS_OUTPUT_DIR was not found, using TempDir " + os.TempDir())
-		outputDir = os.TempDir()
-	}
-	if _, err := os.Stat(outputDir); err == nil {
-		return outputDir
-	}
-	os.Stderr.WriteString("output dir not found:" + outputDir + ", defaulting to ./")
-	return "."
 }
