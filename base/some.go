@@ -47,14 +47,18 @@ func (some *Some) TestTitle() string {
 	return some.testTitle
 }
 
-//GivenWhenThen holds a parsed give
-func (some *Some) GivenWhenThen() [] string {
+//GivenWhenThen holds a parsed test as an array string.
+// All lines of the test func will be listed, from the first call to the first Given
+// up to the end of the test func and converted to (as close as possible) natural language.
+func (some *Some) GivenWhenThen() []string {
 	some.RLock()
 	defer some.RUnlock()
 
 	return some.givenWhenThen
 }
 
+// TestMetaData is an interface that mimics testingT but stores the test state rather than act on it.
+// Gogivens will act on the meta data's behalf via globalTestingT (the "real" testing.T for the test).
 func (some *Some) TestMetaData() *TestMetaData {
 	some.RLock()
 	defer some.RUnlock()
