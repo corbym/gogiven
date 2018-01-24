@@ -8,6 +8,6 @@ import (
 // after a test has completed.
 type GoGivensOutputGenerator interface {
 	Generate(data *PageData) (output io.Reader)
-	//ContentType is text/html, text/json or other mime type
+	//ContentType is text/html, application/json or other mime type
 	ContentType() string
 }
