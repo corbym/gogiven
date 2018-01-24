@@ -1,7 +1,7 @@
 # gogiven
 An alternative BDD spec framework for go. Builds on "go test" tool and builds on the go testing package.
 
-[![Build status](https://travis-ci.org/corbym/gogiven.svg?branch=master)](https://github.com/corbym/gogiven)
+[![Build status](https://travis-ci.org/corbym/gogiven.svg?branch=master)](https://travis-ci.org/corbym/gogiven/builds)
 [![Go Report Card](https://goreportcard.com/badge/github.com/corbym/gogiven)](https://goreportcard.com/report/github.com/corbym/gogiven)
 [![GoDoc](https://godoc.org/github.com/corbym/gogiven?status.svg)](http://godoc.org/github.com/corbym/gogiven)
 [![Coverage Status](https://coveralls.io/repos/github/corbym/gogiven/badge.svg?branch=master)](https://coveralls.io/github/corbym/gogiven?branch=master)
@@ -16,7 +16,7 @@ Feel free to contact me and help improve the code base or let me know if you hav
 1. [Introduction](#introduction)
 2. [Example One - GoGivens in practice](#example)
 3. [Example Two - Table Tests](#tabletest-example)
-4. [Setting the test file output](#file-output-settings)
+4. [Content Generation](#content-gen)
 5. [List of pre-written output generators](#output-generator-list)
 
 ## Introduction <a name="introduction"></a>
@@ -142,7 +142,40 @@ The above test will still fail the test function as far as Go is concerned, but 
 
 **Note that comments are now rendered as "Noting that ..". In the above, the comment //do assertions would become "Noting that do assertions".**
 
-## Setting the test file output <a name="file-output-settings"></a>
+# Content Generation <a name="content-gen"></a>
+
+Gogivens comes defaultly configured with an html generator (```htmlspec.NewTestOutputGenerator```) that is consumed by a file generator (```generator.FileOutputGenerator```) (see the godoc for more information). The content generator implements the following interface:
+
+```go
+type GoGivensOutputGenerator interface {
+	Generate(data *PageData) (output io.Reader)
+	//ContentType is text/html, text/json or other mime type
+	ContentType() string
+}
+```. 
+
+The generated content ```(output io.Reader)``` is then consumed by an OutputListener:
+
+```go
+type OutputListener interface {
+	Notify(testFilePath string, contentType string, output io.Reader)
+}
+```
+
+If you want your own output listener just create your own and replace and/or append to the default listeners in your TestMain:
+
+```go
+func TestMain(testmain *testing.M) {
+	gogiven.OutputListeners = []generator.OutputListener{new(MyFooListener)}
+	// or alternately (or inclusively!)
+	gogiven.OutputListeners = append(OutputListeners, new(MyBarListener))
+	runOutput := testmain.Run()
+	gogiven.GenerateTestOutput() // generates the output after the test is finished.
+	os.Exit(runOutput)
+}
+```
+
+## Setting the test file output (for the ```generator.FileOutputGenerator```)
 
 You can add the environment variable GOGIVENS_OUTPUT_DIR to your env properties that points to a directory you want goGivens to report the test output to.
 
@@ -150,5 +183,7 @@ Default is the os's tmp directory.
 
 ## List of Pre-written Ouput Generators <a name="output-generator-list"></a>
 
-* HTML Spec: https://github.com/corbym/htmlspec - generates the output files used in the test example. 
-* JSON Spec: https://github.com/corbym/jsonspec - generates the output files in JSON format. 
+GoGiven comes with the following output generators:
+
+* HTML Spec: https://github.com/corbym/htmlspec - generates the output used in the test example. 
+* JSON Spec: https://github.com/corbym/jsonspec - generates the output in JSON format. 
