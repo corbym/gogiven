@@ -1,11 +1,9 @@
 package gogiven_test
 
 import (
-	"fmt"
 	"os"
 	"testing"
 
-	"github.com/corbym/gocrest"
 	"github.com/corbym/gocrest/has"
 	"github.com/corbym/gocrest/is"
 	. "github.com/corbym/gocrest/then"
@@ -46,7 +44,7 @@ func TestGivenWhenExercisingRanges(testing *testing.T) {
 		{actual: "a", expected: 2},
 	}
 	for _, test := range someRange {
-		given := Given(testingT, aFakeGenerator)
+		given := Given(testingT)
 		some = append(some, given)
 		given.When(func(actual testdata.CapturedIO, givens testdata.InterestingGivens) {
 			actual["value"] = test.actual
@@ -171,35 +169,9 @@ func TestParseGivenWhenThen_RangedTextOutput(testing *testing.T) {
 	AssertThat(testing, givenWhenThen[3], is.EqualTo("Then"))
 }
 
-func fileExists(pathToFile string) interface{} {
-	fileInfo, err := os.Stat(pathToFile)
-	if err != nil {
-		return err
-	}
-	return fileInfo
-}
-
-func inTmpDir() *gocrest.Matcher {
-	matcher := new(gocrest.Matcher)
-	matcher.Matches = func(actual interface{}) bool {
-		file, ok := actual.(os.FileInfo)
-		if ok {
-			matcher.Describe = fmt.Sprintf("%s", file.Name())
-			return true
-		}
-		return false
-	}
-	return matcher
-}
-
-func aFakeGenerator(givens testdata.InterestingGivens) {
-	//Generator = new(StubHtmlGenerator) // you too can override Generator and generate any kind of file output.
-}
-
 func someDataSetup(givens testdata.InterestingGivens) {
 	givens["1"] = "hi"
 	givens["2"] = "foo"
-	aFakeGenerator(givens)
 }
 
 func andMoreDataSetup(givens testdata.InterestingGivens) {
@@ -208,8 +180,4 @@ func andMoreDataSetup(givens testdata.InterestingGivens) {
 
 func someAction(capturedIo testdata.CapturedIO, givens testdata.InterestingGivens) {
 	capturedIo["foo"] = "foob"
-}
-
-func ofFileInTmpDir(fileName string) string {
-	return fmt.Sprintf("%s%c%s", os.TempDir(), os.PathSeparator, fileName)
 }
