@@ -6,41 +6,38 @@ import (
 	"github.com/corbym/gocrest/is"
 	"github.com/corbym/gocrest/then"
 	"io/ioutil"
+	"mime"
 	"os"
+	"sort"
 	"strings"
 	"testing"
 )
 
-type args struct {
-	contentType string
-	expectedExt string
-}
-
 func TestFileOutputGenerator_Notify(t *testing.T) {
 	const theContent = "generated content"
 	underTest := &FileOutputGenerator{}
-
 	tests := []struct {
-		name string
-		args args
+		name        string
+		contentType string
 	}{
-		{"json content", args{contentType: "application/json", expectedExt: ".json"}},
-		{"html content", args{contentType: "text/html", expectedExt: ".html"}},
+		{"json content", "application/json"},
+		{"html content", "text/html"},
 	}
 	for _, testRange := range tests {
 		t.Run(testRange.name, func(t *testing.T) {
 			// set up
-			expectedFileOutputFileName := "generator_test" + testRange.args.expectedExt
-			withContentType := testRange.args.contentType
+			extension := firstOfSortedExtensions(testRange.contentType)
+			expectedFileOutputFileName := "funbags" + extension[0]
+
 			defer func() {
 				then.AssertThat(t, someFileExists(ofFileInTmpDir(expectedFileOutputFileName)), inTmpDir())
 				then.AssertThat(t, theContentOfThe(expectedFileOutputFileName), is.EqualTo(theContent))
-				remove := os.Remove(ofFileInTmpDir(expectedFileOutputFileName))
+				remove := os.RemoveAll(ofFileInTmpDir("./funbags" + extension[0]))
 				then.AssertThat(t, remove, is.Nil())
 			}()
 
 			reader := strings.NewReader(theContent)
-			underTest.Notify("./generator_test.go", withContentType, reader)
+			underTest.Notify("./funbags.go", testRange.contentType, reader)
 
 		})
 	}
@@ -48,16 +45,23 @@ func TestFileOutputGenerator_Notify(t *testing.T) {
 
 func TestGenerateTestOutput_DefaultsToCurrentDir(t *testing.T) {
 	old := os.Getenv("GOGIVENS_OUTPUT_DIR")
+	extension := firstOfSortedExtensions("text/html")
+	expectedFileOutputFileName := "funbags" + extension[0]
+
 	defer func() {
-		then.AssertThat(t, someFileExists("./generator_test.html"), inTmpDir())
-		os.Remove("./generator_test.html")
+		then.AssertThat(t, someFileExists("./"+expectedFileOutputFileName), inTmpDir())
+		os.Remove("./funbags.*")
 	}()
 	defer func() { os.Setenv("GOGIVENS_OUTPUT_DIR", old) }()
 	os.Setenv("GOGIVENS_OUTPUT_DIR", "doesnotexist")
 	outputGenerator := &FileOutputGenerator{}
+	outputGenerator.Notify("./funbags.go", "text/html", strings.NewReader("foo"))
 
-	outputGenerator.Notify("./generator_test.go", "text/html", strings.NewReader("foo"))
-
+}
+func firstOfSortedExtensions(contentType string) []string {
+	extension, _ := mime.ExtensionsByType(contentType)
+	sort.Sort(sort.Reverse(sort.StringSlice(extension)))
+	return extension
 }
 
 func theContentOfThe(expectedFileOutput string) string {

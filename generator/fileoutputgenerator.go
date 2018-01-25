@@ -7,6 +7,7 @@ import (
 	"mime"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 )
 
@@ -16,9 +17,13 @@ type FileOutputGenerator struct {
 	OutputListener
 }
 
-//Notify is called by Generator to pass the output content from the test. Output is an io.Reader
+//Notify is called by Generator to pass the output content from the test. Output is an io.Reader,
+// usually test output. The file is written to env var GOGIVENS_OUTPUT_DIR if set, or defaults either
+// to system tmp or the current dir if neither are found.
 func (f *FileOutputGenerator) Notify(testFilePath string, contentType string, output io.Reader) {
-	fileExtension := findLongestExtensionFor(contentType) // screw you, windows
+	extensions, err := mime.ExtensionsByType(contentType)
+	sort.Sort(sort.Reverse(sort.StringSlice(extensions)))
+	fileExtension := extensions[0]
 
 	outputFileName := fmt.Sprintf("%s%c%s", outputDirectory(),
 		os.PathSeparator,
@@ -31,19 +36,6 @@ func (f *FileOutputGenerator) Notify(testFilePath string, contentType string, ou
 		panic("error generating gogiven output:" + err.Error())
 	}
 	fmt.Printf("\ngenerated test output: file://%s\n", strings.Replace(outputFileName, "\\", "/", -1))
-}
-
-func findLongestExtensionFor(contentType string) string {
-	types, _ := mime.ExtensionsByType(contentType)
-	longest := 0
-	retIdx := -1
-	for idx, extension := range types {
-		if len(extension) > longest {
-			longest = len(extension)
-			retIdx = idx
-		}
-	}
-	return types[retIdx]
 }
 
 func outputDirectory() string {
