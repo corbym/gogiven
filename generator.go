@@ -24,6 +24,8 @@ func transformFileNameToHeader(fileName string) (header string) {
 }
 
 // GenerateTestOutput generates the test output. Call this method from TestMain.
+// The global var Generator is used to generate the content, and the OutputListeners are iterated and Notified
+// of the content that has been generated.
 func GenerateTestOutput() {
 	for _, key := range globalTestContextMap.Keys() {
 		value, _ := globalTestContextMap.Load(key)
