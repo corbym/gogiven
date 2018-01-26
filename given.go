@@ -31,7 +31,7 @@ func Given(testing base.TestingT, given ...base.GivenData) *base.Some {
 		testing,
 		testTitle(testing.Name()),
 		base.NewTestMetaData(keyFor),
-		ParseGivenWhenThen(currentFunction.Name(), currentTestContext.fileName),
+		ParseGivenWhenThen(currentFunction.Name(), currentTestContext.FileName()),
 		given...,
 	)
 	someTests.Store(keyFor, some)

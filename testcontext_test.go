@@ -7,12 +7,9 @@ import (
 	"testing"
 )
 
-const fileThatDoesNotExist = "foofar.go"
+const someFilename = "foofar.go"
 
-func TestNewTestContext_Panics(t *testing.T) {
-	defer func() {
-		rcv := recover()
-		then.AssertThat(t, rcv, is.Not(is.Nil()))
-	}()
-	gogiven.NewTestContext(fileThatDoesNotExist)
+func TestNewTestContext(t *testing.T) {
+	context := gogiven.NewTestContext(someFilename)
+	then.AssertThat(t, context.FileName(), is.EqualTo(someFilename))
 }

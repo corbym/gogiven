@@ -33,14 +33,14 @@ func GenerateTestOutput() {
 		tests := currentTestContext.SomeTests()
 
 		pageData := generator.NewPageData(
-			transformFileNameToHeader(currentTestContext.fileName),
+			transformFileNameToHeader(currentTestContext.FileName()),
 			tests.asMapOfSome(),
 		)
 
 		output := Generator.Generate(pageData)
 		contentType := Generator.ContentType()
 		for _, listener := range OutputListeners {
-			listener.Notify(currentTestContext.fileName, contentType, output)
+			listener.Notify(currentTestContext.FileName(), contentType, output)
 		}
 	}
 }
