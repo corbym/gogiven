@@ -10,6 +10,7 @@ import (
 	"io/ioutil"
 	"mime"
 	"os"
+	"runtime"
 	"sort"
 	"strings"
 	"testing"
@@ -75,12 +76,15 @@ func TestFileOutputGenerator_panics_ReadingContent(t *testing.T) {
 }
 
 func TestFileOutputGenerator_panics_WritingFile(t *testing.T) {
+	if runtime.GOOS != "windows" {
+		t.SkipNow()
+	}
 	defer func() {
 		panics := recover()
 		then.AssertThat(t, panics, is.Not(is.Nil()))
 	}()
 
-	underTest.Notify("./f****\\0**.go", "text/html", strings.NewReader(theContent))
+	underTest.Notify("./f****0**.go", "text/html", strings.NewReader(theContent))
 }
 
 func TestGenerateTestOutput_DefaultsToCurrentDir(t *testing.T) {
