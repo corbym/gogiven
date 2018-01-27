@@ -25,7 +25,7 @@
             result.push(nonMatchedReplacer(str.substring(position)));
 
             return result.join("");
-        }
+        };
 
         function yatspec() {
         }
@@ -60,7 +60,7 @@
             }));
 
             $(element).addClass(yatspec.processed);
-        }
+        };
 
         $(document).ready(function () {
             $('.highlight.specification').each(function () {
@@ -73,7 +73,7 @@
                     {pattern: "[A-Z_]{2,}", cssClass: "constant"},
                     {pattern: "[\\d]+", cssClass: "literal"}
                 ]);
-            })
+            });
 
             $('.highlight.results').each(function () {
                 yatspec.highlight(this, [
@@ -83,7 +83,7 @@
                     {pattern: "[A-Z_]{2,}", cssClass: "constant"},
                     {pattern: "[\\d]+", cssClass: "literal"}
                 ]);
-            })
+            });
 
             $('.scenario').each(function () {
                 var interestingGivens = $('.interestingGiven', this).filter(':not(:empty)').map(function () {

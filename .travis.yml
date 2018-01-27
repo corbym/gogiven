@@ -16,7 +16,7 @@ notifications:
 env:
   -GOGIVENS_OUTPUT_DIR=/tmp
 deploy:
-  local-dir: ./resources
+  local-dir: ./docs
   provider: pages
   skip-cleanup: true
   github-token: $GITHUB_TOKEN  # Set in travis-ci.org dashboard, marked secure
