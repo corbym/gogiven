@@ -21,7 +21,6 @@ deploy:
   local-dir: /docs
   file_glob: true
     file: *.html
-  repo: https://github.com/corbym/gogiven/tree/master/docs
   provider: pages
   skip-cleanup: true
   github-token: $GITHUB_TOKEN  # Set in travis-ci.org dashboard, marked secure
