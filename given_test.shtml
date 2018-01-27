@@ -486,13 +486,13 @@ Expected: value with length 2
 <table class="interestingGivens logValue">
     
     <tr>
-        <th class="key">2</th>
-        <td class="interestingGiven">foo</td>
+        <th class="key">1</th>
+        <td class="interestingGiven">hi</td>
     </tr>
     
     <tr>
-        <th class="key">1</th>
-        <td class="interestingGiven">hi</td>
+        <th class="key">2</th>
+        <td class="interestingGiven">foo</td>
     </tr>
     
 </table>
@@ -704,13 +704,13 @@ Expected: value with length 2
 <table class="interestingGivens logValue">
     
     <tr>
-        <th class="key">value</th>
-        <td class="interestingGiven">aa</td>
+        <th class="key">expected</th>
+        <td class="interestingGiven">2</td>
     </tr>
     
     <tr>
-        <th class="key">expected</th>
-        <td class="interestingGiven">2</td>
+        <th class="key">value</th>
+        <td class="interestingGiven">aa</td>
     </tr>
     
 </table>
