@@ -36,9 +36,9 @@ func TestFileOutputGenerator_Notify(t *testing.T) {
 			expectedFileOutputFileName := "funbags" + extension[0]
 
 			defer func() {
-				then.AssertThat(t, someFile(ofFileInTmpDir(expectedFileOutputFileName)), exists())
+				then.AssertThat(t, someFile(ofFileInOutputDir(expectedFileOutputFileName)), exists())
 				then.AssertThat(t, theContentOfThe(expectedFileOutputFileName), is.EqualTo(theContent))
-				removeFileName := ofFileInTmpDir(expectedFileOutputFileName)
+				removeFileName := ofFileInOutputDir(expectedFileOutputFileName)
 				remove := os.Remove(removeFileName)
 				then.AssertThat(t, remove, is.Nil())
 			}()
@@ -111,7 +111,7 @@ func firstOfSortedExtensions(contentType string) []string {
 }
 
 func theContentOfThe(expectedFileOutput string) string {
-	content, _ := ioutil.ReadFile(ofFileInTmpDir(expectedFileOutput))
+	content, _ := ioutil.ReadFile(ofFileInOutputDir(expectedFileOutput))
 	return string(content[:])
 }
 
@@ -136,6 +136,6 @@ func exists() *gocrest.Matcher {
 	return matcher
 }
 
-func ofFileInTmpDir(fileName string) string {
-	return fmt.Sprintf("%s%c%s", os.TempDir(), os.PathSeparator, fileName)
+func ofFileInOutputDir(fileName string) string {
+	return fmt.Sprintf("%s%c%s", OutputDirectory(), os.PathSeparator, fileName)
 }

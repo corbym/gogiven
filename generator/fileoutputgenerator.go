@@ -26,7 +26,7 @@ func (f *FileOutputGenerator) Notify(testFilePath string, contentType string, ou
 	sort.Sort(sort.Reverse(sort.StringSlice(extensions)))
 	fileExtension := extensions[0]
 
-	outputFileName := fmt.Sprintf("%s%c%s", outputDirectory(),
+	outputFileName := fmt.Sprintf("%s%c%s", OutputDirectory(),
 		os.PathSeparator,
 		strings.Replace(filepath.Base(testFilePath), ".go", fileExtension, 1))
 
@@ -51,7 +51,7 @@ func errorHandler(err error) {
 	return
 }
 
-func outputDirectory() string {
+func OutputDirectory() string {
 	outputDir := os.Getenv("GOGIVENS_OUTPUT_DIR")
 	if outputDir == "" {
 		os.Stdout.WriteString("env var GOGIVENS_OUTPUT_DIR was not found, using TempDir " + os.TempDir())
