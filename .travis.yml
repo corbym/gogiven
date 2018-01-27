@@ -13,3 +13,13 @@ matrix:
   fast_finish: true
 notifications:
   email: false
+env:
+  -GOGIVENS_OUTPUT_DIR=./resources
+deploy:
+  local-dir: ./resources
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN  # Set in travis-ci.org dashboard, marked secure
+  keep-history: true
+  on:
+    branch: master
