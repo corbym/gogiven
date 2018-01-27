@@ -16,8 +16,7 @@ notifications:
 env:
   -GOGIVENS_OUTPUT_DIR=/tmp
 before_deploy:
-  - test $TRAVIS_TEST_RESULT = 0\
-    && cp /tmp/*.html ./docs
+  - cp /tmp/*.html ./docs
 deploy:
   local-dir: /docs
   file_glob: true
