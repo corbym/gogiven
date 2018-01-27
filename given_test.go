@@ -134,7 +134,7 @@ func TestParseGivenWhenThen_TextOutputContent(testing *testing.T) {
 	AssertThat(testing, givenWhenThen[1], is.EqualTo("When something happens"))
 	AssertThat(testing, givenWhenThen[2], is.EqualTo("Then noting that passed in testing should be used for assertions"))
 	AssertThat(testing, givenWhenThen[3], is.EqualTo("Noting that we do some assertions here commenting why"))
-	AssertThat(testing, givenWhenThen[4], is.EqualTo("Assert that testing actual \"actual\" is equal to \"some output\""))
+	AssertThat(testing, givenWhenThen[4], is.EqualTo("Assert that testing the data returned \"actual\" is equal to \"some output\""))
 }
 
 func TestParseGivenWhenThen_WithoutGiven(testing *testing.T) {
@@ -157,24 +157,22 @@ func TestParseGivenWhenThen_PanicsWithoutGivenOrWhen(testing *testing.T) {
 
 func TestParseGivenWhenThen_FuncWithReturnType(testing *testing.T) {
 	givenWhenThen := ParseGivenWhenThen(".TestMyFirst_Skipped", "./example_test.go")
-	AssertThat(testing, givenWhenThen, has.Length(8))
+	AssertThat(testing, givenWhenThen, has.Length(5))
 
-	AssertThat(testing, givenWhenThen[0], is.EqualTo("Given we are testing the system setup"))
-	AssertThat(testing, givenWhenThen[1], is.EqualTo("Givens \"actual\" = test actual"))
-	AssertThat(testing, givenWhenThen[2], is.EqualTo("Skipping this one if bool"))
-	AssertThat(testing, givenWhenThen[3], is.EqualTo("Test actual == \"fff\""))
+	AssertThat(testing, givenWhenThen[0], is.EqualTo("Given we are testing the system setup that is a bit dodgy to test"))
+	AssertThat(testing, givenWhenThen[1], is.EqualTo("Skipping this one if the value is fff test \"some data % s does not work yet\" test actual"))
 	// TODO: fix this
 	//AssertThat(testing, givenWhenThen[4], is.EqualTo("some data % s does not work yet \"test actual\""))
 }
 
 func TestParseGivenWhenThen_RangedTextOutput(testing *testing.T) {
 	givenWhenThen := ParseGivenWhenThen(".TestMyFirst_Ranged", "./example_test.go")
-	AssertThat(testing, givenWhenThen, has.Length(6))
+	AssertThat(testing, givenWhenThen, has.Length(5))
 
-	AssertThat(testing, givenWhenThen[0], is.EqualTo("Given testing the system setup"))
-	AssertThat(testing, givenWhenThen[1], is.EqualTo("Givens \"actual\" = test actual"))
-	AssertThat(testing, givenWhenThen[2], is.EqualTo("When something happens with the test"))
-	AssertThat(testing, givenWhenThen[3], is.EqualTo("Then"))
+	AssertThat(testing, givenWhenThen[0], is.EqualTo("Given we are testing the system setup with test data test"))
+	AssertThat(testing, givenWhenThen[1], is.EqualTo("When something happens with the test"))
+	AssertThat(testing, givenWhenThen[2], is.EqualTo("Then"))
+	AssertThat(testing, givenWhenThen[3], is.EqualTo("Noting that do assertions"))
 }
 
 func someDataSetup(givens testdata.InterestingGivens) {
