@@ -144,8 +144,8 @@ The above test will still fail the test function as far as Go is concerned, but 
 
 ### More Examples
 
-[Skipped test](https://corbym.github.io/gogiven/example_test.shtml#github.com%2fcorbym%2fgogiven.TestMyFirst_Skipped.func1)
-[Without a Given](https://corbym.github.io/gogiven/example_test.shtml#github.com%2fcorbym%2fgogiven.TestWithoutGiven)
+* [Skipped test](https://corbym.github.io/gogiven/example_test.shtml#github.com%2fcorbym%2fgogiven.TestMyFirst_Skipped.func1)
+* [Without a Given](https://corbym.github.io/gogiven/example_test.shtml#github.com%2fcorbym%2fgogiven.TestWithoutGiven)
 
 # Content Generation <a name="content-gen"></a>
 
