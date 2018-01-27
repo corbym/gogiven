@@ -16,7 +16,7 @@ notifications:
 env:
   -GOGIVENS_OUTPUT_DIR=/tmp
 before_deploy:
-  - cp /tmp/*.html ./docs
+  - cp /tmp/*.* ./docs
 deploy:
   local-dir: /docs
   provider: pages
