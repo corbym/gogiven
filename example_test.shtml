@@ -320,11 +320,11 @@
     
     
     
-        <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven.TestMyFirst_Ranged">My First   Ranged</a></li>
+        <li class='test-failed'><a href="#github.com%2fcorbym%2fgogiven.TestMyFirst_Ranged.func1">My First   Ranged</a></li>
     
     
     
-        <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven.TestMyFirst_Ranged_1">My First   Ranged</a></li>
+        <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven.TestMyFirst_Ranged.func1_1">My First   Ranged</a></li>
     
     
     
@@ -358,7 +358,7 @@
         When something happens
         Then noting that passed in testing should be used for assertions
         Noting that we do some assertions here commenting why
-        Assert that testing actual &#34;actual&#34; is equal to &#34;some output&#34;</pre>
+        Assert that testing the data returned &#34;actual&#34; is equal to &#34;some output&#34;</pre>
 
         <h2>Test results:</h2>
 
@@ -391,26 +391,28 @@
 </div>
 
 <div class="testmethod">
-    <a id="github.com/corbym/gogiven.TestMyFirst_Ranged"></a>
+    <a id="github.com/corbym/gogiven.TestMyFirst_Ranged.func1"></a>
     <h2>My First   Ranged</h2>
 
 
-    <div class="scenario" id="scenario_github.com/corbym/gogiven.TestMyFirst_Ranged">
+    <div class="scenario" id="scenario_github.com/corbym/gogiven.TestMyFirst_Ranged.func1">
         <a id=""></a>
         <h2>Specification</h2>
         <pre class="highlight specification">
-        Given testing the system setup
-        Givens &#34;actual&#34; = test actual
+        Given we are testing the system setup with test data test
         When something happens with the test
         Then
         Noting that do assertions
-        Assert that t givens &#34;actual&#34; has length test expected</pre>
+        Assert that with the stored &#34;actual&#34; has length test expected</pre>
 
         <h2>Test results:</h2>
 
     
-        <pre class='highlight results test-passed'>TEST PASSED
-        </pre>
+        <pre class='highlight results test-failed'>TEST FAILED
+        
+Expected: value with length 2
+     but: &lt;length was 1&gt;
+</pre>
     
     
 
@@ -425,7 +427,7 @@
     
     <tr>
         <th class="key">actual</th>
-        <td class="interestingGiven"></td>
+        <td class="interestingGiven">x</td>
     </tr>
     
 </table>
@@ -434,28 +436,27 @@
     
 
 
-<h3 class="logKey" logkey=""></h3>
-<div class="logValue highlight xml WebResource">0</div>
+<h3 class="logKey" logkey="x">x</h3>
+<div class="logValue highlight xml WebResource">2</div>
 
 
     </div>
 </div>
 
 <div class="testmethod">
-    <a id="github.com/corbym/gogiven.TestMyFirst_Ranged_1"></a>
+    <a id="github.com/corbym/gogiven.TestMyFirst_Ranged.func1_1"></a>
     <h2>My First   Ranged</h2>
 
 
-    <div class="scenario" id="scenario_github.com/corbym/gogiven.TestMyFirst_Ranged_1">
+    <div class="scenario" id="scenario_github.com/corbym/gogiven.TestMyFirst_Ranged.func1_1">
         <a id=""></a>
         <h2>Specification</h2>
         <pre class="highlight specification">
-        Given testing the system setup
-        Givens &#34;actual&#34; = test actual
+        Given we are testing the system setup with test data test
         When something happens with the test
         Then
         Noting that do assertions
-        Assert that t givens &#34;actual&#34; has length test expected</pre>
+        Assert that with the stored &#34;actual&#34; has length test expected</pre>
 
         <h2>Test results:</h2>
 
@@ -470,13 +471,13 @@
 <table class="interestingGivens logValue">
     
     <tr>
-        <th class="key">foofar</th>
-        <td class="interestingGiven">faff</td>
+        <th class="key">actual</th>
+        <td class="interestingGiven">aaaa</td>
     </tr>
     
     <tr>
-        <th class="key">actual</th>
-        <td class="interestingGiven">a</td>
+        <th class="key">foofar</th>
+        <td class="interestingGiven">faff</td>
     </tr>
     
 </table>
@@ -485,8 +486,8 @@
     
 
 
-<h3 class="logKey" logkey="a">a</h3>
-<div class="logValue highlight xml WebResource">1</div>
+<h3 class="logKey" logkey="aaaa">aaaa</h3>
+<div class="logValue highlight xml WebResource">4</div>
 
 
     </div>
@@ -501,11 +502,8 @@
         <a id=""></a>
         <h2>Specification</h2>
         <pre class="highlight specification">
-        Given we are testing the system setup
-        Givens &#34;actual&#34; = test actual
-        Skipping this one if bool
-        Test actual == &#34;fff&#34;
-        &#34;some data % s does not work yet&#34; test actual
+        Given we are testing the system setup that is a bit dodgy to test
+        Skipping this one if the value is fff test &#34;some data % s does not work yet&#34; test actual
         When something happens with the test
         Then
         Assert that t test actual is equal to &#34;a&#34; reason &#34;we only want to assert if test actual is a not empty&#34;</pre>
@@ -551,11 +549,8 @@
         <a id=""></a>
         <h2>Specification</h2>
         <pre class="highlight specification">
-        Given we are testing the system setup
-        Givens &#34;actual&#34; = test actual
-        Skipping this one if bool
-        Test actual == &#34;fff&#34;
-        &#34;some data % s does not work yet&#34; test actual
+        Given we are testing the system setup that is a bit dodgy to test
+        Skipping this one if the value is fff test &#34;some data % s does not work yet&#34; test actual
         When something happens with the test
         Then
         Assert that t test actual is equal to &#34;a&#34; reason &#34;we only want to assert if test actual is a not empty&#34;</pre>
@@ -573,13 +568,13 @@
 <table class="interestingGivens logValue">
     
     <tr>
-        <th class="key">actual</th>
-        <td class="interestingGiven">a</td>
+        <th class="key">foofar</th>
+        <td class="interestingGiven">faff</td>
     </tr>
     
     <tr>
-        <th class="key">foofar</th>
-        <td class="interestingGiven">faff</td>
+        <th class="key">actual</th>
+        <td class="interestingGiven">a</td>
     </tr>
     
 </table>
