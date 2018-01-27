@@ -13,12 +13,12 @@ func TestMyFirst(testing *testing.T) {
 	Given(testing, theSystemSetup).
 		When(somethingHappens).
 		Then(func(testing base.TestingT,
-			actual testdata.CapturedIO,
+			theDataReturned testdata.CapturedIO,
 			givens testdata.InterestingGivens,
 		) { // passed in testing should be used for assertions
 
 			//we do some assertions here, commenting why
-			AssertThat(testing, actual["actual"], is.EqualTo("some output"))
+			AssertThat(testing, theDataReturned["actual"], is.EqualTo("some output"))
 		})
 }
 
@@ -26,23 +26,29 @@ func somethingHappens(actual testdata.CapturedIO, expected testdata.InterestingG
 	actual["actual"] = "some output"
 }
 
-func TestMyFirst_Ranged(testing *testing.T) {
+func TestMyFirst_Ranged(t *testing.T) {
 	var someRange = []struct {
 		actual   string
 		expected int
 	}{
-		{actual: "", expected: 0},
-		{actual: "a", expected: 1},
+		{actual: "x", expected: 2},
+		{actual: "aaaa", expected: 4},
 	}
 	for _, test := range someRange {
-		Given(testing, theSystemSetup, func(givens testdata.InterestingGivens) {
-			givens["actual"] = test.actual
-		}).
-			When(somethingHappensWithThe(test)).
-			Then(func(t base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
-				//do assertions
-				AssertThat(t, givens["actual"], has.Length(test.expected))
-			})
+		t.Run(test.actual, func(tt *testing.T) {
+			weAreTesting := base.NewTestMetaData(t.Name()) // this test is fake, as we want to demo failing
+			Given(weAreTesting, theSystemSetup, withTestData(test)).
+				When(somethingHappensWithThe(test)).
+				Then(func(with base.TestingT, actual testdata.CapturedIO, theStored testdata.InterestingGivens) {
+					//do assertions
+					AssertThat(with, theStored["actual"], has.Length(test.expected))
+				})
+		})
+	}
+}
+func withTestData(test someData) func(givens testdata.InterestingGivens) {
+	return func(givens testdata.InterestingGivens) {
+		givens["actual"] = test.actual
 	}
 }
 
@@ -56,12 +62,8 @@ func TestMyFirst_Skipped(tst *testing.T) {
 	}
 	for _, test := range someRange {
 		tst.Run(test.actual, func(weAreTesting *testing.T) {
-			Given(weAreTesting, theSystemSetup, func(givens testdata.InterestingGivens) {
-				givens["actual"] = test.actual
-			}).
-				SkippingThisOneIf(func(someData ...interface{}) bool {
-					return test.actual == "fff"
-				}, "some data %s does not work yet", test.actual).
+			Given(weAreTesting, theSystemSetup, thatIsABitDodgyTo(test)).
+				SkippingThisOneIf(theValueIsFff(test), "some data %s does not work yet", test.actual).
 				When(somethingHappensWithThe(test)).
 				Then(func(t base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
 					AssertThat(t, test.actual, is.EqualTo("a").Reason("we only want to assert if test actual is a not empty"))
@@ -69,6 +71,20 @@ func TestMyFirst_Skipped(tst *testing.T) {
 		})
 	}
 }
+func thatIsABitDodgyTo(test someData) func(givens testdata.InterestingGivens) {
+	return func(givens testdata.InterestingGivens) {
+		givens["actual"] = test.actual
+	}
+}
+func theValueIsFff(someData someData) func(someData ...interface{}) bool {
+	return func(data ...interface{}) bool {
+		return someData.actual == "fff"
+	}
+}
+
+//func theValueIsFff(test ...interface{}) bool {
+//	return test[0].(*someData).actual == "fff"
+//}
 
 func TestWithoutGiven(t *testing.T) {
 	When(t, somethingHappens).
@@ -77,10 +93,12 @@ func TestWithoutGiven(t *testing.T) {
 		})
 }
 
-func somethingHappensWithThe(data struct {
+type someData struct {
 	actual   string
 	expected int
-}) base.CapturedIOGivenData {
+}
+
+func somethingHappensWithThe(data someData) base.CapturedIOGivenData {
 	return func(capturedIO testdata.CapturedIO, givens testdata.InterestingGivens) {
 		capturedIO[data.actual] = data.expected
 	}
