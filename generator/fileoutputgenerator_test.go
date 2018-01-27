@@ -80,7 +80,7 @@ func TestFileOutputGenerator_panics_WritingFile(t *testing.T) {
 		then.AssertThat(t, panics, is.Not(is.Nil()))
 	}()
 
-	underTest.Notify("./f******.go", "text/html", strings.NewReader(theContent))
+	underTest.Notify("./f****|**.go", "text/html", strings.NewReader(theContent))
 }
 
 func TestGenerateTestOutput_DefaultsToCurrentDir(t *testing.T) {
