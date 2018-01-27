@@ -147,6 +147,14 @@ func TestParseGivenWhenThen_WithoutGiven(testing *testing.T) {
 	AssertThat(testing, givenWhenThen[2], is.EqualTo("Assert that testing actual \"actual\" is equal to \"some output\""))
 }
 
+func TestParseGivenWhenThen_PanicsWithoutGivenOrWhen(testing *testing.T) {
+	defer func() {
+		recover := recover()
+		AssertThat(testing, recover, is.Not(is.Nil()))
+	}()
+	ParseGivenWhenThen(".TestParseGivenWhenThen_PanicsWithoutGivenOrWhen", "./given_test.go")
+}
+
 func TestParseGivenWhenThen_FuncWithReturnType(testing *testing.T) {
 	givenWhenThen := ParseGivenWhenThen(".TestMyFirst_Skipped", "./example_test.go")
 	AssertThat(testing, givenWhenThen, has.Length(8))

@@ -21,7 +21,8 @@ type FileOutputGenerator struct {
 // usually test output. The file is written to env var GOGIVENS_OUTPUT_DIR if set, or defaults either
 // to system tmp or the current dir if neither are found.
 func (f *FileOutputGenerator) Notify(testFilePath string, contentType string, output io.Reader) {
-	extensions, err := mime.ExtensionsByType(contentType)
+	extensions := withResultErrorHandler(mime.ExtensionsByType(contentType)).([]string)
+
 	sort.Sort(sort.Reverse(sort.StringSlice(extensions)))
 	fileExtension := extensions[0]
 
@@ -29,13 +30,25 @@ func (f *FileOutputGenerator) Notify(testFilePath string, contentType string, ou
 		os.PathSeparator,
 		strings.Replace(filepath.Base(testFilePath), ".go", fileExtension, 1))
 
-	out, err := ioutil.ReadAll(output)
+	out := withResultErrorHandler(ioutil.ReadAll(output)).([]byte)
 
-	err = ioutil.WriteFile(outputFileName, out, 0644)
-	if err != nil {
-		panic("error generating gogiven output:" + err.Error())
-	}
+	errorHandler(ioutil.WriteFile(outputFileName, out, 0644))
+
 	fmt.Printf("\ngenerated test output: file://%s\n", strings.Replace(outputFileName, "\\", "/", -1))
+}
+
+func withResultErrorHandler(in interface{}, err error) (result interface{}) {
+	if err != nil {
+		panic("error generating output:" + err.Error())
+	}
+	return in
+}
+
+func errorHandler(err error) {
+	if err != nil {
+		panic("error generating output:" + err.Error())
+	}
+	return
 }
 
 func outputDirectory() string {
