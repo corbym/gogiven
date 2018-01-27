@@ -14,7 +14,7 @@ matrix:
 notifications:
   email: false
 env:
-  -GOGIVENS_OUTPUT_DIR=./resources
+  -GOGIVENS_OUTPUT_DIR=/tmp
 deploy:
   local-dir: ./resources
   provider: pages
