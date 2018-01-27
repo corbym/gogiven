@@ -104,7 +104,7 @@ Note you do not have to use "gocrest" assertions, you can still call all of test
 
 When run, the above will produce an HTML output:
 
-[Example Html](http://htmlpreview.github.com/?https://raw.githubusercontent.com/corbym/gogiven/master/docs/example.html#github.com%2fcorbym%2fgogiven.TestMyFirst)
+[Example Html](https://corbym.github.io/gogiven/example_test.shtml#github.com%2fcorbym%2fgogiven.TestMyFirst)
 
 ## Example Two - Table Tests <a name="tabletest-example"></a>
 
@@ -138,9 +138,14 @@ func TestMyFirst(testing *testing.T){
 
 The above test will still fail the test function as far as Go is concerned, but the test output will note that the iteration failed like this:
 
-[Ranged Example Html](http://htmlpreview.github.com/?https://raw.githubusercontent.com/corbym/gogiven/master/resources/example.html#github.com%2fcorbym%2fgogiven.TestMyFirst_Ranged)
+[Ranged Example Html](https://corbym.github.io/gogiven/example_test.shtml#github.com%2fcorbym%2fgogiven.TestMyFirst_Ranged)
 
 **Note that comments are now rendered as "Noting that ..". In the above, the comment //do assertions would become "Noting that do assertions".**
+
+### More Examples
+
+[Skipped test](https://corbym.github.io/gogiven/example_test.shtml#github.com%2fcorbym%2fgogiven.TestMyFirst_Skipped.func1)
+[Without a Given](https://corbym.github.io/gogiven/example_test.shtml#github.com%2fcorbym%2fgogiven.TestWithoutGiven)
 
 # Content Generation <a name="content-gen"></a>
 
