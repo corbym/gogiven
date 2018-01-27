@@ -17,7 +17,7 @@ env:
   -GOGIVENS_OUTPUT_DIR=/tmp
 before_deploy:
   - pwd
-  - cp /tmp/*.* $TRAVIS_BUILD_DIR/corbym/gogivens/docs
+  - cp /tmp/*.* $TRAVIS_BUILD_DIR/docs
 deploy:
   local-dir: /docs
   provider: pages
