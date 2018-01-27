@@ -15,9 +15,6 @@ notifications:
   email: false
 env:
   -GOGIVENS_OUTPUT_DIR=./docs
-#before_deploy:
-#  - pwd
-#  - cp --verbose /tmp/*.* $TRAVIS_BUILD_DIR
 deploy:
   local-dir: docs
   provider: pages
