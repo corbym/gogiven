@@ -15,11 +15,11 @@ notifications:
   email: false
 env:
   -GOGIVENS_OUTPUT_DIR=/tmp
-before_deploy:
-  - pwd
-  - cp /tmp/*.* $TRAVIS_BUILD_DIR/docs
+#before_deploy:
+#  - pwd
+#  - cp --verbose /tmp/*.* $TRAVIS_BUILD_DIR
 deploy:
-  local-dir: /docs
+  local-dir: /tmp
   provider: pages
   skip-cleanup: true
   github-token: $GITHUB_TOKEN  # Set in travis-ci.org dashboard, marked secure
