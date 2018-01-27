@@ -17,7 +17,7 @@ env:
   -GOGIVENS_OUTPUT_DIR=/tmp
 deploy:
   local-dir: /tmp
-  repo: github.com/corbym/gogiven/docs
+  repo: https://github.com/corbym/gogiven/tree/master/docs
   provider: pages
   skip-cleanup: true
   github-token: $GITHUB_TOKEN  # Set in travis-ci.org dashboard, marked secure
