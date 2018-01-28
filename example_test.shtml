@@ -568,13 +568,13 @@ Expected: value with length 2
 <table class="interestingGivens logValue">
     
     <tr>
-        <th class="key">actual</th>
-        <td class="interestingGiven">a</td>
+        <th class="key">foofar</th>
+        <td class="interestingGiven">faff</td>
     </tr>
     
     <tr>
-        <th class="key">foofar</th>
-        <td class="interestingGiven">faff</td>
+        <th class="key">actual</th>
+        <td class="interestingGiven">a</td>
     </tr>
     
 </table>
