@@ -448,11 +448,11 @@ Expected: value with length 2
     
 
 
-<h3 class="logKey" logkey="expected">expected</h3>
-<div class="logValue highlight xml WebResource">2</div>
-
 <h3 class="logKey" logkey="value">value</h3>
 <div class="logValue highlight xml WebResource">a</div>
+
+<h3 class="logKey" logkey="expected">expected</h3>
+<div class="logValue highlight xml WebResource">2</div>
 
 
     </div>
@@ -538,6 +538,11 @@ Expected: value with length 2
 <table class="interestingGivens logValue">
     
     <tr>
+        <th class="key">1</th>
+        <td class="interestingGiven">hi</td>
+    </tr>
+    
+    <tr>
         <th class="key">2</th>
         <td class="interestingGiven">foo</td>
     </tr>
@@ -545,11 +550,6 @@ Expected: value with length 2
     <tr>
         <th class="key">blarg</th>
         <td class="interestingGiven">12</td>
-    </tr>
-    
-    <tr>
-        <th class="key">1</th>
-        <td class="interestingGiven">hi</td>
     </tr>
     
 </table>
