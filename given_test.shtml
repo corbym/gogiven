@@ -486,13 +486,13 @@ Expected: value with length 2
 <table class="interestingGivens logValue">
     
     <tr>
-        <th class="key">1</th>
-        <td class="interestingGiven">hi</td>
+        <th class="key">2</th>
+        <td class="interestingGiven">foo</td>
     </tr>
     
     <tr>
-        <th class="key">2</th>
-        <td class="interestingGiven">foo</td>
+        <th class="key">1</th>
+        <td class="interestingGiven">hi</td>
     </tr>
     
 </table>
@@ -538,11 +538,6 @@ Expected: value with length 2
 <table class="interestingGivens logValue">
     
     <tr>
-        <th class="key">1</th>
-        <td class="interestingGiven">hi</td>
-    </tr>
-    
-    <tr>
         <th class="key">2</th>
         <td class="interestingGiven">foo</td>
     </tr>
@@ -550,6 +545,11 @@ Expected: value with length 2
     <tr>
         <th class="key">blarg</th>
         <td class="interestingGiven">12</td>
+    </tr>
+    
+    <tr>
+        <th class="key">1</th>
+        <td class="interestingGiven">hi</td>
     </tr>
     
 </table>
@@ -595,11 +595,6 @@ Expected: value with length 2
 <table class="interestingGivens logValue">
     
     <tr>
-        <th class="key">blarg</th>
-        <td class="interestingGiven">12</td>
-    </tr>
-    
-    <tr>
         <th class="key">1</th>
         <td class="interestingGiven">hi</td>
     </tr>
@@ -607,6 +602,11 @@ Expected: value with length 2
     <tr>
         <th class="key">2</th>
         <td class="interestingGiven">foo</td>
+    </tr>
+    
+    <tr>
+        <th class="key">blarg</th>
+        <td class="interestingGiven">12</td>
     </tr>
     
 </table>
