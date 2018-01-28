@@ -12,6 +12,8 @@ Check out the HTML output generator used as a default here: [htmlspec](https://g
 
 Feel free to contact me and help improve the code base or let me know if you have any issues or questions!
 
+To contribute, please read [this.](https://github.com/corbym/gogiven/blob/master/CONTRIBUTING.md)
+
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Example One - GoGivens in practice](#example)
