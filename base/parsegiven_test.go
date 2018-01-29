@@ -71,6 +71,6 @@ func TestParseGivenWhenThen_RangedTextOutput(testing *testing.T) {
 func TestParseGivenWhenThen_IncludesComment(testing *testing.T) {
 	givenWhenThen := base.ParseGivenWhenThen(".TestMyFirst_Ranged", exampleTestFileName)
 
-	AssertThat(testing, givenWhenThen.Comment[0], is.EqualTo("This test tests over a range of values"))
-	AssertThat(testing, givenWhenThen.Comment[1], is.EqualTo("Do not remove this comment"))
+	AssertThat(testing, givenWhenThen.Comment[0], is.EqualTo("This test tests over a range of values. Lorum ipsum dolor, lorum ipsum dolor lorum ipsum dolor. Lorum ipsum dolor."))
+	AssertThat(testing, givenWhenThen.Comment[1], is.EqualTo("Comments on new lines will be split into paragraph sections."))
 }
