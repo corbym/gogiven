@@ -392,11 +392,11 @@
     
 
 
-<h3 class="logKey" logkey="expected">expected</h3>
-<div class="logValue highlight xml WebResource">0</div>
-
 <h3 class="logKey" logkey="value">value</h3>
 <div class="logValue highlight xml WebResource"></div>
+
+<h3 class="logKey" logkey="expected">expected</h3>
+<div class="logValue highlight xml WebResource">0</div>
 
 
     </div>
