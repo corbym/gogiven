@@ -47,9 +47,10 @@ func TestMyTest(...){
 .. will be rendered as (but in html, or json, or whatever):
 
 ```
-Specification
-
+My Test
 Hello, spec world!
+
+Specification
 
 Given testing some data noting that this is a test
 When foo bar baz
