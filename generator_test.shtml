@@ -336,13 +336,11 @@
 <div class="testmethod">
     <a id="github.com/corbym/gogiven_test.TestGenerateTestOutput_contentType"></a>
     <h2>Generate Test Output   content Type</h2>
-
-
+    <p></p>
     <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGenerateTestOutput_contentType">
         <a id=""></a>
         <h2>Specification</h2>
-    <p>
-    </p>
+
         <pre class="highlight specification">
         Given t
         Listener received = new stub listener
@@ -376,13 +374,11 @@
 <div class="testmethod">
     <a id="github.com/corbym/gogiven_test.TestGenerateTestOutput_fileName"></a>
     <h2>Generate Test Output   file Name</h2>
-
-
+    <p></p>
     <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGenerateTestOutput_fileName">
         <a id=""></a>
         <h2>Specification</h2>
-    <p>
-    </p>
+
         <pre class="highlight specification">
         Given t
         Listener channel = new stub listener
@@ -416,13 +412,11 @@
 <div class="testmethod">
     <a id="github.com/corbym/gogiven_test.TestGenerateTestOutput_output"></a>
     <h2>Generate Test Output   output</h2>
-
-
+    <p></p>
     <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGenerateTestOutput_output">
         <a id=""></a>
         <h2>Specification</h2>
-    <p>
-    </p>
+
         <pre class="highlight specification">
         Given t
         Listener received = new stub listener

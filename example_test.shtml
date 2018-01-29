@@ -348,13 +348,11 @@
 <div class="testmethod">
     <a id="github.com/corbym/gogiven.TestMyFirst"></a>
     <h2>My First</h2>
-
-
+    <p></p>
     <div class="scenario" id="scenario_github.com/corbym/gogiven.TestMyFirst">
         <a id=""></a>
         <h2>Specification</h2>
-    <p>
-    </p>
+
         <pre class="highlight specification">
         Given testing the system setup
         When something happens
@@ -395,17 +393,11 @@
 <div class="testmethod">
     <a id="github.com/corbym/gogiven.TestMyFirst_Ranged.func1"></a>
     <h2>My First   Ranged</h2>
-
-
+    <p>This test tests over a range of values. Lorum ipsum dolor, lorum ipsum dolor lorum ipsum dolor. Lorum ipsum dolor.</p><p>Comments on new lines will be split into paragraph sections.</p><p></p><p>Empty lines will be removed. Do not remove this comment. Thanks.</p><p></p>
     <div class="scenario" id="scenario_github.com/corbym/gogiven.TestMyFirst_Ranged.func1">
         <a id=""></a>
         <h2>Specification</h2>
-    <p>
-    This test tests over a range of values. Lorum ipsum dolor, lorum ipsum dolor lorum ipsum dolor. Lorum ipsum dolor.</p>
-    Comments on new lines will be split into paragraph sections.</p>
-    </p>
-    Empty lines will be removed. Do not remove this comment. Thanks.</p>
-    </p>
+
         <pre class="highlight specification">
         Given we are testing the system setup with test data test
         When something happens with the test
@@ -454,17 +446,11 @@ Expected: value with length 2
 <div class="testmethod">
     <a id="github.com/corbym/gogiven.TestMyFirst_Ranged.func1_1"></a>
     <h2>My First   Ranged</h2>
-
-
+    <p>This test tests over a range of values. Lorum ipsum dolor, lorum ipsum dolor lorum ipsum dolor. Lorum ipsum dolor.</p><p>Comments on new lines will be split into paragraph sections.</p><p></p><p>Empty lines will be removed. Do not remove this comment. Thanks.</p><p></p>
     <div class="scenario" id="scenario_github.com/corbym/gogiven.TestMyFirst_Ranged.func1_1">
         <a id=""></a>
         <h2>Specification</h2>
-    <p>
-    This test tests over a range of values. Lorum ipsum dolor, lorum ipsum dolor lorum ipsum dolor. Lorum ipsum dolor.</p>
-    Comments on new lines will be split into paragraph sections.</p>
-    </p>
-    Empty lines will be removed. Do not remove this comment. Thanks.</p>
-    </p>
+
         <pre class="highlight specification">
         Given we are testing the system setup with test data test
         When something happens with the test
@@ -510,13 +496,11 @@ Expected: value with length 2
 <div class="testmethod">
     <a id="github.com/corbym/gogiven.TestMyFirst_Skipped.func1"></a>
     <h2>My First   Skipped / fff</h2>
-
-
+    <p></p>
     <div class="scenario" id="scenario_github.com/corbym/gogiven.TestMyFirst_Skipped.func1">
         <a id=""></a>
         <h2>Specification</h2>
-    <p>
-    </p>
+
         <pre class="highlight specification">
         Given we are testing the system setup that is a bit dodgy to test
         Skipping this one if the value is fff test &#34;some data % s does not work yet&#34; test actual
@@ -559,13 +543,11 @@ Expected: value with length 2
 <div class="testmethod">
     <a id="github.com/corbym/gogiven.TestMyFirst_Skipped.func1_1"></a>
     <h2>My First   Skipped / a</h2>
-
-
+    <p></p>
     <div class="scenario" id="scenario_github.com/corbym/gogiven.TestMyFirst_Skipped.func1_1">
         <a id=""></a>
         <h2>Specification</h2>
-    <p>
-    </p>
+
         <pre class="highlight specification">
         Given we are testing the system setup that is a bit dodgy to test
         Skipping this one if the value is fff test &#34;some data % s does not work yet&#34; test actual
@@ -611,13 +593,11 @@ Expected: value with length 2
 <div class="testmethod">
     <a id="github.com/corbym/gogiven.TestWithoutGiven"></a>
     <h2>Without Given</h2>
-
-
+    <p></p>
     <div class="scenario" id="scenario_github.com/corbym/gogiven.TestWithoutGiven">
         <a id=""></a>
         <h2>Specification</h2>
-    <p>
-    </p>
+
         <pre class="highlight specification">
         When t something happens
         Then
