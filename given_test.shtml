@@ -357,6 +357,8 @@
     <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGivenWhenExercisingRanges">
         <a id=""></a>
         <h2>Specification</h2>
+    <p>
+    </p>
         <pre class="highlight specification">
         Given testing t
         Some = append some given
@@ -392,11 +394,11 @@
     
 
 
-<h3 class="logKey" logkey="value">value</h3>
-<div class="logValue highlight xml WebResource"></div>
-
 <h3 class="logKey" logkey="expected">expected</h3>
 <div class="logValue highlight xml WebResource">0</div>
+
+<h3 class="logKey" logkey="value">value</h3>
+<div class="logValue highlight xml WebResource"></div>
 
 
     </div>
@@ -410,6 +412,8 @@
     <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGivenWhenExercisingRanges_1">
         <a id=""></a>
         <h2>Specification</h2>
+    <p>
+    </p>
         <pre class="highlight specification">
         Given testing t
         Some = append some given
@@ -466,6 +470,8 @@ Expected: value with length 2
     <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGivenWhenSetsInterestingGiven">
         <a id=""></a>
         <h2>Specification</h2>
+    <p>
+    </p>
         <pre class="highlight specification">
         Given testing some data setup
         When some action
@@ -516,6 +522,8 @@ Expected: value with length 2
     <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGivenWhenSkips">
         <a id=""></a>
         <h2>Specification</h2>
+    <p>
+    </p>
         <pre class="highlight specification">
         Given t some data setup and more data setup
         Skipping this one &#34;some reason&#34;
@@ -538,11 +546,6 @@ Expected: value with length 2
 <table class="interestingGivens logValue">
     
     <tr>
-        <th class="key">1</th>
-        <td class="interestingGiven">hi</td>
-    </tr>
-    
-    <tr>
         <th class="key">2</th>
         <td class="interestingGiven">foo</td>
     </tr>
@@ -550,6 +553,11 @@ Expected: value with length 2
     <tr>
         <th class="key">blarg</th>
         <td class="interestingGiven">12</td>
+    </tr>
+    
+    <tr>
+        <th class="key">1</th>
+        <td class="interestingGiven">hi</td>
     </tr>
     
 </table>
@@ -573,6 +581,8 @@ Expected: value with length 2
     <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGivenWhenStacksGivens">
         <a id=""></a>
         <h2>Specification</h2>
+    <p>
+    </p>
         <pre class="highlight specification">
         Given testing some data setup and more data setup
         When some action
@@ -630,6 +640,8 @@ Expected: value with length 2
     <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestInnerTestRangesOverValues.func1">
         <a id=""></a>
         <h2>Specification</h2>
+    <p>
+    </p>
         <pre class="highlight specification">
         Given t inner given some stuffs &#34;a&#34;
         When
@@ -682,6 +694,8 @@ Expected: value with length 2
     <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestInnerTestRangesOverValues.func1_1">
         <a id=""></a>
         <h2>Specification</h2>
+    <p>
+    </p>
         <pre class="highlight specification">
         Given t inner given some stuffs &#34;a&#34;
         When
