@@ -104,6 +104,7 @@ func TestGivenWhenStacksGivens(testing *testing.T) {
 			AssertThat(testing, actual, has.Key("foo"))
 		})
 }
+
 func TestGivenWhenSkips(testing *testing.T) {
 	testing.Parallel()
 	t := &base.TestMetaData{TestId: "skiptest"}
@@ -115,64 +116,6 @@ func TestGivenWhenSkips(testing *testing.T) {
 		})
 	AssertThat(testing, t.Skipped(), is.EqualTo(true))
 	AssertThat(testing, t.TestOutput(), is.EqualTo("some reason"))
-}
-
-func TestParseGivenWhenThen_Panics(t *testing.T) {
-	defer func() {
-		rcv := recover()
-		AssertThat(t, rcv, is.Not(is.Nil()))
-	}()
-	ParseGivenWhenThen("foo", "Arfg")
-}
-
-func TestParseGivenWhenThen_TextOutputContent(testing *testing.T) {
-	givenWhenThen := ParseGivenWhenThen(".TestMyFirst", "./example_test.go")
-
-	AssertThat(testing, givenWhenThen, has.Length(5))
-
-	AssertThat(testing, givenWhenThen[0], is.EqualTo("Given testing the system setup"))
-	AssertThat(testing, givenWhenThen[1], is.EqualTo("When something happens"))
-	AssertThat(testing, givenWhenThen[2], is.EqualTo("Then noting that passed in testing should be used for assertions"))
-	AssertThat(testing, givenWhenThen[3], is.EqualTo("Noting that we do some assertions here commenting why"))
-	AssertThat(testing, givenWhenThen[4], is.EqualTo("Assert that testing the data returned \"actual\" is equal to \"some output\""))
-}
-
-func TestParseGivenWhenThen_WithoutGiven(testing *testing.T) {
-	givenWhenThen := ParseGivenWhenThen(".TestWithoutGiven", "./example_test.go")
-
-	AssertThat(testing, givenWhenThen, has.Length(3))
-
-	AssertThat(testing, givenWhenThen[0], is.EqualTo("When t something happens"))
-	AssertThat(testing, givenWhenThen[1], is.EqualTo("Then"))
-	AssertThat(testing, givenWhenThen[2], is.EqualTo("Assert that testing actual \"actual\" is equal to \"some output\""))
-}
-
-func TestParseGivenWhenThen_PanicsWithoutGivenOrWhen(testing *testing.T) {
-	defer func() {
-		recover := recover()
-		AssertThat(testing, recover, is.Not(is.Nil()))
-	}()
-	ParseGivenWhenThen(".TestParseGivenWhenThen_PanicsWithoutGivenOrWhen", "./given_test.go")
-}
-
-func TestParseGivenWhenThen_FuncWithReturnType(testing *testing.T) {
-	givenWhenThen := ParseGivenWhenThen(".TestMyFirst_Skipped", "./example_test.go")
-	AssertThat(testing, givenWhenThen, has.Length(5))
-
-	AssertThat(testing, givenWhenThen[0], is.EqualTo("Given we are testing the system setup that is a bit dodgy to test"))
-	AssertThat(testing, givenWhenThen[1], is.EqualTo("Skipping this one if the value is fff test \"some data % s does not work yet\" test actual"))
-	// TODO: fix this
-	//AssertThat(testing, givenWhenThen[4], is.EqualTo("some data % s does not work yet \"test actual\""))
-}
-
-func TestParseGivenWhenThen_RangedTextOutput(testing *testing.T) {
-	givenWhenThen := ParseGivenWhenThen(".TestMyFirst_Ranged", "./example_test.go")
-	AssertThat(testing, givenWhenThen, has.Length(5))
-
-	AssertThat(testing, givenWhenThen[0], is.EqualTo("Given we are testing the system setup with test data test"))
-	AssertThat(testing, givenWhenThen[1], is.EqualTo("When something happens with the test"))
-	AssertThat(testing, givenWhenThen[2], is.EqualTo("Then"))
-	AssertThat(testing, givenWhenThen[3], is.EqualTo("Noting that do assertions"))
 }
 
 func someDataSetup(givens testdata.InterestingGivens) {

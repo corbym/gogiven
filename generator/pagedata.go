@@ -27,7 +27,7 @@ type TestData struct {
 	TestTitle         string
 	InterestingGivens testdata.InterestingGivens
 	CapturedIO        testdata.CapturedIO
-	GivenWhenThen     []string
+	ParsedTestContent base.ParsedTestContent
 }
 
 func NewTestData(some *base.Some) (testData *TestData) {
@@ -35,7 +35,7 @@ func NewTestData(some *base.Some) (testData *TestData) {
 		TestResult:        NewTestResult(some.TestMetaData()),
 		InterestingGivens: some.InterestingGivens(),
 		CapturedIO:        some.CapturedIO(),
-		GivenWhenThen:     some.GivenWhenThen(),
+		ParsedTestContent: some.GivenWhenThen(),
 		TestTitle:         some.TestTitle(),
 	}
 	return
