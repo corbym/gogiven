@@ -13,6 +13,7 @@ import (
 
 var _ = mime.AddExtensionType(".json", "application/json") // default .json to application/json type as mime does not know about it
 
+//FileOutputGenerator is a struct which implements the OutputListener interface
 type FileOutputGenerator struct {
 	OutputListener
 }
@@ -37,7 +38,7 @@ func (f *FileOutputGenerator) Notify(testFilePath string, contentType string, ou
 	fmt.Printf("\ngenerated test output: file://%s\n", strings.Replace(outputFileName, "\\", "/", -1))
 }
 
-func withResultErrorHandler(in interface{}, err error) (result interface{}) {
+func withResultErrorHandler(in interface{}, err error) interface{} {
 	if err != nil {
 		panic("error generating output:" + err.Error())
 	}
@@ -48,9 +49,10 @@ func errorHandler(err error) {
 	if err != nil {
 		panic("error generating output:" + err.Error())
 	}
-	return
 }
 
+//OutputDirectory finds the output dir in either one of the system env var $GOGIVENS_OUTPUT_DIR, the os tmp dir,
+// or default to the current dir otherwise.
 func OutputDirectory() string {
 	outputDir := os.Getenv("GOGIVENS_OUTPUT_DIR")
 	if outputDir == "" {

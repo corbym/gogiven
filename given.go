@@ -80,7 +80,7 @@ func findTestFpcFunction() ([]uintptr, *runtime.Func) {
 	return funcProgramCounters, function
 }
 
-func uniqueKeyFor(somes *safeMap, name string) string {
+func uniqueKeyFor(somes *SafeMap, name string) string {
 	if _, ok := somes.Load(name); !ok {
 		return name
 	}

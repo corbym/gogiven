@@ -5,20 +5,20 @@ import (
 	"sync"
 )
 
-// safeMap is used internally to hold a threadsafe copy of the global test state.
-type safeMap struct {
+// SafeMap is used internally to hold a threadsafe copy of the global test state.
+type SafeMap struct {
 	sync.RWMutex
 	internal map[string]interface{}
 }
 
-func newSafeMap() *safeMap {
-	return &safeMap{
+func newSafeMap() *SafeMap {
+	return &SafeMap{
 		internal: make(map[string]interface{}),
 	}
 }
 
 //Load a key from the map
-func (rm *safeMap) Load(key string) (value interface{}, ok bool) {
+func (rm *SafeMap) Load(key string) (value interface{}, ok bool) {
 	rm.RLock()
 	defer rm.RUnlock()
 	result, ok := rm.internal[key]
@@ -26,14 +26,14 @@ func (rm *safeMap) Load(key string) (value interface{}, ok bool) {
 }
 
 //Store a value against a key from the map
-func (rm *safeMap) Store(key string, value interface{}) {
+func (rm *SafeMap) Store(key string, value interface{}) {
 	rm.Lock()
 	rm.internal[key] = value
 	rm.Unlock()
 }
 
 //Keys returns an array of keys that the map contains
-func (rm *safeMap) Keys() []string {
+func (rm *SafeMap) Keys() []string {
 	rm.RLock()
 	defer rm.RUnlock()
 	keys := make([]string, 0, len(rm.internal))
@@ -43,7 +43,7 @@ func (rm *safeMap) Keys() []string {
 	return keys
 }
 
-func (rm *safeMap) asMapOfSome() *base.SomeMap {
+func (rm *SafeMap) asMapOfSome() *base.SomeMap {
 	rm.RLock()
 	defer rm.RUnlock()
 	var newMap = &base.SomeMap{}

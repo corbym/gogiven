@@ -5,37 +5,41 @@ import (
 	"github.com/corbym/gogiven/testdata"
 )
 
+//TestResult holds the results of the test, whether it failed, was skipped, it's ID and
+// the output from the Fail/Skip if appropriate
 type TestResult struct {
-	TestId     string
+	TestID     string
 	Failed     bool
 	Skipped    bool
 	TestOutput string
 }
 
-func NewTestResult(data *base.TestMetaData) (result *TestResult) {
-	result = &TestResult{
+//NewTestResult returns a copy of the test meta data
+func NewTestResult(data *base.TestMetaData) TestResult {
+	return TestResult{
 		Skipped:    data.Skipped(),
-		TestId:     data.Name(),
+		TestID:     data.Name(),
 		TestOutput: data.TestOutput(),
 		Failed:     data.Failed(),
 	}
-	return
 }
 
+//TestData holds a copy of test results, interesting givens, captured io, and parsed test content (given/when/then)
 type TestData struct {
-	TestResult        *TestResult
+	TestResult        TestResult
 	TestTitle         string
 	InterestingGivens testdata.InterestingGivens
 	CapturedIO        testdata.CapturedIO
 	ParsedTestContent base.ParsedTestContent
 }
 
-func NewTestData(some *base.Some) (testData *TestData) {
-	testData = &TestData{
+//NewTestData creates a new copy of test results, interesting givens, captured io, and parsed test content (given/when/then)
+func NewTestData(some *base.Some) (testData TestData) {
+	testData = TestData{
 		TestResult:        NewTestResult(some.TestMetaData()),
 		InterestingGivens: some.InterestingGivens(),
 		CapturedIO:        some.CapturedIO(),
-		ParsedTestContent: some.GivenWhenThen(),
+		ParsedTestContent: some.ParsedTestContent(),
 		TestTitle:         some.TestTitle(),
 	}
 	return
@@ -44,20 +48,22 @@ func NewTestData(some *base.Some) (testData *TestData) {
 //PageData is the struct that populates the template with data from the test output.
 type PageData struct {
 	Title       string
-	TestResults map[string]*TestData
+	TestResults map[string]TestData
 }
 
-func NewPageData(title string, someMap *base.SomeMap) (pageData *PageData) {
-	pageData = new(PageData)
-	pageData.Title = title
-	pageData.TestResults = copyTestResults(someMap)
+//NewPageData holds the title and the test results
+func NewPageData(title string, someMap *base.SomeMap) (pageData PageData) {
+	pageData = PageData{
+		Title:       title,
+		TestResults: copyTestResults(someMap),
+	}
 	return
 }
 
-func copyTestResults(someMap *base.SomeMap) (testData map[string]*TestData) {
-	testData = make(map[string]*TestData)
+func copyTestResults(someMap *base.SomeMap) map[string]TestData {
+	testData := make(map[string]TestData)
 	for k, v := range *someMap {
 		testData[k] = NewTestData(v)
 	}
-	return
+	return testData
 }

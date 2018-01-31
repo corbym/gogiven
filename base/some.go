@@ -13,7 +13,7 @@ type Some struct {
 	testTitle         string
 	interestingGivens testdata.InterestingGivens
 	capturedIO        testdata.CapturedIO
-	givenWhenThen     ParsedTestContent
+	parsedTestContent ParsedTestContent
 }
 
 //NewSome creates a new Some context. This is an internal function that was exported for testing.
@@ -28,7 +28,7 @@ func NewSome(
 	some.testMetaData = testingT
 	some.testTitle = testTitle
 	some.globalTestingT = globalTestingT
-	some.givenWhenThen = givenWhenThen
+	some.parsedTestContent = givenWhenThen
 	some.interestingGivens = make(testdata.InterestingGivens)
 	some.capturedIO = make(testdata.CapturedIO)
 
@@ -47,14 +47,14 @@ func (some *Some) TestTitle() string {
 	return some.testTitle
 }
 
-//ParsedTestContent holds a parsed test as an array string.
+// ParsedTestContent holds a parsed test as an array string.
 // All lines of the test func will be listed, from the first call to the first Given
 // up to the end of the test func and converted to (as close as possible) natural language.
-func (some *Some) GivenWhenThen() ParsedTestContent {
+func (some *Some) ParsedTestContent() ParsedTestContent {
 	some.RLock()
 	defer some.RUnlock()
 
-	return some.givenWhenThen
+	return some.parsedTestContent
 }
 
 // TestMetaData is an interface that mimics testingT but stores the test state rather than act on it.

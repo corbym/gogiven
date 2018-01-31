@@ -32,7 +32,7 @@ func TestGivenWhenSetsInterestingGiven(testing *testing.T) {
 
 func TestGivenWhenExercisingRanges(testing *testing.T) {
 	var testMetaData []*base.TestMetaData
-	var testingT = &base.TestMetaData{TestId: "title"}
+	var testingT = &base.TestMetaData{TestID: "title"}
 
 	var some []*base.Some
 	testing.Parallel()
@@ -49,7 +49,6 @@ func TestGivenWhenExercisingRanges(testing *testing.T) {
 		given.When(func(actual testdata.CapturedIO, givens testdata.InterestingGivens) {
 			actual["value"] = test.actual
 			actual["expected"] = test.expected
-			return
 		}).
 			Then(func(t base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
 				//do assertions
@@ -107,7 +106,7 @@ func TestGivenWhenStacksGivens(testing *testing.T) {
 
 func TestGivenWhenSkips(testing *testing.T) {
 	testing.Parallel()
-	t := &base.TestMetaData{TestId: "skiptest"}
+	t := &base.TestMetaData{TestID: "skiptest"}
 	Given(t, someDataSetup, andMoreDataSetup).
 		SkippingThisOne("some reason").
 		When(someAction).

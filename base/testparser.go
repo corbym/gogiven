@@ -57,7 +57,7 @@ func cleanUpGivenWhenThenOutput(splitByLines []string) (formattedOutput []string
 	return
 }
 
-func positionOfGivenOrWhen(currentFuncBody *ast.BlockStmt, fset *token.FileSet) int {
+func positionOfGivenOrWhen(currentFuncBody ast.Node, fset *token.FileSet) int {
 	visitor := &identVisitor{fset: fset, fileOffsetPos: -1}
 	ast.Walk(visitor, currentFuncBody)
 	if visitor.fileOffsetPos == -1 {
@@ -121,13 +121,13 @@ func findBalancedBracketFor(remove string, openBracket string, closeBracket stri
 }
 
 func replaceAllNonAlphaNumericCharacters(replace string) (replaced string) {
-	r := regexp.MustCompile("(?sm:([^a-zA-Z0-9*!£$%+/\\-^\"= \\r\\n\\t<>]))")
+	r := regexp.MustCompile(`(?sm:([^a-zA-Z0-9*!£$%+/\\-^"= \r\n\t<>]))`)
 	replaced = r.ReplaceAllString(replace, "")
-	r = regexp.MustCompile("\\s+")
+	r = regexp.MustCompile(`\s+`)
 	replaced = r.ReplaceAllString(replaced, " ")
 	r = regexp.MustCompile(`".*?"`)
 	replaced = r.ReplaceAllStringFunc(replaced, func(quoted string) string {
-		return "\"" + strings.TrimSpace(strings.Replace(quoted, "\"", "", -1)) + "\""
+		return `"` + strings.TrimSpace(strings.Replace(quoted, `"`, "", -1)) + `"`
 	})
 	return
 }
