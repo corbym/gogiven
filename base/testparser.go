@@ -121,7 +121,7 @@ func findBalancedBracketFor(remove string, openBracket string, closeBracket stri
 }
 
 func replaceAllNonAlphaNumericCharacters(replace string) (replaced string) {
-	r := regexp.MustCompile(`(?sm:([^a-zA-Z0-9*!£$%+/\\-^"= \r\n\t<>]))`)
+	r := regexp.MustCompile("(?sm:([^a-zA-Z0-9*!£$%+/\\-^\"= \\r\\n\\t<>]))")
 	replaced = r.ReplaceAllString(replace, "")
 	r = regexp.MustCompile(`\s+`)
 	replaced = r.ReplaceAllString(replaced, " ")
