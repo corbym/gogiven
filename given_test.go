@@ -18,6 +18,25 @@ func TestMain(testmain *testing.M) {
 	os.Exit(runOutput)
 }
 
+func TestGoGivenLogsWithMetaData(t *testing.T) {
+	stubTestingT := base.NewTestMetaData(t.Name())
+	Given(stubTestingT).
+		Then(func(testingT base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
+			testingT.Logf("wobble bop")
+		})
+	AssertThat(t, stubTestingT.Failed(), is.EqualTo(true))
+	AssertThat(t, stubTestingT.TestOutput(), is.EqualTo("wobble bop"))
+}
+
+func TestGoGivenFailsInMetaData(t *testing.T) {
+	stubTestingT := base.NewTestMetaData(t.Name())
+	Given(stubTestingT).
+		Then(func(testingT base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
+			testingT.FailNow()
+		})
+	AssertThat(t, stubTestingT.Failed(), is.EqualTo(true))
+}
+
 func TestGivenWhenSetsInterestingGiven(testing *testing.T) {
 	testing.Parallel()
 	Given(testing, someDataSetup).
