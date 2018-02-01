@@ -20,7 +20,8 @@ func Given(testing base.TestingT, given ...base.GivenData) *base.Some {
 	currentTestContext := loadTestContext(testFileName)
 
 	someTests := currentTestContext.someTests
-	keyFor := uniqueKeyFor(someTests, currentFunction.Name()) // this deals with table test for loops, we want different id for each
+	keyFor := uniqueKeyFor(someTests, currentFunction.Name()) // this deals with table test for loops that do not have
+	// t.Run inside.. we want different id for each
 
 	some := base.NewSome(
 		testing,
