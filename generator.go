@@ -20,8 +20,10 @@ var Generator generator.GoGivensOutputGenerator = htmlspec.NewTestOutputGenerato
 // By default, the generator.FileOutputGenerator is added. but you can append or replace with your own.
 var OutputListeners = []generator.OutputListener{new(generator.FileOutputGenerator)}
 
-func transformFileNameToHeader(fileName string) (header string) {
-	return strings.Title(strings.Replace(strings.TrimSuffix(filepath.Base(fileName), ".go"), "_", " ", -1))
+func transformFileNameToHeader(fileWithPath string) (header string) {
+	baseFileName := filepath.Base(fileWithPath)
+	withTrimmedSuffix := strings.TrimSuffix(baseFileName, ".go")
+	return strings.Title(strings.Replace(withTrimmedSuffix, "_", " ", -1))
 }
 
 // GenerateTestOutput generates the test output. Call this method from TestMain.

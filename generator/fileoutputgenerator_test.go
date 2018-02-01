@@ -58,15 +58,6 @@ func TestFileOutputGenerator_panics_IncorrectContentType(t *testing.T) {
 	underTest.Notify("./flap.foo", "widget/fong", strings.NewReader(theContent))
 }
 
-type mockErroringReader struct {
-	io.Reader
-}
-
-func (*mockErroringReader) Read(p []byte) (n int, err error) {
-	err = bytes.ErrTooLarge // ReadAll only errors when this is the error from the io.Read method
-	return
-}
-
 func TestFileOutputGenerator_panics_ReadingContent(t *testing.T) {
 	defer func() {
 		panics := recover()
@@ -128,7 +119,7 @@ func exists() *gocrest.Matcher {
 	matcher.Matches = func(actual interface{}) bool {
 		file, ok := actual.(os.FileInfo)
 		if ok {
-			matcher.Describe = fmt.Sprintf("%s", file.Name())
+			matcher.Describe = file.Name()
 			return true
 		}
 		return false
@@ -138,4 +129,13 @@ func exists() *gocrest.Matcher {
 
 func ofFileInOutputDir(fileName string) string {
 	return fmt.Sprintf("%s%c%s", OutputDirectory(), os.PathSeparator, fileName)
+}
+
+type mockErroringReader struct {
+	io.Reader
+}
+
+func (*mockErroringReader) Read(p []byte) (n int, err error) {
+	err = bytes.ErrTooLarge // ReadAll only errors when this is the error from the io.Read method
+	return
 }

@@ -13,5 +13,5 @@ const someFilename = "foofar.go"
 func TestNewTestContext(t *testing.T) {
 	context := gogiven.NewTestContext(someFilename)
 	then.AssertThat(t, context.FileName(), is.EqualTo(someFilename))
-	then.AssertThat(t, context.SomeTests(), has.TypeName("*gogiven.safeMap"))
+	then.AssertThat(t, context.SomeTests(), has.TypeName("*gogiven.SafeMap"))
 }

@@ -1,8 +1,8 @@
 package gogiven
 
-//TestContext contains a safeMap of the TestMetaData for the current test file being processed.//////
+//TestContext contains a SafeMap of the TestMetaData for the current test file being processed.//////
 type TestContext struct {
-	someTests *safeMap
+	someTests *SafeMap
 	fileName  string
 }
 
@@ -16,7 +16,7 @@ func NewTestContext(fileName string) *TestContext {
 
 //SomeTests is a map containing the TestMetaData for this TestContext's tests
 // that are being executed.
-func (c *TestContext) SomeTests() *safeMap {
+func (c *TestContext) SomeTests() *SafeMap {
 	return c.someTests
 }
 

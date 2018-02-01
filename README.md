@@ -12,6 +12,8 @@ Check out the HTML output generator used as a default here: [htmlspec](https://g
 
 Feel free to contact me and help improve the code base or let me know if you have any issues or questions!
 
+To contribute, please read [this first.](https://github.com/corbym/gogiven/blob/master/CONTRIBUTING.md)
+
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Example One - GoGivens in practice](#example)
@@ -32,16 +34,27 @@ Go Givens was inspired by YATSPEC, a BDD framework employed extensively by Sky N
 Capturing your test method as test output is the only real way to show it's intention. You can refactor a test, and have the output update accordingly when the test runs. Unlike other go BDD frameworks, you can use function names to declare intent, and refactoring the function will affect the test. E.g.
 
 ```go
-Given(testing, someData)..
-..
 
-func someData(..)
+//Hello, spec world!
+func TestMyTest(...){
+	Given(testing, someData()). // This is a test
+	When(fooBarBaz()).
+	Then(baz())
+}
+
 ```
 
-.. will be rendered as:
+.. will be rendered as (but in html, or json, or whatever):
 
 ```
-Given testing some data
+My Test
+Hello, spec world!
+
+Specification
+
+Given testing some data noting that this is a test
+When foo bar baz
+Then baz 
 ```
 
 Test data (set by the func ```someData``` in the example above) can be captured in a map of interesting givens, and as the test progresses, the actuals can be captured in a map of captured inputs and outputs.
@@ -140,7 +153,7 @@ The above test will still fail the test function as far as Go is concerned, but 
 
 [Ranged Example Html](https://corbym.github.io/gogiven/example_test.shtml#github.com%2fcorbym%2fgogiven.TestMyFirst_Ranged)
 
-**Note that comments are now rendered as "Noting that ..". In the above, the comment //do assertions would become "Noting that do assertions".**
+**Note that comments are now rendered. Test function comments appear as part of the spec, and inline comments appear as "Noting that ..". In the above, the comment //do assertions would become "Noting that do assertions".**
 
 ### More Examples
 

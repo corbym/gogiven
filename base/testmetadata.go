@@ -9,7 +9,7 @@ import (
 // and the output it sent to t.Errorf or t.Error etc.
 type TestMetaData struct {
 	sync.RWMutex
-	TestId     string
+	TestID     string
 	failed     bool
 	skipped    bool
 	testOutput string
@@ -17,10 +17,11 @@ type TestMetaData struct {
 
 //NewTestMetaData creates a new TestMetaData object. Used internally.
 func NewTestMetaData(testName string) *TestMetaData {
-	testContext := new(TestMetaData)
-	testContext.TestId = testName
-	testContext.failed = false
-	testContext.skipped = false
+	testContext := &TestMetaData{
+		TestID:  testName,
+		failed:  false,
+		skipped: false,
+	}
 	return testContext
 }
 
@@ -57,7 +58,7 @@ func (t *TestMetaData) Helper() {
 func (t *TestMetaData) Name() string {
 	t.RLock()
 	defer t.RUnlock()
-	return t.TestId
+	return t.TestID
 }
 
 //Failed reports the test has failed to the meta data.
