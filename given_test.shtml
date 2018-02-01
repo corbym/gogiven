@@ -336,6 +336,14 @@
     
     
     
+        <li class='test-failed'><a href="#github.com%2fcorbym%2fgogiven_test.TestGoGivenFailsInMetaData">Go Given Fails In Meta Data</a></li>
+    
+    
+    
+        <li class='test-failed'><a href="#github.com%2fcorbym%2fgogiven_test.TestGoGivenLogsWithMetaData">Go Given Logs With Meta Data</a></li>
+    
+    
+    
         <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven_test.TestInnerTestRangesOverValues.func1">Inner Test Ranges Over Values / n</a></li>
     
     
@@ -538,6 +546,11 @@ Expected: value with length 2
 <table class="interestingGivens logValue">
     
     <tr>
+        <th class="key">blarg</th>
+        <td class="interestingGiven">12</td>
+    </tr>
+    
+    <tr>
         <th class="key">1</th>
         <td class="interestingGiven">hi</td>
     </tr>
@@ -545,11 +558,6 @@ Expected: value with length 2
     <tr>
         <th class="key">2</th>
         <td class="interestingGiven">foo</td>
-    </tr>
-    
-    <tr>
-        <th class="key">blarg</th>
-        <td class="interestingGiven">12</td>
     </tr>
     
 </table>
@@ -617,6 +625,79 @@ Expected: value with length 2
 
 <h3 class="logKey" logkey="foo">foo</h3>
 <div class="logValue highlight xml WebResource">foob</div>
+
+
+    </div>
+</div>
+
+<div class="testmethod">
+    <a id="github.com/corbym/gogiven_test.TestGoGivenFailsInMetaData"></a>
+    <h2>Go Given Fails In Meta Data</h2>
+    <p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGoGivenFailsInMetaData">
+        <a id=""></a>
+        <h2>Specification</h2>
+
+        <pre class="highlight specification">
+        Given stub testing t
+        Then
+        Testing t fail now
+        Assert that t stub testing t failed is equal to true</pre>
+
+        <h2>Test results:</h2>
+
+    
+        <pre class='highlight results test-failed'>TEST FAILED
+        </pre>
+    
+    
+
+<h3 class="logKey">Interesting Givens</h3>
+
+<table class="interestingGivens logValue">
+    
+</table>
+
+
+    
+
+
+
+    </div>
+</div>
+
+<div class="testmethod">
+    <a id="github.com/corbym/gogiven_test.TestGoGivenLogsWithMetaData"></a>
+    <h2>Go Given Logs With Meta Data</h2>
+    <p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGoGivenLogsWithMetaData">
+        <a id=""></a>
+        <h2>Specification</h2>
+
+        <pre class="highlight specification">
+        Given stub testing t
+        Then
+        Testing t logf &#34;wobble bop&#34;
+        Assert that t stub testing t failed is equal to true
+        Assert that t stub testing t test output is equal to &#34;wobble bop&#34;</pre>
+
+        <h2>Test results:</h2>
+
+    
+        <pre class='highlight results test-failed'>TEST FAILED
+        wobble bop</pre>
+    
+    
+
+<h3 class="logKey">Interesting Givens</h3>
+
+<table class="interestingGivens logValue">
+    
+</table>
+
+
+    
+
 
 
     </div>
@@ -704,13 +785,13 @@ Expected: value with length 2
 <table class="interestingGivens logValue">
     
     <tr>
-        <th class="key">expected</th>
-        <td class="interestingGiven">2</td>
+        <th class="key">value</th>
+        <td class="interestingGiven">aa</td>
     </tr>
     
     <tr>
-        <th class="key">value</th>
-        <td class="interestingGiven">aa</td>
+        <th class="key">expected</th>
+        <td class="interestingGiven">2</td>
     </tr>
     
 </table>
