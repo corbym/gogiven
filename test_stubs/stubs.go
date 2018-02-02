@@ -14,26 +14,36 @@ type StubOutputListener struct {
 	TestFilePath string
 	ContentType  string
 	Output       string
-	Received     chan bool
+	Received     chan string
+	await        string
 }
 
-func NewStubListener() (outputListener *StubOutputListener, hasReceived chan bool) {
-	hasReceived = make(chan bool, 1)
-	outputListener = &StubOutputListener{Received: hasReceived}
+const GeneratorTest = "generator_test"
+const IndexFileName = "index"
+const FailedToReceive = "failed"
+
+func NewStubListener(await string) (*StubOutputListener, chan string) {
+	hasReceived := make(chan string, 1)
+	outputListener := &StubOutputListener{Received: hasReceived, await: await}
 	gogiven.OutputListeners = []generator.OutputListener{outputListener}
-	defer time.AfterFunc(500*time.Millisecond, func() { hasReceived <- false })
-	return
+	defer time.AfterFunc(500*time.Millisecond, func() {
+		hasReceived <- FailedToReceive
+	})
+	return outputListener, hasReceived
 }
 
 func (stub *StubOutputListener) Notify(testFilePath string, contentType string, output io.Reader) {
-	if strings.Contains(testFilePath, "generator_test") {
+	if onlyReadWhenFilePathContains(testFilePath, stub.await) {
 		stub.TestFilePath = testFilePath
 		stub.ContentType = contentType
 		buffer := new(bytes.Buffer)
 		buffer.ReadFrom(output)
 		stub.Output = buffer.String()
-		stub.Received <- true
+		stub.Received <- stub.await
 	}
+}
+func onlyReadWhenFilePathContains(testFilePath string, await string) bool {
+	return strings.Contains(testFilePath, await)
 }
 
 type StubGenerator struct {
@@ -41,14 +51,14 @@ type StubGenerator struct {
 	Received chan bool
 }
 
-func NewStubGenerator() (generator *StubGenerator, hasReceived chan bool) {
-	hasReceived = make(chan bool, 1)
-	generator = &StubGenerator{Received: hasReceived}
+func NewStubGenerator() (*StubGenerator, chan bool) {
+	hasReceived := make(chan bool, 1)
+	generator := &StubGenerator{Received: hasReceived}
 	gogiven.Generator = generator
-	defer time.AfterFunc(500*time.Millisecond, func() { hasReceived <- false })
-	return
+	defer time.AfterFunc(2*time.Second, func() { hasReceived <- false })
+	return generator, hasReceived
 }
-func (stubGenerator *StubGenerator) Generate(data *generator.PageData) (output io.Reader) {
+func (stubGenerator *StubGenerator) Generate(data generator.PageData) (output io.Reader) {
 	return strings.NewReader("content")
 }
 

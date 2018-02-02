@@ -42,11 +42,14 @@ func GenerateTestOutput() {
 
 		output := Generator.Generate(pageData)
 		contentType := Generator.ContentType()
-		notifyListeners(currentTestContext, contentType, output)
+		notifyListeners(currentTestContext.FileName(), contentType, output)
 	}
+	index := Generator.GenerateIndex()
+	notifyListeners("index", Generator.ContentType(), index)
 }
-func notifyListeners(currentTestContext *TestContext, contentType string, output io.Reader) {
+
+func notifyListeners(fileName string, contentType string, output io.Reader) {
 	for _, listener := range OutputListeners {
-		listener.Notify(currentTestContext.FileName(), contentType, output)
+		listener.Notify(fileName, contentType, output)
 	}
 }

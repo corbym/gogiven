@@ -27,9 +27,15 @@ func (f *FileOutputGenerator) Notify(testFilePath string, contentType string, ou
 	sort.Sort(sort.Reverse(sort.StringSlice(extensions)))
 	fileExtension := extensions[0]
 
+	filename := strings.Replace(filepath.Base(testFilePath), ".go", fileExtension, 1)
+	if !strings.HasSuffix(filename, fileExtension) {
+		filename += fileExtension
+	}
+
 	outputFileName := fmt.Sprintf("%s%c%s", OutputDirectory(),
 		os.PathSeparator,
-		strings.Replace(filepath.Base(testFilePath), ".go", fileExtension, 1))
+		filename,
+	)
 
 	out := withResultErrorHandler(ioutil.ReadAll(output)).([]byte)
 

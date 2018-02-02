@@ -22,18 +22,21 @@ var underTest = &FileOutputGenerator{}
 
 func TestFileOutputGenerator_Notify(t *testing.T) {
 	tests := []struct {
-		name        string
-		contentType string
+		name                   string
+		contentType            string
+		fullyQualifiedFileName string
+		fileNameWithoutExtension string
 	}{
-		{"json content", "application/json"},
-		{"html content", "text/html"},
-		{"pdf content", "application/pdf"},
+		{"json content", "application/json", "./funbags.go", "funbags"},
+		{"html content", "text/html", "./funbags.go", "funbags"},
+		{"pdf content", "application/pdf", "./funbags.go","funbags"},
+		{"pdf content", "application/pdf", "index","index"},
 	}
 	for _, testRange := range tests {
 		t.Run(testRange.name, func(t *testing.T) {
 			// set up
 			extension := firstOfSortedExtensions(testRange.contentType)
-			expectedFileOutputFileName := "funbags" + extension[0]
+			expectedFileOutputFileName := testRange.fileNameWithoutExtension + extension[0]
 
 			defer func() {
 				then.AssertThat(t, someFile(ofFileInOutputDir(expectedFileOutputFileName)), exists())
@@ -44,7 +47,7 @@ func TestFileOutputGenerator_Notify(t *testing.T) {
 			}()
 
 			reader := strings.NewReader(theContent)
-			underTest.Notify("./funbags.go", testRange.contentType, reader)
+			underTest.Notify(testRange.fullyQualifiedFileName, testRange.contentType, reader)
 
 		})
 	}

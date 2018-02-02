@@ -15,11 +15,11 @@ func TestGenerateTestOutput_contentType(t *testing.T) {
 	}()
 	// initialise global map
 	gogiven.Given(t)
-	listener, received := test_stubs_test.NewStubListener()
+	listener, received := test_stubs_test.NewStubListener(test_stubs_test.GeneratorTest)
 	gogiven.GenerateTestOutput()
 	done := <-received
 
-	then.AssertThat(t, done, is.EqualTo(true))
+	then.AssertThat(t, done, is.EqualTo(test_stubs_test.GeneratorTest))
 	then.AssertThat(t, listener.ContentType, is.EqualTo("text/html"))
 }
 
@@ -30,12 +30,11 @@ func TestGenerateTestOutput_fileName(t *testing.T) {
 	}()
 	// initialise global map
 	gogiven.Given(t)
-
-	listener, channel := test_stubs_test.NewStubListener()
+	listener, received := test_stubs_test.NewStubListener(test_stubs_test.GeneratorTest)
 	gogiven.GenerateTestOutput()
-	done := <-channel
+	done := <-received
 
-	then.AssertThat(t, done, is.EqualTo(true))
+	then.AssertThat(t, done, is.EqualTo(test_stubs_test.GeneratorTest))
 	then.AssertThat(t, listener.TestFilePath, is.ValueContaining("generator_test.go"))
 }
 
@@ -47,11 +46,10 @@ func TestGenerateTestOutput_output(t *testing.T) {
 	// initialise global map
 	gogiven.Given(t)
 
-	listener, received := test_stubs_test.NewStubListener()
+	listener, received := test_stubs_test.NewStubListener(test_stubs_test.GeneratorTest)
 	gogiven.GenerateTestOutput()
-	done := <-received
+	<-received
 
-	then.AssertThat(t, done, is.EqualTo(true))
 	then.AssertThat(t, listener.Output, is.ValueContaining("foo"))
 }
 
@@ -60,10 +58,32 @@ func TestGenerateTestOutput_GenerateIndex(t *testing.T) {
 	defer func() {
 		gogiven.Generator = oldOutputGenerator
 	}()
+
 	gogiven.Given(t)
 	_, received := test_stubs_test.NewStubGenerator()
+
 	gogiven.GenerateTestOutput()
 	done := <-received
 
 	then.AssertThat(t, done, is.EqualTo(true))
+}
+func TestGenerateTestOutput_OutputIndex(t *testing.T) {
+	oldListeners := gogiven.OutputListeners
+	oldOutputGenerator := gogiven.Generator
+	defer func() {
+		gogiven.OutputListeners = oldListeners
+		gogiven.Generator = oldOutputGenerator
+	}()
+
+	// initialise global map
+	gogiven.Given(t)
+
+	listener, received := test_stubs_test.NewStubListener(test_stubs_test.IndexFileName)
+	test_stubs_test.NewStubGenerator()
+
+	gogiven.GenerateTestOutput()
+	done := <-received
+
+	then.AssertThat(t, done, is.EqualTo(test_stubs_test.IndexFileName))
+	then.AssertThat(t, listener.Output, is.EqualTo("index"))
 }
