@@ -4,8 +4,8 @@
 [[projects]]
   name = "github.com/corbym/gocrest"
   packages = [".","has","is","then"]
-  revision = "190aad5060656f4c8a80c51fba0874cea11e3556"
-  version = "v1.02"
+  revision = "f9449d272153928bfef651d4595590953d34b611"
+  version = "v1.0.3"
 
 [[projects]]
   name = "github.com/corbym/htmlspec"
@@ -21,6 +21,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "de48e01e818518eb325fbd80604e33debf78a0b9b9a89899081f6a099d433cae"
+  inputs-digest = "45c55669e9a9fc28bc6f809c8c00d5c719355b86378b70ad9d61e046c1941108"
   solver-name = "gps-cdcl"
   solver-version = 1
