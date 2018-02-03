@@ -10,7 +10,7 @@
 [[projects]]
   name = "github.com/corbym/htmlspec"
   packages = ["."]
-  revision = "3f38e55d48567f98ae399840aad00579b8ad239e"
+  revision = "b3fa4bd9e1894b8bc6d263cc902e4d4ca0605e72"
 
 [[projects]]
   branch = "master"
@@ -21,6 +21,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "45c55669e9a9fc28bc6f809c8c00d5c719355b86378b70ad9d61e046c1941108"
+  inputs-digest = "4b1c41bba69b636476ee3ca9544834716d5106783badf6b56a8aacfeba2f4c4e"
   solver-name = "gps-cdcl"
   solver-version = 1
