@@ -22,7 +22,7 @@
 
 [[constraint]]
   name = "github.com/corbym/htmlspec"
-  revision = "3f38e55d48567f98ae399840aad00579b8ad239e"
+  revision = "b3fa4bd9e1894b8bc6d263cc902e4d4ca0605e72"
 
 [[constraint]]
   branch = "master"
