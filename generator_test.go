@@ -1,6 +1,7 @@
 package gogiven_test
 
 import (
+	"github.com/corbym/gocrest/has"
 	"github.com/corbym/gocrest/is"
 	"github.com/corbym/gocrest/then"
 	"github.com/corbym/gogiven"
@@ -60,13 +61,16 @@ func TestGenerateTestOutput_GenerateIndex(t *testing.T) {
 	}()
 
 	gogiven.Given(t)
-	_, received := test_stubs_test.NewStubGenerator()
+	stubGenerator, received := test_stubs_test.NewStubGenerator()
 
 	gogiven.GenerateTestOutput()
 	done := <-received
 
 	then.AssertThat(t, done, is.EqualTo(true))
+	then.AssertThat(t, stubGenerator.IndexData, has.Length(is.GreaterThan(0)))
+	then.AssertThat(t, stubGenerator.IndexData[0].TestFileName, is.ValueContaining("_test.go"))
 }
+
 func TestGenerateTestOutput_OutputIndex(t *testing.T) {
 	oldListeners := gogiven.OutputListeners
 	oldOutputGenerator := gogiven.Generator

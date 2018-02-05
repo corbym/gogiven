@@ -8,9 +8,10 @@
   version = "v1.0.3"
 
 [[projects]]
+  branch = "proto-indexing-test"
   name = "github.com/corbym/htmlspec"
   packages = ["."]
-  revision = "b3fa4bd9e1894b8bc6d263cc902e4d4ca0605e72"
+  revision = "1f00b736e0acd836efadbf225979a33b5fa690b9"
 
 [[projects]]
   branch = "master"
@@ -21,6 +22,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "4b1c41bba69b636476ee3ca9544834716d5106783badf6b56a8aacfeba2f4c4e"
+  inputs-digest = "061622a22fd6a6c5e052139f4ff31c9bf82455db686af9ff8118bb72399646bf"
   solver-name = "gps-cdcl"
   solver-version = 1

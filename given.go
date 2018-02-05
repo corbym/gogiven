@@ -20,9 +20,7 @@ func Given(testing base.TestingT, given ...base.GivenData) *base.Some {
 	currentTestContext := loadTestContext(testFileName)
 
 	someTests := currentTestContext.someTests
-	keyFor := uniqueKeyFor(someTests, currentFunction.Name()) // this deals with table test for loops that do not have
-	// t.Run inside.. we want different id for each
-
+	keyFor := uniqueKeyFor(someTests, currentFunction.Name())
 	some := base.NewSome(
 		testing,
 		testTitle(testing.Name()),
@@ -81,6 +79,8 @@ func findTestFpcFunction() ([]uintptr, *runtime.Func) {
 	return funcProgramCounters, function
 }
 
+// uniqueKeyFor generates a unique id for the test loop for this test.
+// It deals with table test for loops that do not have t.Run inside... we want different id for each
 func uniqueKeyFor(somes *SafeMap, name string) string {
 	if _, ok := somes.Load(name); !ok {
 		return name

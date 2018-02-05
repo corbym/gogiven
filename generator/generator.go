@@ -9,7 +9,7 @@ import (
 type GoGivensOutputGenerator interface {
 	Generate(data PageData) (output io.Reader)
 	//Generate the index from all the tests
-	GenerateIndex() (output io.Reader)
+	GenerateIndex(indexData []IndexData) (output io.Reader)
 	//ContentType is text/html, application/json or other mime type
 	ContentType() string
 }

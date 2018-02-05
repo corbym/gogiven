@@ -48,7 +48,8 @@ func onlyReadWhenFilePathContains(testFilePath string, await string) bool {
 
 type StubGenerator struct {
 	generator.GoGivensOutputGenerator
-	Received chan bool
+	IndexData []generator.IndexData
+	Received  chan bool
 }
 
 func NewStubGenerator() (*StubGenerator, chan bool) {
@@ -58,12 +59,13 @@ func NewStubGenerator() (*StubGenerator, chan bool) {
 	defer time.AfterFunc(2*time.Second, func() { hasReceived <- false })
 	return generator, hasReceived
 }
-func (stubGenerator *StubGenerator) Generate(data generator.PageData) (output io.Reader) {
+func (stubGenerator *StubGenerator) Generate(data generator.PageData) io.Reader {
 	return strings.NewReader("content")
 }
 
-func (stubGenerator *StubGenerator) GenerateIndex() (output io.Reader) {
+func (stubGenerator *StubGenerator) GenerateIndex(indexData []generator.IndexData) io.Reader {
 	stubGenerator.Received <- true
+	stubGenerator.IndexData = indexData
 	return strings.NewReader("index")
 }
 

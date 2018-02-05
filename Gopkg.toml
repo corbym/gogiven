@@ -22,7 +22,7 @@
 
 [[constraint]]
   name = "github.com/corbym/htmlspec"
-  revision = "5e62e6446eb63840c0c5a3089a8ac271947dd2dd"
+  branch = "proto-indexing-test"
 
 [[constraint]]
   branch = "master"
