@@ -61,7 +61,8 @@ func NewPageData(title string, someMap *base.SomeMap) (pageData PageData) {
 }
 
 func copyTestResults(someMap *base.SomeMap) []TestData {
-	testData := make([]TestData, len(*someMap))
+	var testData []TestData
+
 	for _, v := range *someMap {
 		testData = append(testData, NewTestData(v))
 	}
