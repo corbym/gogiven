@@ -68,7 +68,7 @@ func TestGenerateTestOutput_GenerateIndex(t *testing.T) {
 
 	then.AssertThat(t, done, is.EqualTo(true))
 	then.AssertThat(t, stubGenerator.IndexData, has.Length(is.GreaterThan(0)))
-	then.AssertThat(t, stubGenerator.IndexData[0].TestFileName, is.ValueContaining("_test.go"))
+	then.AssertThat(t, stubGenerator.IndexData[0].Ref, is.ValueContaining("_test.html"))
 }
 
 func TestGenerateTestOutput_OutputIndex(t *testing.T) {

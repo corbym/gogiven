@@ -14,7 +14,7 @@ import (
 // Don't forget to add the call to the generator function in a "func TestMain(testing.M)" method
 // in your test package.
 // One file per test file will be generated containing output.
-var Generator generator.GoGivensOutputGenerator = htmlspec.NewTestOutputGenerator()
+var Generator generator.GoGivensOutputGenerator = htmlspec.NewHTMLOutputGenerator()
 
 const indexIdentifier = "index"
 
@@ -46,11 +46,24 @@ func GenerateTestOutput() {
 
 		output := Generator.Generate(pageData)
 		contentType := Generator.ContentType()
+		indexData = generateIndexData(currentTestContext, contentType, indexData, pageData)
 		notifyListeners(currentTestContext.FileName(), contentType, output)
-		indexData = append(indexData, generator.NewIndexData(currentTestContext.FileName(), pageData))
 	}
 	index := Generator.GenerateIndex(indexData)
 	notifyListeners(indexIdentifier, Generator.ContentType(), index)
+}
+
+func generateIndexData(
+	currentTestContext *TestContext,
+	contentType string,
+	indexData []generator.IndexData,
+	pageData generator.PageData) []generator.IndexData {
+
+	for _, listener := range OutputListeners {
+		ref := listener.Ref(currentTestContext.fileName, contentType)
+		indexData = append(indexData, generator.NewIndexData(ref, pageData))
+	}
+	return indexData
 }
 
 func notifyListeners(fileNameWithPath string, contentType string, output io.Reader) {

@@ -22,19 +22,9 @@ type FileOutputGenerator struct {
 // usually test output. The file is written to env var GOGIVENS_OUTPUT_DIR if set, or defaults either
 // to system tmp or the current dir if neither are found.
 func (f *FileOutputGenerator) Notify(testFilePath string, contentType string, output io.Reader) {
-	extensions := withResultErrorHandler(mime.ExtensionsByType(contentType)).([]string)
-
-	sort.Sort(sort.Reverse(sort.StringSlice(extensions)))
-	fileExtension := extensions[0]
-
-	filename := strings.Replace(filepath.Base(testFilePath), ".go", fileExtension, 1)
-	if !strings.HasSuffix(filename, fileExtension) {
-		filename += fileExtension
-	}
-
 	outputFileName := fmt.Sprintf("%s%c%s", OutputDirectory(),
 		os.PathSeparator,
-		filename,
+		f.Ref(testFilePath, contentType),
 	)
 
 	out := withResultErrorHandler(ioutil.ReadAll(output)).([]byte)
@@ -42,6 +32,18 @@ func (f *FileOutputGenerator) Notify(testFilePath string, contentType string, ou
 	errorHandler(ioutil.WriteFile(outputFileName, out, 0644))
 
 	fmt.Printf("\ngenerated test output: file://%s\n", strings.Replace(outputFileName, "\\", "/", -1))
+}
+
+func (f *FileOutputGenerator) Ref(testFilePath string, contentType string) string {
+	extensions := withResultErrorHandler(mime.ExtensionsByType(contentType)).([]string)
+
+	sort.Sort(sort.Reverse(sort.StringSlice(extensions)))
+	fileExtension := extensions[0]
+	filename := strings.Replace(filepath.Base(testFilePath), ".go", fileExtension, 1)
+	if !strings.HasSuffix(filename, fileExtension) {
+		filename += fileExtension
+	}
+	return filename
 }
 
 func withResultErrorHandler(in interface{}, err error) interface{} {

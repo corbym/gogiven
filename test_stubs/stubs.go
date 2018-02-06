@@ -32,16 +32,21 @@ func NewStubListener(await string) (*StubOutputListener, chan string) {
 	return outputListener, hasReceived
 }
 
-func (stub *StubOutputListener) Notify(testFilePath string, contentType string, output io.Reader) {
-	if onlyReadWhenFilePathContains(testFilePath, stub.await) {
-		stub.TestFilePath = testFilePath
-		stub.ContentType = contentType
+func (stubOutputListener *StubOutputListener) Notify(testFilePath string, contentType string, output io.Reader) {
+	if onlyReadWhenFilePathContains(testFilePath, stubOutputListener.await) {
+		stubOutputListener.TestFilePath = testFilePath
+		stubOutputListener.ContentType = contentType
 		buffer := new(bytes.Buffer)
 		buffer.ReadFrom(output)
-		stub.Output = buffer.String()
-		stub.Received <- stub.await
+		stubOutputListener.Output = buffer.String()
+		stubOutputListener.Received <- stubOutputListener.await
 	}
 }
+
+func (stubOutputListener *StubOutputListener) Ref(testFilePath string, contentType string) string {
+	return "ref"
+}
+
 func onlyReadWhenFilePathContains(testFilePath string, await string) bool {
 	return strings.Contains(testFilePath, await)
 }
