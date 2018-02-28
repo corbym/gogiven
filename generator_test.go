@@ -68,7 +68,10 @@ func TestGenerateTestOutput_GenerateIndex(t *testing.T) {
 
 	then.AssertThat(t, done, is.EqualTo(true))
 	then.AssertThat(t, stubGenerator.IndexData, has.Length(is.GreaterThan(0)))
-	then.AssertThat(t, stubGenerator.IndexData[0].Ref, is.ValueContaining("_test.html"))
+	then.AssertThat(t, stubGenerator.IndexData[0].Ref, is.AnyOf(
+		is.ValueContaining("_test.html"),
+		is.ValueContaining("_test.shtml"),
+	))
 }
 
 func TestGenerateTestOutput_OutputIndex(t *testing.T) {
