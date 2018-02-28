@@ -11,7 +11,7 @@
   branch = "proto-indexing-test"
   name = "github.com/corbym/htmlspec"
   packages = ["."]
-  revision = "1f00b736e0acd836efadbf225979a33b5fa690b9"
+  revision = "d784e1599845421e7a1207e802343f7cbec8e7b3"
 
 [[projects]]
   branch = "master"
