@@ -3,7 +3,7 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-    <title>Generator Test</title>
+    <title>Index</title>
 
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
@@ -307,233 +307,114 @@
 </head>
 <body>
 
-<h1>Generator Test</h1>
+<h1>Index</h1>
 
 
 <div class="contents">
     <h2>Contents</h2>
 
-    <ul class="contents">
+    <div class="contents">
     
+        
+        <dl class="test-passed index-result">
+            <dt><a href="generator_test.shtml">Generator Test</a></dt>
+        
+            
+                <dd class='test-passed'><a href="generator_test.shtml#github.com%2fcorbym%2fgogiven_test.TestGenerateTestOutput_contentType">Generate Test Output   content Type</a></dd>
+            
+        
+            
+                <dd class='test-passed'><a href="generator_test.shtml#github.com%2fcorbym%2fgogiven_test.TestGenerateTestOutput_fileName">Generate Test Output   file Name</a></dd>
+            
+        
+            
+                <dd class='test-passed'><a href="generator_test.shtml#github.com%2fcorbym%2fgogiven_test.TestGenerateTestOutput_output">Generate Test Output   output</a></dd>
+            
+        
+            
+                <dd class='test-passed'><a href="generator_test.shtml#github.com%2fcorbym%2fgogiven_test.TestGenerateTestOutput_GenerateIndex">Generate Test Output   Generate Index</a></dd>
+            
+        
+            
+                <dd class='test-passed'><a href="generator_test.shtml#github.com%2fcorbym%2fgogiven_test.TestGenerateTestOutput_OutputIndex">Generate Test Output   Output Index</a></dd>
+            
+        
+        </dl>
     
-        <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven_test.TestGenerateTestOutput_contentType">Generate Test Output   content Type</a></li>
+        
+        <dl class="test-failed index-result">
+            <dt><a href="given_test.shtml">Given Test</a></dt>
+        
+            
+                <dd class='test-failed'><a href="given_test.shtml#github.com%2fcorbym%2fgogiven_test.TestGoGivenLogsWithMetaData">Go Given Logs With Meta Data</a></dd>
+            
+        
+            
+                <dd class='test-passed'><a href="given_test.shtml#github.com%2fcorbym%2fgogiven_test.TestGivenWhenStacksGivens">Given When Stacks Givens</a></dd>
+            
+        
+            
+                <dd class='test-passed'><a href="given_test.shtml#github.com%2fcorbym%2fgogiven_test.TestGivenWhenExercisingRanges">e</a></dd>
+            
+        
+            
+                <dd class='test-passed'><a href="given_test.shtml#github.com%2fcorbym%2fgogiven_test.TestInnerTestRangesOverValues.func1">Inner Test Ranges Over Values / n</a></dd>
+            
+        
+            
+                <dd class='test-passed'><a href="given_test.shtml#github.com%2fcorbym%2fgogiven_test.TestInnerTestRangesOverValues.func1_1">Inner Test Ranges Over Values / aa</a></dd>
+            
+        
+            
+                <dd class='test-not-run'><a href="given_test.shtml#github.com%2fcorbym%2fgogiven_test.TestGivenWhenSkips">test</a></dd>
+            
+        
+            
+                <dd class='test-passed'><a href="given_test.shtml#github.com%2fcorbym%2fgogiven_test.TestGivenWhenSetsInterestingGiven">Given When Sets Interesting Given</a></dd>
+            
+        
+            
+                <dd class='test-failed'><a href="given_test.shtml#github.com%2fcorbym%2fgogiven_test.TestGivenWhenExercisingRanges_1">e</a></dd>
+            
+        
+            
+                <dd class='test-failed'><a href="given_test.shtml#github.com%2fcorbym%2fgogiven_test.TestGoGivenFailsInMetaData">Go Given Fails In Meta Data</a></dd>
+            
+        
+        </dl>
     
+        
+        <dl class="test-failed index-result">
+            <dt><a href="example_test.shtml">Example Test</a></dt>
+        
+            
+                <dd class='test-passed'><a href="example_test.shtml#github.com%2fcorbym%2fgogiven_test.TestMyFirst_Skipped.func1_1">My First   Skipped / a</a></dd>
+            
+        
+            
+                <dd class='test-passed'><a href="example_test.shtml#github.com%2fcorbym%2fgogiven_test.TestWithoutGiven">Without Given</a></dd>
+            
+        
+            
+                <dd class='test-passed'><a href="example_test.shtml#github.com%2fcorbym%2fgogiven_test.TestMyFirst">My First</a></dd>
+            
+        
+            
+                <dd class='test-failed'><a href="example_test.shtml#github.com%2fcorbym%2fgogiven_test.TestMyFirst_Ranged.func1">My First   Ranged</a></dd>
+            
+        
+            
+                <dd class='test-passed'><a href="example_test.shtml#github.com%2fcorbym%2fgogiven_test.TestMyFirst_Ranged.func1_1">My First   Ranged</a></dd>
+            
+        
+            
+                <dd class='test-not-run'><a href="example_test.shtml#github.com%2fcorbym%2fgogiven_test.TestMyFirst_Skipped.func1">My First   Skipped / fff</a></dd>
+            
+        
+        </dl>
     
-    
-        <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven_test.TestGenerateTestOutput_fileName">Generate Test Output   file Name</a></li>
-    
-    
-    
-        <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven_test.TestGenerateTestOutput_output">Generate Test Output   output</a></li>
-    
-    
-    
-        <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven_test.TestGenerateTestOutput_GenerateIndex">Generate Test Output   Generate Index</a></li>
-    
-    
-    
-        <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven_test.TestGenerateTestOutput_OutputIndex">Generate Test Output   Output Index</a></li>
-    
-    
-    </ul>
-</div>
-
-
-
-
-<div class="testmethod">
-    <a id="github.com/corbym/gogiven_test.TestGenerateTestOutput_contentType"></a>
-    <h2>Generate Test Output   content Type</h2>
-    <p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGenerateTestOutput_contentType">
-        <a id=""></a>
-        <h2>Specification</h2>
-
-        <pre class="highlight specification">
-        Given t
-        Listener received = test stubs test new stub listener test stubs test generator test
-        Gogiven generate test output
-        Done = &lt;- received
-        Then assert that t done is equal to test stubs test generator test
-        Then assert that t listener content type is equal to &#34;text / html&#34;</pre>
-
-        <h2>Test results:</h2>
-
-    
-        <pre class='highlight results test-passed'>TEST PASSED
-        </pre>
-    
-    
-
-<h3 class="logKey">Interesting Givens</h3>
-
-<table class="interestingGivens logValue">
-    
-</table>
-
-
-    
-
-
-
     </div>
 </div>
-
-<div class="testmethod">
-    <a id="github.com/corbym/gogiven_test.TestGenerateTestOutput_fileName"></a>
-    <h2>Generate Test Output   file Name</h2>
-    <p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGenerateTestOutput_fileName">
-        <a id=""></a>
-        <h2>Specification</h2>
-
-        <pre class="highlight specification">
-        Given t
-        Listener received = test stubs test new stub listener test stubs test generator test
-        Gogiven generate test output
-        Done = &lt;- received
-        Then assert that t done is equal to test stubs test generator test
-        Then assert that t listener test file path is value containing &#34;generator test go&#34;</pre>
-
-        <h2>Test results:</h2>
-
-    
-        <pre class='highlight results test-passed'>TEST PASSED
-        </pre>
-    
-    
-
-<h3 class="logKey">Interesting Givens</h3>
-
-<table class="interestingGivens logValue">
-    
-</table>
-
-
-    
-
-
-
-    </div>
-</div>
-
-<div class="testmethod">
-    <a id="github.com/corbym/gogiven_test.TestGenerateTestOutput_output"></a>
-    <h2>Generate Test Output   output</h2>
-    <p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGenerateTestOutput_output">
-        <a id=""></a>
-        <h2>Specification</h2>
-
-        <pre class="highlight specification">
-        Given t
-        Listener received = test stubs test new stub listener test stubs test generator test
-        Gogiven generate test output
-        &lt;- received
-        Then assert that t listener output is value containing &#34;foo&#34;</pre>
-
-        <h2>Test results:</h2>
-
-    
-        <pre class='highlight results test-passed'>TEST PASSED
-        </pre>
-    
-    
-
-<h3 class="logKey">Interesting Givens</h3>
-
-<table class="interestingGivens logValue">
-    
-</table>
-
-
-    
-
-
-
-    </div>
-</div>
-
-<div class="testmethod">
-    <a id="github.com/corbym/gogiven_test.TestGenerateTestOutput_GenerateIndex"></a>
-    <h2>Generate Test Output   Generate Index</h2>
-    <p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGenerateTestOutput_GenerateIndex">
-        <a id=""></a>
-        <h2>Specification</h2>
-
-        <pre class="highlight specification">
-        Given t
-        Stub generator received = test stubs test new stub generator
-        Gogiven generate test output
-        Done = &lt;- received
-        Then assert that t done is equal to true
-        Then assert that t stub generator index data has length is greater than 0
-        Then assert that t stub generator index data 0 ref is any of
-        Is value containing &#34;test html&#34;
-        Is value containing &#34;test shtml&#34;</pre>
-
-        <h2>Test results:</h2>
-
-    
-        <pre class='highlight results test-passed'>TEST PASSED
-        </pre>
-    
-    
-
-<h3 class="logKey">Interesting Givens</h3>
-
-<table class="interestingGivens logValue">
-    
-</table>
-
-
-    
-
-
-
-    </div>
-</div>
-
-<div class="testmethod">
-    <a id="github.com/corbym/gogiven_test.TestGenerateTestOutput_OutputIndex"></a>
-    <h2>Generate Test Output   Output Index</h2>
-    <p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGenerateTestOutput_OutputIndex">
-        <a id=""></a>
-        <h2>Specification</h2>
-
-        <pre class="highlight specification">
-        Given t
-        Listener received = test stubs test new stub listener test stubs test index file name
-        Test stubs test new stub generator
-        Gogiven generate test output
-        Done = &lt;- received
-        Then assert that t done is equal to test stubs test index file name
-        Then assert that t listener output is equal to &#34;index&#34;</pre>
-
-        <h2>Test results:</h2>
-
-    
-        <pre class='highlight results test-passed'>TEST PASSED
-        </pre>
-    
-    
-
-<h3 class="logKey">Interesting Givens</h3>
-
-<table class="interestingGivens logValue">
-    
-</table>
-
-
-    
-
-
-
-    </div>
-</div>
-
 
 
 </body>

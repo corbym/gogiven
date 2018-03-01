@@ -316,27 +316,27 @@
     <ul class="contents">
     
     
-        <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven.TestMyFirst">My First</a></li>
+        <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven_test.TestMyFirst_Skipped.func1_1">My First   Skipped / a</a></li>
     
     
     
-        <li class='test-failed'><a href="#github.com%2fcorbym%2fgogiven.TestMyFirst_Ranged.func1">My First   Ranged</a></li>
+        <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven_test.TestWithoutGiven">Without Given</a></li>
     
     
     
-        <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven.TestMyFirst_Ranged.func1_1">My First   Ranged</a></li>
+        <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven_test.TestMyFirst">My First</a></li>
     
     
     
-        <li class='test-not-run'><a href="#github.com%2fcorbym%2fgogiven.TestMyFirst_Skipped.func1">My First   Skipped / fff</a></li>
+        <li class='test-failed'><a href="#github.com%2fcorbym%2fgogiven_test.TestMyFirst_Ranged.func1">My First   Ranged</a></li>
     
     
     
-        <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven.TestMyFirst_Skipped.func1_1">My First   Skipped / a</a></li>
+        <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven_test.TestMyFirst_Ranged.func1_1">My First   Ranged</a></li>
     
     
     
-        <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven.TestWithoutGiven">Without Given</a></li>
+        <li class='test-not-run'><a href="#github.com%2fcorbym%2fgogiven_test.TestMyFirst_Skipped.func1">My First   Skipped / fff</a></li>
     
     
     </ul>
@@ -346,10 +346,98 @@
 
 
 <div class="testmethod">
-    <a id="github.com/corbym/gogiven.TestMyFirst"></a>
+    <a id="github.com/corbym/gogiven_test.TestMyFirst_Skipped.func1_1"></a>
+    <h2>My First   Skipped / a</h2>
+    <p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestMyFirst_Skipped.func1_1">
+        <a id=""></a>
+        <h2>Specification</h2>
+
+        <pre class="highlight specification">
+        Given we are testing the system setup that is a bit dodgy to test
+        Skipping this one if the value is fff test &#34;some data % s does not work yet&#34; test actual
+        When something happens with the test
+        Then
+        Assert that t test actual is equal to &#34;a&#34; reason &#34;we only want to assert if test actual is a not empty&#34;</pre>
+
+        <h2>Test results:</h2>
+
+    
+        <pre class='highlight results test-passed'>TEST PASSED
+        </pre>
+    
+    
+
+<h3 class="logKey">Interesting Givens</h3>
+
+<table class="interestingGivens logValue">
+    
+    <tr>
+        <th class="key">foofar</th>
+        <td class="interestingGiven">faff</td>
+    </tr>
+    
+    <tr>
+        <th class="key">actual</th>
+        <td class="interestingGiven">a</td>
+    </tr>
+    
+</table>
+
+
+    
+
+
+<h3 class="logKey" logkey="a">a</h3>
+<div class="logValue highlight xml WebResource">1</div>
+
+
+    </div>
+</div>
+
+<div class="testmethod">
+    <a id="github.com/corbym/gogiven_test.TestWithoutGiven"></a>
+    <h2>Without Given</h2>
+    <p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestWithoutGiven">
+        <a id=""></a>
+        <h2>Specification</h2>
+
+        <pre class="highlight specification">
+        When t something happens
+        Then
+        Assert that testing actual &#34;actual&#34; is equal to &#34;some output&#34;</pre>
+
+        <h2>Test results:</h2>
+
+    
+        <pre class='highlight results test-passed'>TEST PASSED
+        </pre>
+    
+    
+
+<h3 class="logKey">Interesting Givens</h3>
+
+<table class="interestingGivens logValue">
+    
+</table>
+
+
+    
+
+
+<h3 class="logKey" logkey="actual">actual</h3>
+<div class="logValue highlight xml WebResource">some output</div>
+
+
+    </div>
+</div>
+
+<div class="testmethod">
+    <a id="github.com/corbym/gogiven_test.TestMyFirst"></a>
     <h2>My First</h2>
     <p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven.TestMyFirst">
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestMyFirst">
         <a id=""></a>
         <h2>Specification</h2>
 
@@ -391,10 +479,10 @@
 </div>
 
 <div class="testmethod">
-    <a id="github.com/corbym/gogiven.TestMyFirst_Ranged.func1"></a>
+    <a id="github.com/corbym/gogiven_test.TestMyFirst_Ranged.func1"></a>
     <h2>My First   Ranged</h2>
     <p>This test tests over a range of values. Lorum ipsum dolor, lorum ipsum dolor lorum ipsum dolor. Lorum ipsum dolor.</p><p>Comments on new lines will be split into paragraph sections.</p><p></p><p>Empty lines will be removed. Do not remove this comment. Thanks.</p><p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven.TestMyFirst_Ranged.func1">
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestMyFirst_Ranged.func1">
         <a id=""></a>
         <h2>Specification</h2>
 
@@ -444,10 +532,10 @@ Expected: value with length 2
 </div>
 
 <div class="testmethod">
-    <a id="github.com/corbym/gogiven.TestMyFirst_Ranged.func1_1"></a>
+    <a id="github.com/corbym/gogiven_test.TestMyFirst_Ranged.func1_1"></a>
     <h2>My First   Ranged</h2>
     <p>This test tests over a range of values. Lorum ipsum dolor, lorum ipsum dolor lorum ipsum dolor. Lorum ipsum dolor.</p><p>Comments on new lines will be split into paragraph sections.</p><p></p><p>Empty lines will be removed. Do not remove this comment. Thanks.</p><p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven.TestMyFirst_Ranged.func1_1">
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestMyFirst_Ranged.func1_1">
         <a id=""></a>
         <h2>Specification</h2>
 
@@ -471,13 +559,13 @@ Expected: value with length 2
 <table class="interestingGivens logValue">
     
     <tr>
-        <th class="key">foofar</th>
-        <td class="interestingGiven">faff</td>
+        <th class="key">actual</th>
+        <td class="interestingGiven">aaaa</td>
     </tr>
     
     <tr>
-        <th class="key">actual</th>
-        <td class="interestingGiven">aaaa</td>
+        <th class="key">foofar</th>
+        <td class="interestingGiven">faff</td>
     </tr>
     
 </table>
@@ -494,10 +582,10 @@ Expected: value with length 2
 </div>
 
 <div class="testmethod">
-    <a id="github.com/corbym/gogiven.TestMyFirst_Skipped.func1"></a>
+    <a id="github.com/corbym/gogiven_test.TestMyFirst_Skipped.func1"></a>
     <h2>My First   Skipped / fff</h2>
     <p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven.TestMyFirst_Skipped.func1">
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestMyFirst_Skipped.func1">
         <a id=""></a>
         <h2>Specification</h2>
 
@@ -535,94 +623,6 @@ Expected: value with length 2
 
     
 
-
-
-    </div>
-</div>
-
-<div class="testmethod">
-    <a id="github.com/corbym/gogiven.TestMyFirst_Skipped.func1_1"></a>
-    <h2>My First   Skipped / a</h2>
-    <p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven.TestMyFirst_Skipped.func1_1">
-        <a id=""></a>
-        <h2>Specification</h2>
-
-        <pre class="highlight specification">
-        Given we are testing the system setup that is a bit dodgy to test
-        Skipping this one if the value is fff test &#34;some data % s does not work yet&#34; test actual
-        When something happens with the test
-        Then
-        Assert that t test actual is equal to &#34;a&#34; reason &#34;we only want to assert if test actual is a not empty&#34;</pre>
-
-        <h2>Test results:</h2>
-
-    
-        <pre class='highlight results test-passed'>TEST PASSED
-        </pre>
-    
-    
-
-<h3 class="logKey">Interesting Givens</h3>
-
-<table class="interestingGivens logValue">
-    
-    <tr>
-        <th class="key">foofar</th>
-        <td class="interestingGiven">faff</td>
-    </tr>
-    
-    <tr>
-        <th class="key">actual</th>
-        <td class="interestingGiven">a</td>
-    </tr>
-    
-</table>
-
-
-    
-
-
-<h3 class="logKey" logkey="a">a</h3>
-<div class="logValue highlight xml WebResource">1</div>
-
-
-    </div>
-</div>
-
-<div class="testmethod">
-    <a id="github.com/corbym/gogiven.TestWithoutGiven"></a>
-    <h2>Without Given</h2>
-    <p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven.TestWithoutGiven">
-        <a id=""></a>
-        <h2>Specification</h2>
-
-        <pre class="highlight specification">
-        When t something happens
-        Then
-        Assert that testing actual &#34;actual&#34; is equal to &#34;some output&#34;</pre>
-
-        <h2>Test results:</h2>
-
-    
-        <pre class='highlight results test-passed'>TEST PASSED
-        </pre>
-    
-    
-
-<h3 class="logKey">Interesting Givens</h3>
-
-<table class="interestingGivens logValue">
-    
-</table>
-
-
-    
-
-
-<h3 class="logKey" logkey="actual">actual</h3>
-<div class="logValue highlight xml WebResource">some output</div>
 
 
     </div>

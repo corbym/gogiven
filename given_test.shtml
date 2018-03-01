@@ -316,19 +316,7 @@
     <ul class="contents">
     
     
-        <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven_test.TestGivenWhenExercisingRanges">e</a></li>
-    
-    
-    
-        <li class='test-failed'><a href="#github.com%2fcorbym%2fgogiven_test.TestGivenWhenExercisingRanges_1">e</a></li>
-    
-    
-    
-        <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven_test.TestGivenWhenSetsInterestingGiven">Given When Sets Interesting Given</a></li>
-    
-    
-    
-        <li class='test-not-run'><a href="#github.com%2fcorbym%2fgogiven_test.TestGivenWhenSkips">test</a></li>
+        <li class='test-failed'><a href="#github.com%2fcorbym%2fgogiven_test.TestGoGivenLogsWithMetaData">Go Given Logs With Meta Data</a></li>
     
     
     
@@ -336,11 +324,7 @@
     
     
     
-        <li class='test-failed'><a href="#github.com%2fcorbym%2fgogiven_test.TestGoGivenFailsInMetaData">Go Given Fails In Meta Data</a></li>
-    
-    
-    
-        <li class='test-failed'><a href="#github.com%2fcorbym%2fgogiven_test.TestGoGivenLogsWithMetaData">Go Given Logs With Meta Data</a></li>
+        <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven_test.TestGivenWhenExercisingRanges">e</a></li>
     
     
     
@@ -351,11 +335,121 @@
         <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven_test.TestInnerTestRangesOverValues.func1_1">Inner Test Ranges Over Values / aa</a></li>
     
     
+    
+        <li class='test-not-run'><a href="#github.com%2fcorbym%2fgogiven_test.TestGivenWhenSkips">test</a></li>
+    
+    
+    
+        <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven_test.TestGivenWhenSetsInterestingGiven">Given When Sets Interesting Given</a></li>
+    
+    
+    
+        <li class='test-failed'><a href="#github.com%2fcorbym%2fgogiven_test.TestGivenWhenExercisingRanges_1">e</a></li>
+    
+    
+    
+        <li class='test-failed'><a href="#github.com%2fcorbym%2fgogiven_test.TestGoGivenFailsInMetaData">Go Given Fails In Meta Data</a></li>
+    
+    
     </ul>
 </div>
 
 
 
+
+<div class="testmethod">
+    <a id="github.com/corbym/gogiven_test.TestGoGivenLogsWithMetaData"></a>
+    <h2>Go Given Logs With Meta Data</h2>
+    <p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGoGivenLogsWithMetaData">
+        <a id=""></a>
+        <h2>Specification</h2>
+
+        <pre class="highlight specification">
+        Given stub testing t
+        Then
+        Testing t logf &#34;wobble bop&#34;
+        Assert that t stub testing t failed is equal to true
+        Assert that t stub testing t test output is equal to &#34;wobble bop&#34;</pre>
+
+        <h2>Test results:</h2>
+
+    
+        <pre class='highlight results test-failed'>TEST FAILED
+        wobble bop</pre>
+    
+    
+
+<h3 class="logKey">Interesting Givens</h3>
+
+<table class="interestingGivens logValue">
+    
+</table>
+
+
+    
+
+
+
+    </div>
+</div>
+
+<div class="testmethod">
+    <a id="github.com/corbym/gogiven_test.TestGivenWhenStacksGivens"></a>
+    <h2>Given When Stacks Givens</h2>
+    <p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGivenWhenStacksGivens">
+        <a id=""></a>
+        <h2>Specification</h2>
+
+        <pre class="highlight specification">
+        Given testing some data setup and more data setup
+        When some action
+        Then
+        Noting that do assertions
+        Assert that testing givens has all keys &#34;1&#34; &#34;2&#34; &#34;blarg&#34;
+        Assert that testing givens is value containing &#34;hi&#34; 12 &#34;foo&#34;
+        Assert that testing actual has key &#34;foo&#34;</pre>
+
+        <h2>Test results:</h2>
+
+    
+        <pre class='highlight results test-passed'>TEST PASSED
+        </pre>
+    
+    
+
+<h3 class="logKey">Interesting Givens</h3>
+
+<table class="interestingGivens logValue">
+    
+    <tr>
+        <th class="key">1</th>
+        <td class="interestingGiven">hi</td>
+    </tr>
+    
+    <tr>
+        <th class="key">2</th>
+        <td class="interestingGiven">foo</td>
+    </tr>
+    
+    <tr>
+        <th class="key">blarg</th>
+        <td class="interestingGiven">12</td>
+    </tr>
+    
+</table>
+
+
+    
+
+
+<h3 class="logKey" logkey="foo">foo</h3>
+<div class="logValue highlight xml WebResource">foob</div>
+
+
+    </div>
+</div>
 
 <div class="testmethod">
     <a id="github.com/corbym/gogiven_test.TestGivenWhenExercisingRanges"></a>
@@ -400,304 +494,11 @@
     
 
 
-<h3 class="logKey" logkey="value">value</h3>
-<div class="logValue highlight xml WebResource"></div>
-
 <h3 class="logKey" logkey="expected">expected</h3>
 <div class="logValue highlight xml WebResource">0</div>
 
-
-    </div>
-</div>
-
-<div class="testmethod">
-    <a id="github.com/corbym/gogiven_test.TestGivenWhenExercisingRanges_1"></a>
-    <h2>e</h2>
-    <p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGivenWhenExercisingRanges_1">
-        <a id=""></a>
-        <h2>Specification</h2>
-
-        <pre class="highlight specification">
-        Given testing t
-        Some = append some given
-        Given when
-        Actual &#34;value&#34; = test actual
-        Actual &#34;expected&#34; = test expected
-        Then
-        Noting that do assertions
-        Test meta data = append test meta data t * base test meta data
-        Assert that t test actual has length test expected
-        Assert that testing some 0 captured io &#34;value&#34; is equal to &#34;&#34;
-        Assert that testing some 0 captured io &#34;expected&#34; is equal to 0
-        Assert that testing some 1 captured io &#34;value&#34; is equal to &#34;a&#34;
-        Assert that testing some 1 captured io &#34;expected&#34; is equal to 2
-        Assert that testing test meta data 0 failed is equal to false
-        Assert that testing test meta data 1 failed is equal to true</pre>
-
-        <h2>Test results:</h2>
-
-    
-        <pre class='highlight results test-failed'>TEST FAILED
-        
-Expected: value with length 2
-     but: &lt;length was 1&gt;
-</pre>
-    
-    
-
-<h3 class="logKey">Interesting Givens</h3>
-
-<table class="interestingGivens logValue">
-    
-</table>
-
-
-    
-
-
 <h3 class="logKey" logkey="value">value</h3>
-<div class="logValue highlight xml WebResource">a</div>
-
-<h3 class="logKey" logkey="expected">expected</h3>
-<div class="logValue highlight xml WebResource">2</div>
-
-
-    </div>
-</div>
-
-<div class="testmethod">
-    <a id="github.com/corbym/gogiven_test.TestGivenWhenSetsInterestingGiven"></a>
-    <h2>Given When Sets Interesting Given</h2>
-    <p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGivenWhenSetsInterestingGiven">
-        <a id=""></a>
-        <h2>Specification</h2>
-
-        <pre class="highlight specification">
-        Given testing some data setup
-        When some action
-        Then
-        Noting that do assertions
-        Assert that t actual &#34;foo&#34; is equal to &#34;foob&#34;</pre>
-
-        <h2>Test results:</h2>
-
-    
-        <pre class='highlight results test-passed'>TEST PASSED
-        </pre>
-    
-    
-
-<h3 class="logKey">Interesting Givens</h3>
-
-<table class="interestingGivens logValue">
-    
-    <tr>
-        <th class="key">1</th>
-        <td class="interestingGiven">hi</td>
-    </tr>
-    
-    <tr>
-        <th class="key">2</th>
-        <td class="interestingGiven">foo</td>
-    </tr>
-    
-</table>
-
-
-    
-
-
-<h3 class="logKey" logkey="foo">foo</h3>
-<div class="logValue highlight xml WebResource">foob</div>
-
-
-    </div>
-</div>
-
-<div class="testmethod">
-    <a id="github.com/corbym/gogiven_test.TestGivenWhenSkips"></a>
-    <h2>test</h2>
-    <p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGivenWhenSkips">
-        <a id=""></a>
-        <h2>Specification</h2>
-
-        <pre class="highlight specification">
-        Given t some data setup and more data setup
-        Skipping this one &#34;some reason&#34;
-        When some action
-        Then
-        Noting that do assertions
-        Assert that testing t skipped is equal to true
-        Assert that testing t test output is equal to &#34;some reason&#34;</pre>
-
-        <h2>Test results:</h2>
-
-    
-        <pre class='highlight results test-not-run'>TEST SKIPPED
-        some reason</pre>
-    
-    
-
-<h3 class="logKey">Interesting Givens</h3>
-
-<table class="interestingGivens logValue">
-    
-    <tr>
-        <th class="key">1</th>
-        <td class="interestingGiven">hi</td>
-    </tr>
-    
-    <tr>
-        <th class="key">2</th>
-        <td class="interestingGiven">foo</td>
-    </tr>
-    
-    <tr>
-        <th class="key">blarg</th>
-        <td class="interestingGiven">12</td>
-    </tr>
-    
-</table>
-
-
-    
-
-
-<h3 class="logKey" logkey="foo">foo</h3>
-<div class="logValue highlight xml WebResource">foob</div>
-
-
-    </div>
-</div>
-
-<div class="testmethod">
-    <a id="github.com/corbym/gogiven_test.TestGivenWhenStacksGivens"></a>
-    <h2>Given When Stacks Givens</h2>
-    <p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGivenWhenStacksGivens">
-        <a id=""></a>
-        <h2>Specification</h2>
-
-        <pre class="highlight specification">
-        Given testing some data setup and more data setup
-        When some action
-        Then
-        Noting that do assertions
-        Assert that testing givens has all keys &#34;1&#34; &#34;2&#34; &#34;blarg&#34;
-        Assert that testing givens is value containing &#34;hi&#34; 12 &#34;foo&#34;
-        Assert that testing actual has key &#34;foo&#34;</pre>
-
-        <h2>Test results:</h2>
-
-    
-        <pre class='highlight results test-passed'>TEST PASSED
-        </pre>
-    
-    
-
-<h3 class="logKey">Interesting Givens</h3>
-
-<table class="interestingGivens logValue">
-    
-    <tr>
-        <th class="key">blarg</th>
-        <td class="interestingGiven">12</td>
-    </tr>
-    
-    <tr>
-        <th class="key">1</th>
-        <td class="interestingGiven">hi</td>
-    </tr>
-    
-    <tr>
-        <th class="key">2</th>
-        <td class="interestingGiven">foo</td>
-    </tr>
-    
-</table>
-
-
-    
-
-
-<h3 class="logKey" logkey="foo">foo</h3>
-<div class="logValue highlight xml WebResource">foob</div>
-
-
-    </div>
-</div>
-
-<div class="testmethod">
-    <a id="github.com/corbym/gogiven_test.TestGoGivenFailsInMetaData"></a>
-    <h2>Go Given Fails In Meta Data</h2>
-    <p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGoGivenFailsInMetaData">
-        <a id=""></a>
-        <h2>Specification</h2>
-
-        <pre class="highlight specification">
-        Given stub testing t
-        Then
-        Testing t fail now
-        Assert that t stub testing t failed is equal to true</pre>
-
-        <h2>Test results:</h2>
-
-    
-        <pre class='highlight results test-failed'>TEST FAILED
-        </pre>
-    
-    
-
-<h3 class="logKey">Interesting Givens</h3>
-
-<table class="interestingGivens logValue">
-    
-</table>
-
-
-    
-
-
-
-    </div>
-</div>
-
-<div class="testmethod">
-    <a id="github.com/corbym/gogiven_test.TestGoGivenLogsWithMetaData"></a>
-    <h2>Go Given Logs With Meta Data</h2>
-    <p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGoGivenLogsWithMetaData">
-        <a id=""></a>
-        <h2>Specification</h2>
-
-        <pre class="highlight specification">
-        Given stub testing t
-        Then
-        Testing t logf &#34;wobble bop&#34;
-        Assert that t stub testing t failed is equal to true
-        Assert that t stub testing t test output is equal to &#34;wobble bop&#34;</pre>
-
-        <h2>Test results:</h2>
-
-    
-        <pre class='highlight results test-failed'>TEST FAILED
-        wobble bop</pre>
-    
-    
-
-<h3 class="logKey">Interesting Givens</h3>
-
-<table class="interestingGivens logValue">
-    
-</table>
-
-
-    
-
+<div class="logValue highlight xml WebResource"></div>
 
 
     </div>
@@ -785,13 +586,13 @@ Expected: value with length 2
 <table class="interestingGivens logValue">
     
     <tr>
-        <th class="key">value</th>
-        <td class="interestingGiven">aa</td>
+        <th class="key">expected</th>
+        <td class="interestingGiven">2</td>
     </tr>
     
     <tr>
-        <th class="key">expected</th>
-        <td class="interestingGiven">2</td>
+        <th class="key">value</th>
+        <td class="interestingGiven">aa</td>
     </tr>
     
 </table>
@@ -802,6 +603,205 @@ Expected: value with length 2
 
 <h3 class="logKey" logkey="actual">actual</h3>
 <div class="logValue highlight xml WebResource">2</div>
+
+
+    </div>
+</div>
+
+<div class="testmethod">
+    <a id="github.com/corbym/gogiven_test.TestGivenWhenSkips"></a>
+    <h2>test</h2>
+    <p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGivenWhenSkips">
+        <a id=""></a>
+        <h2>Specification</h2>
+
+        <pre class="highlight specification">
+        Given t some data setup and more data setup
+        Skipping this one &#34;some reason&#34;
+        When some action
+        Then
+        Noting that do assertions
+        Assert that testing t skipped is equal to true
+        Assert that testing t test output is equal to &#34;some reason&#34;</pre>
+
+        <h2>Test results:</h2>
+
+    
+        <pre class='highlight results test-not-run'>TEST SKIPPED
+        some reason</pre>
+    
+    
+
+<h3 class="logKey">Interesting Givens</h3>
+
+<table class="interestingGivens logValue">
+    
+    <tr>
+        <th class="key">1</th>
+        <td class="interestingGiven">hi</td>
+    </tr>
+    
+    <tr>
+        <th class="key">2</th>
+        <td class="interestingGiven">foo</td>
+    </tr>
+    
+    <tr>
+        <th class="key">blarg</th>
+        <td class="interestingGiven">12</td>
+    </tr>
+    
+</table>
+
+
+    
+
+
+<h3 class="logKey" logkey="foo">foo</h3>
+<div class="logValue highlight xml WebResource">foob</div>
+
+
+    </div>
+</div>
+
+<div class="testmethod">
+    <a id="github.com/corbym/gogiven_test.TestGivenWhenSetsInterestingGiven"></a>
+    <h2>Given When Sets Interesting Given</h2>
+    <p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGivenWhenSetsInterestingGiven">
+        <a id=""></a>
+        <h2>Specification</h2>
+
+        <pre class="highlight specification">
+        Given testing some data setup
+        When some action
+        Then
+        Noting that do assertions
+        Assert that t actual &#34;foo&#34; is equal to &#34;foob&#34;</pre>
+
+        <h2>Test results:</h2>
+
+    
+        <pre class='highlight results test-passed'>TEST PASSED
+        </pre>
+    
+    
+
+<h3 class="logKey">Interesting Givens</h3>
+
+<table class="interestingGivens logValue">
+    
+    <tr>
+        <th class="key">1</th>
+        <td class="interestingGiven">hi</td>
+    </tr>
+    
+    <tr>
+        <th class="key">2</th>
+        <td class="interestingGiven">foo</td>
+    </tr>
+    
+</table>
+
+
+    
+
+
+<h3 class="logKey" logkey="foo">foo</h3>
+<div class="logValue highlight xml WebResource">foob</div>
+
+
+    </div>
+</div>
+
+<div class="testmethod">
+    <a id="github.com/corbym/gogiven_test.TestGivenWhenExercisingRanges_1"></a>
+    <h2>e</h2>
+    <p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGivenWhenExercisingRanges_1">
+        <a id=""></a>
+        <h2>Specification</h2>
+
+        <pre class="highlight specification">
+        Given testing t
+        Some = append some given
+        Given when
+        Actual &#34;value&#34; = test actual
+        Actual &#34;expected&#34; = test expected
+        Then
+        Noting that do assertions
+        Test meta data = append test meta data t * base test meta data
+        Assert that t test actual has length test expected
+        Assert that testing some 0 captured io &#34;value&#34; is equal to &#34;&#34;
+        Assert that testing some 0 captured io &#34;expected&#34; is equal to 0
+        Assert that testing some 1 captured io &#34;value&#34; is equal to &#34;a&#34;
+        Assert that testing some 1 captured io &#34;expected&#34; is equal to 2
+        Assert that testing test meta data 0 failed is equal to false
+        Assert that testing test meta data 1 failed is equal to true</pre>
+
+        <h2>Test results:</h2>
+
+    
+        <pre class='highlight results test-failed'>TEST FAILED
+        
+Expected: value with length 2
+     but: &lt;length was 1&gt;
+</pre>
+    
+    
+
+<h3 class="logKey">Interesting Givens</h3>
+
+<table class="interestingGivens logValue">
+    
+</table>
+
+
+    
+
+
+<h3 class="logKey" logkey="value">value</h3>
+<div class="logValue highlight xml WebResource">a</div>
+
+<h3 class="logKey" logkey="expected">expected</h3>
+<div class="logValue highlight xml WebResource">2</div>
+
+
+    </div>
+</div>
+
+<div class="testmethod">
+    <a id="github.com/corbym/gogiven_test.TestGoGivenFailsInMetaData"></a>
+    <h2>Go Given Fails In Meta Data</h2>
+    <p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGoGivenFailsInMetaData">
+        <a id=""></a>
+        <h2>Specification</h2>
+
+        <pre class="highlight specification">
+        Given stub testing t
+        Then
+        Testing t fail now
+        Assert that t stub testing t failed is equal to true</pre>
+
+        <h2>Test results:</h2>
+
+    
+        <pre class='highlight results test-failed'>TEST FAILED
+        </pre>
+    
+    
+
+<h3 class="logKey">Interesting Givens</h3>
+
+<table class="interestingGivens logValue">
+    
+</table>
+
+
+    
+
 
 
     </div>
