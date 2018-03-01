@@ -19,16 +19,16 @@
 # [[override]]
 #  name = "github.com/x/y"
 #  version = "2.4.0"
-
-
-[[constraint]]
-  name = "github.com/corbym/gocrest"
-  branch = "master"
+#ignored = ["github.com/corbym/htmlspec"]
 
 [[constraint]]
   name = "github.com/corbym/htmlspec"
-  branch = "master"
+  branch = "proto-indexing-test"
 
 [[constraint]]
   branch = "master"
   name = "github.com/fatih/camelcase"
+
+[[constraint]]
+  name = "github.com/corbym/gocrest"
+  version = "1.0.3"

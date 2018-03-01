@@ -183,6 +183,7 @@ type OutputListener interface {
 
 If you want your own output listener just create your own and replace and/or append to the default listeners in your TestMain:
 
+
 ```go
 func TestMain(testmain *testing.M) {
 	gogiven.OutputListeners = []generator.OutputListener{new(MyFooListener)}

@@ -47,23 +47,24 @@ func NewTestData(some *base.Some) (testData TestData) {
 
 //PageData is the struct that populates the template with data from the test output.
 type PageData struct {
-	Title       string
-	TestResults map[string]TestData
+	Title    string
+	TestData []TestData
 }
 
 //NewPageData holds the title and the test results
 func NewPageData(title string, someMap *base.SomeMap) (pageData PageData) {
 	pageData = PageData{
-		Title:       title,
-		TestResults: copyTestResults(someMap),
+		Title:    title,
+		TestData: copyTestResults(someMap),
 	}
 	return
 }
 
-func copyTestResults(someMap *base.SomeMap) map[string]TestData {
-	testData := make(map[string]TestData)
-	for k, v := range *someMap {
-		testData[k] = NewTestData(v)
+func copyTestResults(someMap *base.SomeMap) []TestData {
+	var testData []TestData
+
+	for _, v := range *someMap {
+		testData = append(testData, NewTestData(v))
 	}
 	return testData
 }

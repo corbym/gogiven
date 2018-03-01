@@ -1,16 +1,17 @@
-package gogiven
+package gogiven_test
 
 import (
 	"github.com/corbym/gocrest/has"
 	"github.com/corbym/gocrest/is"
 	. "github.com/corbym/gocrest/then"
+	"github.com/corbym/gogiven"
 	"github.com/corbym/gogiven/base"
 	"github.com/corbym/gogiven/testdata"
 	"testing"
 )
 
 func TestMyFirst(testing *testing.T) {
-	Given(testing, theSystemSetup).
+	gogiven.Given(testing, theSystemSetup).
 		When(somethingHappens).
 		Then(func(testing base.TestingT,
 			theDataReturned testdata.CapturedIO,
@@ -42,7 +43,7 @@ func TestMyFirst_Ranged(t *testing.T) {
 	for _, test := range someRange {
 		t.Run(test.actual, func(tt *testing.T) {
 			weAreTesting := base.NewTestMetaData(t.Name()) // this test is fake, as we want to demo failing
-			Given(weAreTesting, theSystemSetup, withTestData(test)).
+			gogiven.Given(weAreTesting, theSystemSetup, withTestData(test)).
 				When(somethingHappensWithThe(test)).
 				Then(func(with base.TestingT, actual testdata.CapturedIO, theStored testdata.InterestingGivens) {
 					//do assertions
@@ -67,7 +68,7 @@ func TestMyFirst_Skipped(tst *testing.T) {
 	}
 	for _, test := range someRange {
 		tst.Run(test.actual, func(weAreTesting *testing.T) {
-			Given(weAreTesting, theSystemSetup, thatIsABitDodgyTo(test)).
+			gogiven.Given(weAreTesting, theSystemSetup, thatIsABitDodgyTo(test)).
 				SkippingThisOneIf(theValueIsFff(test), "some data %s does not work yet", test.actual).
 				When(somethingHappensWithThe(test)).
 				Then(func(t base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
@@ -92,7 +93,7 @@ func theValueIsFff(someData someData) func(someData ...interface{}) bool {
 //}
 
 func TestWithoutGiven(t *testing.T) {
-	When(t, somethingHappens).
+	gogiven.When(t, somethingHappens).
 		Then(func(testing base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
 			AssertThat(testing, actual["actual"], is.EqualTo("some output"))
 		})
