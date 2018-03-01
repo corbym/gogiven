@@ -8,12 +8,6 @@
   version = "v1.0.3"
 
 [[projects]]
-  branch = "proto-indexing-test"
-  name = "github.com/corbym/htmlspec"
-  packages = ["."]
-  revision = "d784e1599845421e7a1207e802343f7cbec8e7b3"
-
-[[projects]]
   branch = "master"
   name = "github.com/fatih/camelcase"
   packages = ["."]
@@ -22,6 +16,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "061622a22fd6a6c5e052139f4ff31c9bf82455db686af9ff8118bb72399646bf"
+  inputs-digest = "763b09d15d79acc11287f8547c993afa68a768d6e2884d4167453cb8c2cf392d"
   solver-name = "gps-cdcl"
   solver-version = 1
