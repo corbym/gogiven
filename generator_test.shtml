@@ -316,14 +316,6 @@
     <ul class="contents">
     
     
-        <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven_test.TestGenerateTestOutput_output">Generate Test Output   output</a></li>
-    
-    
-    
-        <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven_test.TestGenerateTestOutput_GenerateIndex">Generate Test Output   Generate Index</a></li>
-    
-    
-    
         <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven_test.TestGenerateTestOutput_OutputIndex">Generate Test Output   Output Index</a></li>
     
     
@@ -335,89 +327,19 @@
         <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven_test.TestGenerateTestOutput_fileName">Generate Test Output   file Name</a></li>
     
     
+    
+        <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven_test.TestGenerateTestOutput_output">Generate Test Output   output</a></li>
+    
+    
+    
+        <li class='test-passed'><a href="#github.com%2fcorbym%2fgogiven_test.TestGenerateTestOutput_GenerateIndex">Generate Test Output   Generate Index</a></li>
+    
+    
     </ul>
 </div>
 
 
 
-
-<div class="testmethod">
-    <a id="github.com/corbym/gogiven_test.TestGenerateTestOutput_output"></a>
-    <h2>Generate Test Output   output</h2>
-    <p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGenerateTestOutput_output">
-        <a id=""></a>
-        <h2>Specification</h2>
-
-        <pre class="highlight specification">
-        Given t
-        Listener received = test stubs test new stub listener test stubs test generator test
-        Gogiven generate test output
-        &lt;- received
-        Then assert that t listener output is value containing &#34;foo&#34;</pre>
-
-        <h2>Test results:</h2>
-
-    
-        <pre class='highlight results test-passed'>TEST PASSED
-        </pre>
-    
-    
-
-<h3 class="logKey">Interesting Givens</h3>
-
-<table class="interestingGivens logValue">
-    
-</table>
-
-
-    
-
-
-
-    </div>
-</div>
-
-<div class="testmethod">
-    <a id="github.com/corbym/gogiven_test.TestGenerateTestOutput_GenerateIndex"></a>
-    <h2>Generate Test Output   Generate Index</h2>
-    <p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGenerateTestOutput_GenerateIndex">
-        <a id=""></a>
-        <h2>Specification</h2>
-
-        <pre class="highlight specification">
-        Given t
-        Stub generator received = test stubs test new stub generator
-        Gogiven generate test output
-        Done = &lt;- received
-        Then assert that t done is equal to true
-        Then assert that t stub generator index data has length is greater than 0
-        Then assert that t stub generator index data 0 ref is any of
-        Is value containing &#34;test html&#34;
-        Is value containing &#34;test shtml&#34;</pre>
-
-        <h2>Test results:</h2>
-
-    
-        <pre class='highlight results test-passed'>TEST PASSED
-        </pre>
-    
-    
-
-<h3 class="logKey">Interesting Givens</h3>
-
-<table class="interestingGivens logValue">
-    
-</table>
-
-
-    
-
-
-
-    </div>
-</div>
 
 <div class="testmethod">
     <a id="github.com/corbym/gogiven_test.TestGenerateTestOutput_OutputIndex"></a>
@@ -511,6 +433,84 @@
         Done = &lt;- received
         Then assert that t done is equal to test stubs test generator test
         Then assert that t listener test file path is value containing &#34;generator test go&#34;</pre>
+
+        <h2>Test results:</h2>
+
+    
+        <pre class='highlight results test-passed'>TEST PASSED
+        </pre>
+    
+    
+
+<h3 class="logKey">Interesting Givens</h3>
+
+<table class="interestingGivens logValue">
+    
+</table>
+
+
+    
+
+
+
+    </div>
+</div>
+
+<div class="testmethod">
+    <a id="github.com/corbym/gogiven_test.TestGenerateTestOutput_output"></a>
+    <h2>Generate Test Output   output</h2>
+    <p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGenerateTestOutput_output">
+        <a id=""></a>
+        <h2>Specification</h2>
+
+        <pre class="highlight specification">
+        Given t
+        Listener received = test stubs test new stub listener test stubs test generator test
+        Gogiven generate test output
+        &lt;- received
+        Then assert that t listener output is value containing &#34;foo&#34;</pre>
+
+        <h2>Test results:</h2>
+
+    
+        <pre class='highlight results test-passed'>TEST PASSED
+        </pre>
+    
+    
+
+<h3 class="logKey">Interesting Givens</h3>
+
+<table class="interestingGivens logValue">
+    
+</table>
+
+
+    
+
+
+
+    </div>
+</div>
+
+<div class="testmethod">
+    <a id="github.com/corbym/gogiven_test.TestGenerateTestOutput_GenerateIndex"></a>
+    <h2>Generate Test Output   Generate Index</h2>
+    <p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGenerateTestOutput_GenerateIndex">
+        <a id=""></a>
+        <h2>Specification</h2>
+
+        <pre class="highlight specification">
+        Given t
+        Stub generator received = test stubs test new stub generator
+        Gogiven generate test output
+        Done = &lt;- received
+        Then assert that t done is equal to true
+        Then assert that t stub generator index data has length is greater than 0
+        Then assert that t stub generator index data 0 ref is any of
+        Is value containing &#34;test html&#34;
+        Is value containing &#34;test shtml&#34;</pre>
 
         <h2>Test results:</h2>
 
