@@ -23,7 +23,7 @@ To contribute, please read [this first.](https://github.com/corbym/gogiven/blob/
 
 ## Introduction <a name="introduction"></a>
 
-Go Givens is a lightweight TDD framework for producing test specifications directly from the code you write.
+Go Givens is a lightweight BDD framework for producing test specifications directly from the code you write.
 
 Go Givens parses your test file and produces a human-readable output in a specified directory, containing all the tests, captured data and other related information regarding your test such as success or failure.
 
