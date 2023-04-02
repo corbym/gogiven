@@ -14,5 +14,5 @@ func TestNewPageData(t *testing.T) {
 		&base.TestMetaData{TestID: "narf"},
 		base.ParsedTestContent{GivenWhenThen: []string{"givenwhenthen"}},
 	)
-	then.AssertThat(t, NewPageData("foo", &someMap).TestData, is.Not(is.Nil()))
+	then.AssertThat(t, NewPageData("foo", &someMap).TestData, is.Not(is.Nil[[]TestData]()))
 }

@@ -1,4 +1,4 @@
-package test_stubs_test
+package test_stubs
 
 import (
 	"bytes"

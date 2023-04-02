@@ -5,7 +5,7 @@ import (
 	"github.com/corbym/gogiven/testdata"
 )
 
-//TestResult holds the results of the test, whether it failed, was skipped, it's ID and
+// TestResult holds the results of the test, whether it failed, was skipped, it's ID and
 // the output from the Fail/Skip if appropriate
 type TestResult struct {
 	TestID     string
@@ -14,7 +14,7 @@ type TestResult struct {
 	TestOutput string
 }
 
-//NewTestResult returns a copy of the test meta data
+// NewTestResult returns a copy of the test meta data
 func NewTestResult(data *base.TestMetaData) TestResult {
 	return TestResult{
 		Skipped:    data.Skipped(),
@@ -24,7 +24,7 @@ func NewTestResult(data *base.TestMetaData) TestResult {
 	}
 }
 
-//TestData holds a copy of test results, interesting givens, captured io, and parsed test content (given/when/then)
+// TestData holds a copy of test results, interesting givens, captured io, and parsed test content (given/when/then)
 type TestData struct {
 	TestResult        TestResult
 	TestTitle         string
@@ -33,7 +33,7 @@ type TestData struct {
 	ParsedTestContent base.ParsedTestContent
 }
 
-//NewTestData creates a new copy of test results, interesting givens, captured io, and parsed test content (given/when/then)
+// NewTestData creates a new copy of test results, interesting givens, captured io, and parsed test content (given/when/then)
 func NewTestData(some *base.Some) (testData TestData) {
 	testData = TestData{
 		TestResult:        NewTestResult(some.TestMetaData()),
@@ -45,13 +45,13 @@ func NewTestData(some *base.Some) (testData TestData) {
 	return
 }
 
-//PageData is the struct that populates the template with data from the test output.
+// PageData is the struct that populates the template with data from the test output.
 type PageData struct {
 	Title    string
 	TestData []TestData
 }
 
-//NewPageData holds the title and the test results
+// NewPageData holds the title and the test results
 func NewPageData(title string, someMap *base.SomeMap) (pageData PageData) {
 	pageData = PageData{
 		Title:    title,

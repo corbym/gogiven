@@ -22,15 +22,15 @@ var underTest = &FileOutputGenerator{}
 
 func TestFileOutputGenerator_Notify(t *testing.T) {
 	tests := []struct {
-		name                   string
-		contentType            string
-		fullyQualifiedFileName string
+		name                     string
+		contentType              string
+		fullyQualifiedFileName   string
 		fileNameWithoutExtension string
 	}{
 		{"json content", "application/json", "./funbags.go", "funbags"},
 		{"html content", "text/html", "./funbags.go", "funbags"},
-		{"pdf content", "application/pdf", "./funbags.go","funbags"},
-		{"pdf content", "application/pdf", "index","index"},
+		{"pdf content", "application/pdf", "./funbags.go", "funbags"},
+		{"pdf content", "application/pdf", "index", "index"},
 	}
 	for _, testRange := range tests {
 		t.Run(testRange.name, func(t *testing.T) {
@@ -43,7 +43,7 @@ func TestFileOutputGenerator_Notify(t *testing.T) {
 				then.AssertThat(t, theContentOfThe(expectedFileOutputFileName), is.EqualTo(theContent))
 				removeFileName := ofFileInOutputDir(expectedFileOutputFileName)
 				remove := os.Remove(removeFileName)
-				then.AssertThat(t, remove, is.Nil())
+				then.AssertThat(t, remove, is.Nil[error]())
 			}()
 
 			reader := strings.NewReader(theContent)
@@ -55,7 +55,7 @@ func TestFileOutputGenerator_Notify(t *testing.T) {
 func TestFileOutputGenerator_panics_IncorrectContentType(t *testing.T) {
 	defer func() {
 		panics := recover()
-		then.AssertThat(t, panics, is.Not(is.Nil()))
+		then.AssertThat(t, panics, is.Not[any](is.Nil[any]()))
 	}()
 
 	underTest.Notify("./flap.foo", "widget/fong", strings.NewReader(theContent))
@@ -64,7 +64,7 @@ func TestFileOutputGenerator_panics_IncorrectContentType(t *testing.T) {
 func TestFileOutputGenerator_panics_ReadingContent(t *testing.T) {
 	defer func() {
 		panics := recover()
-		then.AssertThat(t, panics, is.Not(is.Nil()))
+		then.AssertThat(t, panics, is.Not[any](is.Nil[any]()))
 	}()
 	underTest.Notify("./flap.foo", "text/html", &mockErroringReader{})
 }
@@ -75,7 +75,7 @@ func TestFileOutputGenerator_panics_WritingFile(t *testing.T) {
 	}
 	defer func() {
 		panics := recover()
-		then.AssertThat(t, panics, is.Not(is.Nil()))
+		then.AssertThat(t, panics, is.Not[any](is.Nil[any]()))
 	}()
 
 	underTest.Notify("./f****0**.go", "text/html", strings.NewReader(theContent))
@@ -90,7 +90,7 @@ func TestGenerateTestOutput_DefaultsToCurrentDir(t *testing.T) {
 		then.AssertThat(t, someFile("./"+expectedFileOutputFileName), exists())
 		removeFileName := "./" + expectedFileOutputFileName
 		remove := os.Remove(removeFileName)
-		then.AssertThat(t, remove, is.Nil())
+		then.AssertThat(t, remove, is.Nil[error]())
 	}()
 	defer func() { os.Setenv("GOGIVENS_OUTPUT_DIR", old) }()
 	os.Setenv("GOGIVENS_OUTPUT_DIR", "doesnotexist")
@@ -109,23 +109,19 @@ func theContentOfThe(expectedFileOutput string) string {
 	return string(content[:])
 }
 
-func someFile(pathToFile string) interface{} {
+func someFile(pathToFile string) os.FileInfo {
 	fileInfo, err := os.Stat(pathToFile)
 	if err != nil {
-		return err
+		panic(err)
 	}
 	return fileInfo
 }
 
-func exists() *gocrest.Matcher {
-	matcher := new(gocrest.Matcher)
-	matcher.Matches = func(actual interface{}) bool {
-		file, ok := actual.(os.FileInfo)
-		if ok {
-			matcher.Describe = file.Name()
-			return true
-		}
-		return false
+func exists() *gocrest.Matcher[os.FileInfo] {
+	matcher := new(gocrest.Matcher[os.FileInfo])
+	matcher.Matches = func(actual os.FileInfo) bool {
+		matcher.Describe = actual.Name()
+		return true
 	}
 	return matcher
 }
