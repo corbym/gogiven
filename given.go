@@ -9,12 +9,12 @@ import (
 
 var globalTestContextMap = newSafeMap()
 
-//Given sets up some interesting givens for the test.
-//Pass in testing.T here and a function which adds some givens to
-//the map.
+// Given sets up some interesting givens for the test.
+// Pass in testing.T here and a function which adds some givens to
+// the map.
 //
 // *Warning:* if you call this method twice in a test, you will start a new test
-//which will appear in the test output.
+// which will appear in the test output.
 func Given(testing base.TestingT, given ...base.GivenData) *base.Some {
 	currentFunction, testFileName := testFunctionFileName()
 	currentTestContext := loadTestContext(testFileName)
@@ -43,7 +43,7 @@ func loadTestContext(testFileName string) (currentTestContext *TestContext) {
 	return
 }
 
-//When is a shortcut method when no Given is required.
+// When is a shortcut method when no Given is required.
 func When(testing base.TestingT, action ...base.CapturedIOGivenData) *base.Some {
 	some := Given(testing)
 	return some.When(action...)

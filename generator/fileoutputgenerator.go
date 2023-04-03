@@ -13,12 +13,12 @@ import (
 
 var _ = mime.AddExtensionType(".json", "application/json") // default .json to application/json type as mime does not know about it
 
-//FileOutputGenerator is a struct which implements the OutputListener interface
+// FileOutputGenerator is a struct which implements the OutputListener interface
 type FileOutputGenerator struct {
 	OutputListener
 }
 
-//Notify is called by Generator to pass the output content from the test. Output is an io.Reader,
+// Notify is called by Generator to pass the output content from the test. Output is an io.Reader,
 // usually test output. The file is written to env var GOGIVENS_OUTPUT_DIR if set, or defaults either
 // to system tmp or the current dir if neither are found.
 func (f *FileOutputGenerator) Notify(testFilePath string, contentType string, output io.Reader) {
@@ -59,7 +59,7 @@ func errorHandler(err error) {
 	}
 }
 
-//OutputDirectory finds the output dir in either one of the system env var $GOGIVENS_OUTPUT_DIR, the os tmp dir,
+// OutputDirectory finds the output dir in either one of the system env var $GOGIVENS_OUTPUT_DIR, the os tmp dir,
 // or default to the current dir otherwise.
 func OutputDirectory() string {
 	outputDir := os.Getenv("GOGIVENS_OUTPUT_DIR")

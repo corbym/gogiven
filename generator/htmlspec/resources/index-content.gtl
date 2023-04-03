@@ -1,0 +1,23 @@
+{{define "contents"}}
+<div class="contents">
+    <h2>Contents</h2>
+
+    <div class="contents">
+    {{range $indexData := .}}
+        {{$overallResult := OverallTestResult $indexData.TestData}}
+        <dl class="{{$overallResult}} index-result">
+            <dt><a href="{{$indexData.Ref}}">{{$indexData.Title}}</a></dt>
+        {{range $testData := .TestData}}
+            {{if $testData.TestResult.Failed}}
+                <dd class='test-failed'><a href="{{$indexData.Ref}}#{{$testData.TestResult.TestID}}">{{$testData.TestTitle}}</a></dd>
+            {{else if $testData.TestResult.Skipped}}
+                <dd class='test-not-run'><a href="{{$indexData.Ref}}#{{$testData.TestResult.TestID}}">{{$testData.TestTitle}}</a></dd>
+            {{else}}
+                <dd class='test-passed'><a href="{{$indexData.Ref}}#{{$testData.TestResult.TestID}}">{{$testData.TestTitle}}</a></dd>
+            {{end}}
+        {{end}}
+        </dl>
+    {{end}}
+    </div>
+</div>
+{{end}}

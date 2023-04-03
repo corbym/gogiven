@@ -16,11 +16,11 @@ func TestGenerateTestOutput_contentType(t *testing.T) {
 	}()
 	// initialise global map
 	gogiven.Given(t)
-	listener, received := test_stubs_test.NewStubListener(test_stubs_test.GeneratorTest)
+	listener, received := test_stubs.NewStubListener(test_stubs.GeneratorTest)
 	gogiven.GenerateTestOutput()
 	done := <-received
 
-	then.AssertThat(t, done, is.EqualTo(test_stubs_test.GeneratorTest))
+	then.AssertThat(t, done, is.EqualTo(test_stubs.GeneratorTest))
 	then.AssertThat(t, listener.ContentType, is.EqualTo("text/html"))
 }
 
@@ -31,11 +31,11 @@ func TestGenerateTestOutput_fileName(t *testing.T) {
 	}()
 	// initialise global map
 	gogiven.Given(t)
-	listener, received := test_stubs_test.NewStubListener(test_stubs_test.GeneratorTest)
+	listener, received := test_stubs.NewStubListener(test_stubs.GeneratorTest)
 	gogiven.GenerateTestOutput()
 	done := <-received
 
-	then.AssertThat(t, done, is.EqualTo(test_stubs_test.GeneratorTest))
+	then.AssertThat(t, done, is.EqualTo(test_stubs.GeneratorTest))
 	then.AssertThat(t, listener.TestFilePath, is.ValueContaining("generator_test.go"))
 }
 
@@ -47,7 +47,7 @@ func TestGenerateTestOutput_output(t *testing.T) {
 	// initialise global map
 	gogiven.Given(t)
 
-	listener, received := test_stubs_test.NewStubListener(test_stubs_test.GeneratorTest)
+	listener, received := test_stubs.NewStubListener(test_stubs.GeneratorTest)
 	gogiven.GenerateTestOutput()
 	<-received
 
@@ -61,7 +61,7 @@ func TestGenerateTestOutput_GenerateIndex(t *testing.T) {
 	}()
 
 	gogiven.Given(t)
-	stubGenerator, received := test_stubs_test.NewStubGenerator()
+	stubGenerator, received := test_stubs.NewStubGenerator()
 
 	gogiven.GenerateTestOutput()
 	done := <-received
@@ -85,12 +85,12 @@ func TestGenerateTestOutput_OutputIndex(t *testing.T) {
 	// initialise global map
 	gogiven.Given(t)
 
-	listener, received := test_stubs_test.NewStubListener(test_stubs_test.IndexFileName)
-	test_stubs_test.NewStubGenerator()
+	listener, received := test_stubs.NewStubListener(test_stubs.IndexFileName)
+	test_stubs.NewStubGenerator()
 
 	gogiven.GenerateTestOutput()
 	done := <-received
 
-	then.AssertThat(t, done, is.EqualTo(test_stubs_test.IndexFileName))
+	then.AssertThat(t, done, is.EqualTo(test_stubs.IndexFileName))
 	then.AssertThat(t, listener.Output, is.EqualTo("index"))
 }

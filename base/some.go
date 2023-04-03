@@ -16,7 +16,7 @@ type Some struct {
 	parsedTestContent ParsedTestContent
 }
 
-//NewSome creates a new Some context. This is an internal function that was exported for testing.
+// NewSome creates a new Some context. This is an internal function that was exported for testing.
 func NewSome(
 	globalTestingT TestingT,
 	testTitle string,
@@ -40,7 +40,7 @@ func NewSome(
 	return some
 }
 
-//TestTitle is the name of the test
+// TestTitle is the name of the test
 func (some *Some) TestTitle() string {
 	some.RLock()
 	defer some.RUnlock()
@@ -106,7 +106,7 @@ func (some *Some) Then(assertions TestingWithGiven) *Some {
 	return some
 }
 
-//SkippingThisOne still records we have a skipped tests in our test output generator
+// SkippingThisOne still records we have a skipped tests in our test output generator
 func (some *Some) SkippingThisOne(reason string, args ...interface{}) *Some {
 	some.testMetaData.Skipf(reason, args...)
 	some.globalTestingT.Helper()
@@ -114,7 +114,7 @@ func (some *Some) SkippingThisOne(reason string, args ...interface{}) *Some {
 	return some
 }
 
-//SkippingThisOneIf skips if the condition is true, and still records we have a skipped tests in our test output generator.
+// SkippingThisOneIf skips if the condition is true, and still records we have a skipped tests in our test output generator.
 // This will be best used in a table test (range) when running sub-tests, since in a main test the entire test will be skipped
 // and the condition pointless.
 func (some *Some) SkippingThisOneIf(why func(someData ...interface{}) bool, reason string, args ...interface{}) *Some {

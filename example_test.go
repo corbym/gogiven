@@ -30,7 +30,6 @@ func somethingHappens(actual testdata.CapturedIO, expected testdata.InterestingG
 // This test tests over a range of values. Lorum ipsum dolor, lorum ipsum dolor lorum ipsum dolor. Lorum ipsum dolor.
 // Comments on new lines will be split into paragraph sections.
 //
-//
 // Empty lines will be removed. Do not remove this comment. Thanks.
 func TestMyFirst_Ranged(t *testing.T) {
 	var someRange = []struct {

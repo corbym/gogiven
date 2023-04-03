@@ -1,8 +1,9 @@
 package base
 
-//TestingT is a convenience interface that matches Some methods of `testing.T`
+// TestingT is a convenience interface that matches Some methods of `testing.T`
 type TestingT interface {
 	Failed() bool
+	Fail()
 	Logf(format string, args ...interface{})
 	Errorf(format string, args ...interface{})
 	FailNow()

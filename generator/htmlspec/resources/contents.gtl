@@ -1,0 +1,17 @@
+{{define "contents"}}
+<div class="contents">
+    <h2>Contents</h2>
+
+    <ul class="contents">
+    {{range $testData := .TestData}}
+    {{if $testData.TestResult.Failed}}
+        <li class='test-failed'><a href="#{{$testData.TestResult.TestID}}">{{$testData.TestTitle}}</a></li>
+    {{else if $testData.TestResult.Skipped}}
+        <li class='test-not-run'><a href="#{{$testData.TestResult.TestID}}">{{$testData.TestTitle}}</a></li>
+    {{else}}
+        <li class='test-passed'><a href="#{{$testData.TestResult.TestID}}">{{$testData.TestTitle}}</a></li>
+    {{end}}
+    {{end}}
+    </ul>
+</div>
+{{end}}

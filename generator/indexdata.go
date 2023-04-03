@@ -1,6 +1,6 @@
 package generator
 
-//IndexData holds information about a test for indexing.
+// IndexData holds information about a test for indexing.
 type IndexData struct {
 	// Ref is reference to where the content was deposited, produced by the OutputGenerator. E.g. /foo/bin/goo_test.html for the FileOutputGenerator
 	Ref string
@@ -10,7 +10,7 @@ type IndexData struct {
 	TestData []TestData
 }
 
-//NewIndexData creates a new IndexDat object from a generated Ref (e.g. /foo/bin/goo_test.html) and PageData
+// NewIndexData creates a new IndexDat object from a generated Ref (e.g. /foo/bin/goo_test.html) and PageData
 func NewIndexData(generatedRef string, pageData PageData) IndexData {
 	return IndexData{
 		Ref:      generatedRef,

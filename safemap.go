@@ -17,7 +17,7 @@ func newSafeMap() *SafeMap {
 	}
 }
 
-//Load a key from the map
+// Load a key from the map
 func (rm *SafeMap) Load(key string) (value interface{}, ok bool) {
 	rm.RLock()
 	defer rm.RUnlock()
@@ -25,14 +25,14 @@ func (rm *SafeMap) Load(key string) (value interface{}, ok bool) {
 	return result, ok
 }
 
-//Store a value against a key from the map
+// Store a value against a key from the map
 func (rm *SafeMap) Store(key string, value interface{}) {
 	rm.Lock()
 	rm.internal[key] = value
 	rm.Unlock()
 }
 
-//Keys returns an array of keys that the map contains
+// Keys returns an array of keys that the map contains
 func (rm *SafeMap) Keys() []string {
 	rm.RLock()
 	defer rm.RUnlock()

@@ -15,7 +15,7 @@ type TestMetaData struct {
 	testOutput string
 }
 
-//NewTestMetaData creates a new TestMetaData object. Used internally.
+// NewTestMetaData creates a new TestMetaData object. Used internally.
 func NewTestMetaData(testName string) *TestMetaData {
 	testContext := &TestMetaData{
 		TestID:  testName,
@@ -25,7 +25,7 @@ func NewTestMetaData(testName string) *TestMetaData {
 	return testContext
 }
 
-//Logf marks this test as failed and sets the test output to the formatted string.
+// Logf marks this test as failed and sets the test output to the formatted string.
 func (t *TestMetaData) Logf(format string, args ...interface{}) {
 	t.Lock()
 	defer t.Unlock()
@@ -33,7 +33,7 @@ func (t *TestMetaData) Logf(format string, args ...interface{}) {
 	t.failed = true
 }
 
-//Errorf marks this test as failed and sets the test output to the formatted string.
+// Errorf marks this test as failed and sets the test output to the formatted string.
 func (t *TestMetaData) Errorf(format string, args ...interface{}) {
 	t.Lock()
 	defer t.Unlock()
@@ -41,34 +41,41 @@ func (t *TestMetaData) Errorf(format string, args ...interface{}) {
 	t.failed = true
 }
 
-//FailNow marks this test as failed.
+// FailNow marks this test as failed.
 func (t *TestMetaData) FailNow() {
 	t.Lock()
 	defer t.Unlock()
 	t.failed = true
 }
 
-//Helper does nothing. It's just in case Some package that consumes t
+// Fail marks this test as failed.
+func (t *TestMetaData) Fail() {
+	t.Lock()
+	defer t.Unlock()
+	t.failed = true
+}
+
+// Helper does nothing. It's just in case Some package that consumes t
 // calls it.
 func (t *TestMetaData) Helper() {
 	// do nothing
 }
 
-//Name returns the id (the test name, possibly with Some uniqueid appended)
+// Name returns the id (the test name, possibly with some uniqueid appended)
 func (t *TestMetaData) Name() string {
 	t.RLock()
 	defer t.RUnlock()
 	return t.TestID
 }
 
-//Failed reports the test has failed to the meta data.
+// Failed reports the test has failed to the metadata.
 func (t *TestMetaData) Failed() bool {
 	t.RLock()
 	defer t.RUnlock()
 	return t.failed
 }
 
-//Skipf reports the test as skipped with a formatted message to the test meta data
+// Skipf reports the test as skipped with a formatted message to the test meta data
 func (t *TestMetaData) Skipf(format string, args ...interface{}) {
 	t.Lock()
 	defer t.Unlock()
@@ -76,14 +83,14 @@ func (t *TestMetaData) Skipf(format string, args ...interface{}) {
 	t.testOutput = fmt.Sprintf(format, args...)
 }
 
-//Skipped returns the state of the test meta data, if skipped then it's true
+// Skipped returns the state of the test meta data, if skipped then it's true
 func (t *TestMetaData) Skipped() bool {
 	t.RLock()
 	defer t.RUnlock()
 	return t.skipped
 }
 
-//TestOutput returns the recorded test output
+// TestOutput returns the recorded test output
 func (t *TestMetaData) TestOutput() string {
 	t.RLock()
 	defer t.RUnlock()
