@@ -1,23 +1,28 @@
 {{define "base"}}
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{.Title}}</title>
-
-{{template "javascript" .}}
-
-{{template "style" .}}
-
+    {{template "style" .}}
 </head>
 <body>
-
-<h1>{{.Title}}</h1>
-
-{{template "contents" .}}
-
-{{template "test-body" .}}
-
+    <header class="site-header">
+        <div class="header-inner">
+            <span class="header-logo" aria-hidden="true">◈</span>
+            <h1>{{.Title}}</h1>
+        </div>
+    </header>
+    <div class="page-layout">
+        <nav class="sidebar" aria-label="Test contents">
+            {{template "contents" .}}
+        </nav>
+        <main class="main-content">
+            {{template "test-body" .}}
+        </main>
+    </div>
+    {{template "javascript" .}}
 </body>
 </html>
 {{end}}
