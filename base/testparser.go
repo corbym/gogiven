@@ -26,7 +26,10 @@ func ParseGivenWhenThen(functionName string, testFileName string) ParsedTestCont
 	fset, testFunction, _ := parseFile(testFileName, functionName, source)
 	givenWhenIndex := positionOfGivenOrWhen(testFunction.Body, fset)
 	source = source[givenWhenIndex:fset.Position(testFunction.End()).Offset]
-	interestingStatements := removeAllUninterestingStatements(string(source[:]))
+	sourceStr := removeFirstArgFromGivenWhenCalls(string(source))
+	thenTParam := findThenFuncFirstParamName(sourceStr)
+	interestingStatements := removeAllUninterestingStatements(sourceStr)
+	interestingStatements = removeTParamFromCalls(interestingStatements, thenTParam)
 	interestingStatements = markupComments(interestingStatements)
 	splitByLines := strings.Split(interestingStatements, "\n")
 
@@ -118,6 +121,34 @@ func findBalancedBracketFor(remove string, openBracket string, closeBracket stri
 		currentPosition++
 	}
 	return
+}
+
+// removeFirstArgFromGivenWhenCalls strips the first argument (the testing.T context) from
+// top-level Given() and When() calls, since it carries no natural language meaning.
+func removeFirstArgFromGivenWhenCalls(source string) string {
+	r := regexp.MustCompile(`\b(Given|When)\(\s*\w+\s*,\s*`)
+	return r.ReplaceAllString(source, "$1(")
+}
+
+// findThenFuncFirstParamName returns the name of the first parameter of the func literal
+// passed to Then(), which is always the testing T context.
+func findThenFuncFirstParamName(source string) string {
+	r := regexp.MustCompile(`Then\s*\(\s*func\s*\(\s*(\w+)\s+`)
+	matches := r.FindStringSubmatch(source)
+	if len(matches) > 1 {
+		return matches[1]
+	}
+	return ""
+}
+
+// removeTParamFromCalls strips the testing T parameter name as the first argument of
+// function calls in the Then body so it does not appear in the natural language output.
+func removeTParamFromCalls(source string, tParamName string) string {
+	if tParamName == "" {
+		return source
+	}
+	r := regexp.MustCompile(`\(\s*` + regexp.QuoteMeta(tParamName) + `\s*,\s*`)
+	return r.ReplaceAllString(source, "(")
 }
 
 func replaceAllNonAlphaNumericCharacters(replace string) (replaced string) {

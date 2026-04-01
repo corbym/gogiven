@@ -2,29 +2,37 @@
 {{range $testData := .TestData}}
 <div class="testmethod">
     <a id="{{$testData.TestResult.TestID}}"></a>
-    <h2>{{$testData.TestTitle}}</h2>
+    <div class="testmethod-header">
+        <h2>{{$testData.TestTitle}}</h2>
+        {{if $testData.TestResult.Failed}}
+            <span class="badge badge-fail">Failed</span>
+        {{else if $testData.TestResult.Skipped}}
+            <span class="badge badge-skip">Skipped</span>
+        {{else}}
+            <span class="badge badge-pass">Passed</span>
+        {{end}}
+    </div>
     {{range $comment := $testData.ParsedTestContent.Comment}}<p>{{$comment}}</p>{{end}}
     <div class="scenario" id="scenario_{{$testData.TestResult.TestID}}">
-        <a id=""></a>
-        <h2>Specification</h2>
-
-        <pre class="highlight specification">{{range $givenWhenThen := $testData.ParsedTestContent.GivenWhenThen}}
-        {{$givenWhenThen}}{{end}}</pre>
-
-        <h2>Test results:</h2>
-
-    {{if $testData.TestResult.Failed}}
-        <pre class='highlight results test-failed'>TEST FAILED
-        {{$testData.TestResult.TestOutput}}</pre>
-    {{else if $testData.TestResult.Skipped}}
-        <pre class='highlight results test-not-run'>TEST SKIPPED
-        {{$testData.TestResult.TestOutput}}</pre>
-    {{else}}
-        <pre class='highlight results test-passed'>TEST PASSED
-        {{$testData.TestResult.TestOutput}}</pre>
-    {{end}}
-    {{template "interesting-givens" $testData.InterestingGivens}}
-    {{template "captured-io" $testData.CapturedIO}}
+        <div class="scenario-section">
+            <div class="scenario-section-title">Specification</div>
+            <pre class="highlight specification">{{- range $givenWhenThen := $testData.ParsedTestContent.GivenWhenThen}}
+{{$givenWhenThen}}{{end -}}</pre>
+        </div>
+        <div class="scenario-section">
+            <div class="scenario-section-title">Result</div>
+            {{if $testData.TestResult.Failed}}
+                <pre class="highlight results test-failed">FAILED
+{{$testData.TestResult.TestOutput}}</pre>
+            {{else if $testData.TestResult.Skipped}}
+                <pre class="highlight results test-not-run">SKIPPED
+{{$testData.TestResult.TestOutput}}</pre>
+            {{else}}
+                <pre class="highlight results test-passed">PASSED</pre>
+            {{end}}
+        </div>
+        {{template "interesting-givens" $testData.InterestingGivens}}
+        {{template "captured-io" $testData.CapturedIO}}
     </div>
 </div>
 {{end}}
