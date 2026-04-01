@@ -79,7 +79,7 @@
                     highlight(logEl, interestingPairs.concat([
                         {pattern: '"[^"]*"',        cssClass: 'quote'},
                         {pattern: '&lt;[^\\s&]+',   cssClass: 'keyword'},
-                        {pattern: '\\?\\?&gt;',      cssClass: 'keyword'},
+                        {pattern: '\\??&gt;',        cssClass: 'keyword'},
                         {pattern: '\\s[\\w:-]+=',   cssClass: 'constant'}
                     ]));
                 }
