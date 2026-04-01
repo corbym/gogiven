@@ -10,16 +10,12 @@ import (
 	"testing"
 )
 
-func TestMyFirst(testing *testing.T) {
-	gogiven.Given(testing, theSystemSetup).
+func TestMyFirst(t *testing.T) {
+	gogiven.Given(t, theSystemSetup).
 		When(somethingHappens).
-		Then(func(testing base.TestingT,
-			theDataReturned testdata.CapturedIO,
-			givens testdata.InterestingGivens,
-		) { // passed in testing should be used for assertions
-
-			//we do some assertions here, commenting why
-			AssertThat(testing, theDataReturned["actual"], is.EqualTo("some output"))
+		Then(func(t base.TestingT, captured testdata.CapturedIO, givens testdata.InterestingGivens) {
+			// we do some assertions here, commenting why
+			AssertThat(t, captured["actual"], is.EqualTo("some output"))
 		})
 }
 
@@ -44,9 +40,9 @@ func TestMyFirst_Ranged(t *testing.T) {
 			weAreTesting := base.NewTestMetaData(t.Name()) // this test is fake, as we want to demo failing
 			gogiven.Given(weAreTesting, theSystemSetup, withTestData(test)).
 				When(somethingHappensWithThe(test)).
-				Then(func(with base.TestingT, actual testdata.CapturedIO, theStored testdata.InterestingGivens) {
-					//do assertions
-					AssertThat(with, theStored["actual"], has.Length(test.expected))
+				Then(func(t base.TestingT, captured testdata.CapturedIO, stored testdata.InterestingGivens) {
+					// do assertions
+					AssertThat(t, stored["actual"], has.Length(test.expected))
 				})
 		})
 	}
@@ -57,7 +53,7 @@ func withTestData(test someData) func(givens testdata.InterestingGivens) {
 	}
 }
 
-func TestMyFirst_Skipped(tst *testing.T) {
+func TestMyFirst_Skipped(t *testing.T) {
 	var someRange = []struct {
 		actual   string
 		expected int
@@ -66,8 +62,8 @@ func TestMyFirst_Skipped(tst *testing.T) {
 		{actual: "a", expected: 1},
 	}
 	for _, test := range someRange {
-		tst.Run(test.actual, func(weAreTesting *testing.T) {
-			gogiven.Given(weAreTesting, theSystemSetup, thatIsABitDodgyTo(test)).
+		t.Run(test.actual, func(t *testing.T) {
+			gogiven.Given(t, theSystemSetup, thatIsABitDodgyTo(test)).
 				SkippingThisOneIf(theValueIsFff(test), "some data %s does not work yet", test.actual).
 				When(somethingHappensWithThe(test)).
 				Then(func(t base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
@@ -93,8 +89,8 @@ func theValueIsFff(someData someData) func(someData ...interface{}) bool {
 
 func TestWithoutGiven(t *testing.T) {
 	gogiven.When(t, somethingHappens).
-		Then(func(testing base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
-			AssertThat(testing, actual["actual"], is.EqualTo("some output"))
+		Then(func(t base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
+			AssertThat(t, actual["actual"], is.EqualTo("some output"))
 		})
 }
 
