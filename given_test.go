@@ -37,6 +37,17 @@ func TestGoGivenFailsInMetaData(t *testing.T) {
 	AssertThat(t, stubTestingT.Failed(), is.EqualTo(true))
 }
 
+func TestGivenTitle_Strips_Extra_Spaces(t *testing.T) {
+	some := Given(t)
+	AssertThat(t, some.TestTitle(), is.EqualTo("Given Title Strips Extra Spaces"))
+}
+
+func TestGivenTitle_StubTestID(t *testing.T) {
+	stub := base.NewTestMetaData("mytitle")
+	some := Given(stub)
+	AssertThat(t, some.TestTitle(), is.EqualTo("mytitle"))
+}
+
 func TestGivenWhenSetsInterestingGiven(testing *testing.T) {
 	testing.Parallel()
 	Given(testing, someDataSetup).

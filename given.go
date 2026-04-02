@@ -50,8 +50,17 @@ func When(testing base.TestingT, action ...base.CapturedIOGivenData) *base.Some 
 }
 
 func testTitle(functionName string) string {
-	lastDotInTestName := strings.LastIndex(functionName, ".Test") + (len(".Test") - 1)
-	return strings.Replace(strings.Join(camelcase.Split(functionName[lastDotInTestName+1:]), " "), "_", " ", -1)
+	var name string
+	if idx := strings.LastIndex(functionName, ".Test"); idx >= 0 {
+		name = functionName[idx+len(".Test"):]
+	} else if strings.HasPrefix(functionName, "Test") {
+		name = functionName[len("Test"):]
+	} else {
+		name = functionName
+	}
+	title := strings.Join(camelcase.Split(name), " ")
+	title = strings.Replace(title, "_", " ", -1)
+	return strings.Join(strings.Fields(title), " ")
 }
 
 func testFunctionFileName() (*runtime.Func, string) {
