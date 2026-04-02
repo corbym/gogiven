@@ -87,6 +87,15 @@ func theValueIsFff(someData someData) func(someData ...interface{}) bool {
 //	return test[0].(*someData).actual == "fff"
 //}
 
+func TestMyFirst_NonDefaultParamName(myT *testing.T) {
+	gogiven.Given(myT, theSystemSetup).
+		When(somethingHappens).
+		Then(func(thenT base.TestingT, captured testdata.CapturedIO, givens testdata.InterestingGivens) {
+			// we do some assertions here, commenting why
+			AssertThat(thenT, captured["actual"], is.EqualTo("some output"))
+		})
+}
+
 func TestWithoutGiven(t *testing.T) {
 	gogiven.When(t, somethingHappens).
 		Then(func(t base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
