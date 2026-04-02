@@ -364,6 +364,10 @@
     <ul class="contents">
     
     
+        <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestGenerateTestOutput_contentType">Generate Test Output content Type</a></li>
+    
+    
+    
         <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestGenerateTestOutput_fileName">Generate Test Output file Name</a></li>
     
     
@@ -379,16 +383,47 @@
         <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestGenerateTestOutput_OutputIndex">Generate Test Output Output Index</a></li>
     
     
-    
-        <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestGenerateTestOutput_contentType">Generate Test Output content Type</a></li>
-    
-    
     </ul>
 </div>
 
         </nav>
         <main class="main-content">
             
+
+<div class="testmethod">
+    <a id="github.com/corbym/gogiven_test.TestGenerateTestOutput_contentType"></a>
+    <div class="testmethod-header">
+        <h2>Generate Test Output content Type</h2>
+        
+            <span class="badge badge-pass">Passed</span>
+        
+    </div>
+    <p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGenerateTestOutput_contentType">
+        <div class="scenario-section">
+            <div class="scenario-section-title">Specification</div>
+            <pre class="highlight specification">
+Given t
+Listener received = test stubs new stub listener test stubs generator test
+Gogiven generate test output
+Done = &lt;- received
+Then assert that t done is equal to test stubs generator test
+Then assert that t listener content type is equal to &#34;text / html&#34;</pre>
+        </div>
+        <div class="scenario-section">
+            <div class="scenario-section-title">Result</div>
+            
+                <pre class="highlight results test-passed">PASSED</pre>
+            
+        </div>
+        
+
+
+        
+
+
+    </div>
+</div>
 
 <div class="testmethod">
     <a id="github.com/corbym/gogiven_test.TestGenerateTestOutput_fileName"></a>
@@ -517,41 +552,6 @@ Gogiven generate test output
 Done = &lt;- received
 Then assert that t done is equal to test stubs index file name
 Then assert that t listener output is equal to &#34;index&#34;</pre>
-        </div>
-        <div class="scenario-section">
-            <div class="scenario-section-title">Result</div>
-            
-                <pre class="highlight results test-passed">PASSED</pre>
-            
-        </div>
-        
-
-
-        
-
-
-    </div>
-</div>
-
-<div class="testmethod">
-    <a id="github.com/corbym/gogiven_test.TestGenerateTestOutput_contentType"></a>
-    <div class="testmethod-header">
-        <h2>Generate Test Output content Type</h2>
-        
-            <span class="badge badge-pass">Passed</span>
-        
-    </div>
-    <p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGenerateTestOutput_contentType">
-        <div class="scenario-section">
-            <div class="scenario-section-title">Specification</div>
-            <pre class="highlight specification">
-Given t
-Listener received = test stubs new stub listener test stubs generator test
-Gogiven generate test output
-Done = &lt;- received
-Then assert that t done is equal to test stubs generator test
-Then assert that t listener content type is equal to &#34;text / html&#34;</pre>
         </div>
         <div class="scenario-section">
             <div class="scenario-section-title">Result</div>

@@ -364,31 +364,31 @@
     <ul class="contents">
     
     
-        <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestWithoutGiven">Without Given</a></li>
+        <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestGreetingService_PersonalisesGreeting_SkipsUnknownLocale.func1">Greeting Service Personalises Greeting Skips Unknown Locale / en - US</a></li>
     
     
     
-        <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestMyFirst">My First</a></li>
+        <li class="test-not-run"><a href="#github.com%2fcorbym%2fgogiven_test.TestGreetingService_PersonalisesGreeting_SkipsUnknownLocale.func1_1">Greeting Service Personalises Greeting Skips Unknown Locale / fr - FR</a></li>
     
     
     
-        <li class="test-failed"><a href="#github.com%2fcorbym%2fgogiven_test.TestMyFirst_Ranged.func1">My First Ranged</a></li>
+        <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestGreetingService_PersonalisesGreeting_NonDefaultParamName">Greeting Service Personalises Greeting Non Default Param Name</a></li>
     
     
     
-        <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestMyFirst_Ranged.func1_1">My First Ranged</a></li>
+        <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestGreetingService_ReturnsDefaultGreeting">Greeting Service Returns Default Greeting</a></li>
     
     
     
-        <li class="test-not-run"><a href="#github.com%2fcorbym%2fgogiven_test.TestMyFirst_Skipped.func1">My First Skipped / fff</a></li>
+        <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestGreetingService_PersonalisesGreeting">Greeting Service Personalises Greeting</a></li>
     
     
     
-        <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestMyFirst_Skipped.func1_1">My First Skipped / a</a></li>
+        <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestGreetingService_PersonalisesGreeting_ForManyUsers.func1">Greeting Service Personalises Greeting For Many Users</a></li>
     
     
     
-        <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestMyFirst_NonDefaultParamName">My First Non Default Param Name</a></li>
+        <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestGreetingService_PersonalisesGreeting_ForManyUsers.func1_1">Greeting Service Personalises Greeting For Many Users</a></li>
     
     
     </ul>
@@ -399,64 +399,23 @@
             
 
 <div class="testmethod">
-    <a id="github.com/corbym/gogiven_test.TestWithoutGiven"></a>
+    <a id="github.com/corbym/gogiven_test.TestGreetingService_PersonalisesGreeting_SkipsUnknownLocale.func1"></a>
     <div class="testmethod-header">
-        <h2>Without Given</h2>
+        <h2>Greeting Service Personalises Greeting Skips Unknown Locale / en - US</h2>
         
             <span class="badge badge-pass">Passed</span>
         
     </div>
-    <p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestWithoutGiven">
+    <p>TestGreetingService_PersonalisesGreeting_SkipsUnknownLocale tests that the service</p><p>skips producing a greeting for locales that are not yet supported.</p><p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGreetingService_PersonalisesGreeting_SkipsUnknownLocale.func1">
         <div class="scenario-section">
             <div class="scenario-section-title">Specification</div>
             <pre class="highlight specification">
-When something happens
+Given a registered user named tc user name with locale tc locale
+Skipping this one if locale is not english tc locale &#34;locale % s is not yet supported&#34; tc locale
+When a greeting is requested
 Then
-Assert that actual &#34;actual&#34; is equal to &#34;some output&#34;</pre>
-        </div>
-        <div class="scenario-section">
-            <div class="scenario-section-title">Result</div>
-            
-                <pre class="highlight results test-passed">PASSED</pre>
-            
-        </div>
-        
-
-
-        
-
-<div class="scenario-section">
-    <button class="collapsible-trigger" type="button" logkey="actual">
-        <span class="chevron">▶</span> actual
-    </button>
-    <div class="collapsible-content">
-        <div class="logValue highlight xml WebResource">some output</div>
-    </div>
-</div>
-
-
-    </div>
-</div>
-
-<div class="testmethod">
-    <a id="github.com/corbym/gogiven_test.TestMyFirst"></a>
-    <div class="testmethod-header">
-        <h2>My First</h2>
-        
-            <span class="badge badge-pass">Passed</span>
-        
-    </div>
-    <p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestMyFirst">
-        <div class="scenario-section">
-            <div class="scenario-section-title">Specification</div>
-            <pre class="highlight specification">
-Given the system setup
-When something happens
-Then
-Noting that we do some assertions here commenting why
-Assert that captured &#34;actual&#34; is equal to &#34;some output&#34;</pre>
+Assert that captured &#34;greeting&#34; is equal to &#34;hello alice !&#34;</pre>
         </div>
         <div class="scenario-section">
             <div class="scenario-section-title">Result</div>
@@ -474,8 +433,13 @@ Assert that captured &#34;actual&#34; is equal to &#34;some output&#34;</pre>
         <table class="interestingGivens">
             
             <tr>
-                <th class="key">foofar</th>
-                <td class="interestingGiven">faff</td>
+                <th class="key">locale</th>
+                <td class="interestingGiven">en-US</td>
+            </tr>
+            
+            <tr>
+                <th class="key">userName</th>
+                <td class="interestingGiven">Alice</td>
             </tr>
             
         </table>
@@ -486,11 +450,11 @@ Assert that captured &#34;actual&#34; is equal to &#34;some output&#34;</pre>
         
 
 <div class="scenario-section">
-    <button class="collapsible-trigger" type="button" logkey="actual">
-        <span class="chevron">▶</span> actual
+    <button class="collapsible-trigger" type="button" logkey="greeting">
+        <span class="chevron">▶</span> greeting
     </button>
     <div class="collapsible-content">
-        <div class="logValue highlight xml WebResource">some output</div>
+        <div class="logValue highlight xml WebResource">Hello, Alice!</div>
     </div>
 </div>
 
@@ -499,161 +463,29 @@ Assert that captured &#34;actual&#34; is equal to &#34;some output&#34;</pre>
 </div>
 
 <div class="testmethod">
-    <a id="github.com/corbym/gogiven_test.TestMyFirst_Ranged.func1"></a>
+    <a id="github.com/corbym/gogiven_test.TestGreetingService_PersonalisesGreeting_SkipsUnknownLocale.func1_1"></a>
     <div class="testmethod-header">
-        <h2>My First Ranged</h2>
-        
-            <span class="badge badge-fail">Failed</span>
-        
-    </div>
-    <p>This test tests over a range of values. Lorum ipsum dolor, lorum ipsum dolor lorum ipsum dolor. Lorum ipsum dolor.</p><p>Comments on new lines will be split into paragraph sections.</p><p></p><p>Empty lines will be removed. Do not remove this comment. Thanks.</p><p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestMyFirst_Ranged.func1">
-        <div class="scenario-section">
-            <div class="scenario-section-title">Specification</div>
-            <pre class="highlight specification">
-Given the system setup with test data test
-When something happens with the test
-Then
-Noting that do assertions
-Assert that stored &#34;actual&#34; has length test expected</pre>
-        </div>
-        <div class="scenario-section">
-            <div class="scenario-section-title">Result</div>
-            
-                <pre class="highlight results test-failed">FAILED
-
-Expected: value with length 2
-     but: &lt;length was 1&gt;
-</pre>
-            
-        </div>
-        
-
-<div class="scenario-section">
-    <button class="collapsible-trigger" type="button">
-        <span class="chevron">▶</span> Interesting Givens
-    </button>
-    <div class="collapsible-content">
-        <table class="interestingGivens">
-            
-            <tr>
-                <th class="key">actual</th>
-                <td class="interestingGiven">x</td>
-            </tr>
-            
-            <tr>
-                <th class="key">foofar</th>
-                <td class="interestingGiven">faff</td>
-            </tr>
-            
-        </table>
-    </div>
-</div>
-
-
-        
-
-<div class="scenario-section">
-    <button class="collapsible-trigger" type="button" logkey="x">
-        <span class="chevron">▶</span> x
-    </button>
-    <div class="collapsible-content">
-        <div class="logValue highlight xml WebResource">2</div>
-    </div>
-</div>
-
-
-    </div>
-</div>
-
-<div class="testmethod">
-    <a id="github.com/corbym/gogiven_test.TestMyFirst_Ranged.func1_1"></a>
-    <div class="testmethod-header">
-        <h2>My First Ranged</h2>
-        
-            <span class="badge badge-pass">Passed</span>
-        
-    </div>
-    <p>This test tests over a range of values. Lorum ipsum dolor, lorum ipsum dolor lorum ipsum dolor. Lorum ipsum dolor.</p><p>Comments on new lines will be split into paragraph sections.</p><p></p><p>Empty lines will be removed. Do not remove this comment. Thanks.</p><p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestMyFirst_Ranged.func1_1">
-        <div class="scenario-section">
-            <div class="scenario-section-title">Specification</div>
-            <pre class="highlight specification">
-Given the system setup with test data test
-When something happens with the test
-Then
-Noting that do assertions
-Assert that stored &#34;actual&#34; has length test expected</pre>
-        </div>
-        <div class="scenario-section">
-            <div class="scenario-section-title">Result</div>
-            
-                <pre class="highlight results test-passed">PASSED</pre>
-            
-        </div>
-        
-
-<div class="scenario-section">
-    <button class="collapsible-trigger" type="button">
-        <span class="chevron">▶</span> Interesting Givens
-    </button>
-    <div class="collapsible-content">
-        <table class="interestingGivens">
-            
-            <tr>
-                <th class="key">actual</th>
-                <td class="interestingGiven">aaaa</td>
-            </tr>
-            
-            <tr>
-                <th class="key">foofar</th>
-                <td class="interestingGiven">faff</td>
-            </tr>
-            
-        </table>
-    </div>
-</div>
-
-
-        
-
-<div class="scenario-section">
-    <button class="collapsible-trigger" type="button" logkey="aaaa">
-        <span class="chevron">▶</span> aaaa
-    </button>
-    <div class="collapsible-content">
-        <div class="logValue highlight xml WebResource">4</div>
-    </div>
-</div>
-
-
-    </div>
-</div>
-
-<div class="testmethod">
-    <a id="github.com/corbym/gogiven_test.TestMyFirst_Skipped.func1"></a>
-    <div class="testmethod-header">
-        <h2>My First Skipped / fff</h2>
+        <h2>Greeting Service Personalises Greeting Skips Unknown Locale / fr - FR</h2>
         
             <span class="badge badge-skip">Skipped</span>
         
     </div>
-    <p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestMyFirst_Skipped.func1">
+    <p>TestGreetingService_PersonalisesGreeting_SkipsUnknownLocale tests that the service</p><p>skips producing a greeting for locales that are not yet supported.</p><p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGreetingService_PersonalisesGreeting_SkipsUnknownLocale.func1_1">
         <div class="scenario-section">
             <div class="scenario-section-title">Specification</div>
             <pre class="highlight specification">
-Given the system setup that is a bit dodgy to test
-Skipping this one if the value is fff test &#34;some data % s does not work yet&#34; test actual
-When something happens with the test
+Given a registered user named tc user name with locale tc locale
+Skipping this one if locale is not english tc locale &#34;locale % s is not yet supported&#34; tc locale
+When a greeting is requested
 Then
-Assert that test actual is equal to &#34;a&#34; reason &#34;we only want to assert if test actual is a not empty&#34;</pre>
+Assert that captured &#34;greeting&#34; is equal to &#34;hello alice !&#34;</pre>
         </div>
         <div class="scenario-section">
             <div class="scenario-section-title">Result</div>
             
                 <pre class="highlight results test-not-run">SKIPPED
-some data fff does not work yet</pre>
+locale fr-FR is not yet supported</pre>
             
         </div>
         
@@ -666,13 +498,13 @@ some data fff does not work yet</pre>
         <table class="interestingGivens">
             
             <tr>
-                <th class="key">actual</th>
-                <td class="interestingGiven">fff</td>
+                <th class="key">locale</th>
+                <td class="interestingGiven">fr-FR</td>
             </tr>
             
             <tr>
-                <th class="key">foofar</th>
-                <td class="interestingGiven">faff</td>
+                <th class="key">userName</th>
+                <td class="interestingGiven">Marie</td>
             </tr>
             
         </table>
@@ -687,23 +519,23 @@ some data fff does not work yet</pre>
 </div>
 
 <div class="testmethod">
-    <a id="github.com/corbym/gogiven_test.TestMyFirst_Skipped.func1_1"></a>
+    <a id="github.com/corbym/gogiven_test.TestGreetingService_PersonalisesGreeting_NonDefaultParamName"></a>
     <div class="testmethod-header">
-        <h2>My First Skipped / a</h2>
+        <h2>Greeting Service Personalises Greeting Non Default Param Name</h2>
         
             <span class="badge badge-pass">Passed</span>
         
     </div>
-    <p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestMyFirst_Skipped.func1_1">
+    <p>TestGreetingService_PersonalisesGreeting_NonDefaultParamName verifies that gogiven</p><p>correctly parses test functions that use non-standard testing parameter names.</p><p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGreetingService_PersonalisesGreeting_NonDefaultParamName">
         <div class="scenario-section">
             <div class="scenario-section-title">Specification</div>
             <pre class="highlight specification">
-Given the system setup that is a bit dodgy to test
-Skipping this one if the value is fff test &#34;some data % s does not work yet&#34; test actual
-When something happens with the test
+Given a registered user named &#34;alice&#34;
+When a greeting is requested
 Then
-Assert that test actual is equal to &#34;a&#34; reason &#34;we only want to assert if test actual is a not empty&#34;</pre>
+Noting that the greeting should address the user by their registered name
+Assert that captured &#34;greeting&#34; is equal to &#34;hello alice !&#34;</pre>
         </div>
         <div class="scenario-section">
             <div class="scenario-section-title">Result</div>
@@ -721,13 +553,8 @@ Assert that test actual is equal to &#34;a&#34; reason &#34;we only want to asse
         <table class="interestingGivens">
             
             <tr>
-                <th class="key">actual</th>
-                <td class="interestingGiven">a</td>
-            </tr>
-            
-            <tr>
-                <th class="key">foofar</th>
-                <td class="interestingGiven">faff</td>
+                <th class="key">userName</th>
+                <td class="interestingGiven">Alice</td>
             </tr>
             
         </table>
@@ -738,11 +565,11 @@ Assert that test actual is equal to &#34;a&#34; reason &#34;we only want to asse
         
 
 <div class="scenario-section">
-    <button class="collapsible-trigger" type="button" logkey="a">
-        <span class="chevron">▶</span> a
+    <button class="collapsible-trigger" type="button" logkey="greeting">
+        <span class="chevron">▶</span> greeting
     </button>
     <div class="collapsible-content">
-        <div class="logValue highlight xml WebResource">1</div>
+        <div class="logValue highlight xml WebResource">Hello, Alice!</div>
     </div>
 </div>
 
@@ -751,23 +578,64 @@ Assert that test actual is equal to &#34;a&#34; reason &#34;we only want to asse
 </div>
 
 <div class="testmethod">
-    <a id="github.com/corbym/gogiven_test.TestMyFirst_NonDefaultParamName"></a>
+    <a id="github.com/corbym/gogiven_test.TestGreetingService_ReturnsDefaultGreeting"></a>
     <div class="testmethod-header">
-        <h2>My First Non Default Param Name</h2>
+        <h2>Greeting Service Returns Default Greeting</h2>
         
             <span class="badge badge-pass">Passed</span>
         
     </div>
-    <p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestMyFirst_NonDefaultParamName">
+    <p>TestGreetingService_ReturnsDefaultGreeting verifies that the service returns a</p><p>default greeting message when no user context is provided.</p><p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGreetingService_ReturnsDefaultGreeting">
         <div class="scenario-section">
             <div class="scenario-section-title">Specification</div>
             <pre class="highlight specification">
-Given the system setup
-When something happens
+When a default greeting is requested
 Then
-Noting that we do some assertions here commenting why
-Assert that captured &#34;actual&#34; is equal to &#34;some output&#34;</pre>
+Assert that captured &#34;greeting&#34; is equal to &#34;hello world !&#34;</pre>
+        </div>
+        <div class="scenario-section">
+            <div class="scenario-section-title">Result</div>
+            
+                <pre class="highlight results test-passed">PASSED</pre>
+            
+        </div>
+        
+
+
+        
+
+<div class="scenario-section">
+    <button class="collapsible-trigger" type="button" logkey="greeting">
+        <span class="chevron">▶</span> greeting
+    </button>
+    <div class="collapsible-content">
+        <div class="logValue highlight xml WebResource">Hello, World!</div>
+    </div>
+</div>
+
+
+    </div>
+</div>
+
+<div class="testmethod">
+    <a id="github.com/corbym/gogiven_test.TestGreetingService_PersonalisesGreeting"></a>
+    <div class="testmethod-header">
+        <h2>Greeting Service Personalises Greeting</h2>
+        
+            <span class="badge badge-pass">Passed</span>
+        
+    </div>
+    <p>TestGreetingService_PersonalisesGreeting verifies that the greeting service</p><p>generates a personalised message for a registered user.</p><p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGreetingService_PersonalisesGreeting">
+        <div class="scenario-section">
+            <div class="scenario-section-title">Specification</div>
+            <pre class="highlight specification">
+Given a registered user named &#34;alice&#34;
+When a greeting is requested
+Then
+Noting that the greeting should address the user by their registered name
+Assert that captured &#34;greeting&#34; is equal to &#34;hello alice !&#34;</pre>
         </div>
         <div class="scenario-section">
             <div class="scenario-section-title">Result</div>
@@ -785,8 +653,8 @@ Assert that captured &#34;actual&#34; is equal to &#34;some output&#34;</pre>
         <table class="interestingGivens">
             
             <tr>
-                <th class="key">foofar</th>
-                <td class="interestingGiven">faff</td>
+                <th class="key">userName</th>
+                <td class="interestingGiven">Alice</td>
             </tr>
             
         </table>
@@ -797,11 +665,129 @@ Assert that captured &#34;actual&#34; is equal to &#34;some output&#34;</pre>
         
 
 <div class="scenario-section">
-    <button class="collapsible-trigger" type="button" logkey="actual">
-        <span class="chevron">▶</span> actual
+    <button class="collapsible-trigger" type="button" logkey="greeting">
+        <span class="chevron">▶</span> greeting
     </button>
     <div class="collapsible-content">
-        <div class="logValue highlight xml WebResource">some output</div>
+        <div class="logValue highlight xml WebResource">Hello, Alice!</div>
+    </div>
+</div>
+
+
+    </div>
+</div>
+
+<div class="testmethod">
+    <a id="github.com/corbym/gogiven_test.TestGreetingService_PersonalisesGreeting_ForManyUsers.func1"></a>
+    <div class="testmethod-header">
+        <h2>Greeting Service Personalises Greeting For Many Users</h2>
+        
+            <span class="badge badge-pass">Passed</span>
+        
+    </div>
+    <p>TestGreetingService_PersonalisesGreeting_ForManyUsers tests that the greeting service</p><p>produces the correct personalised greeting for a range of user names.</p><p>Comments on new lines will be split into paragraph sections.</p><p></p><p>Each test case verifies that the greeting contains exactly the expected number of characters.</p><p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGreetingService_PersonalisesGreeting_ForManyUsers.func1">
+        <div class="scenario-section">
+            <div class="scenario-section-title">Specification</div>
+            <pre class="highlight specification">
+Given a registered user named tc user name
+When a greeting is requested
+Then
+Noting that the greeting length should match the length of the formatted output
+Assert that captured &#34;greeting&#34; has length tc expected length</pre>
+        </div>
+        <div class="scenario-section">
+            <div class="scenario-section-title">Result</div>
+            
+                <pre class="highlight results test-passed">PASSED</pre>
+            
+        </div>
+        
+
+<div class="scenario-section">
+    <button class="collapsible-trigger" type="button">
+        <span class="chevron">▶</span> Interesting Givens
+    </button>
+    <div class="collapsible-content">
+        <table class="interestingGivens">
+            
+            <tr>
+                <th class="key">userName</th>
+                <td class="interestingGiven">Li</td>
+            </tr>
+            
+        </table>
+    </div>
+</div>
+
+
+        
+
+<div class="scenario-section">
+    <button class="collapsible-trigger" type="button" logkey="greeting">
+        <span class="chevron">▶</span> greeting
+    </button>
+    <div class="collapsible-content">
+        <div class="logValue highlight xml WebResource">Hello, Li!</div>
+    </div>
+</div>
+
+
+    </div>
+</div>
+
+<div class="testmethod">
+    <a id="github.com/corbym/gogiven_test.TestGreetingService_PersonalisesGreeting_ForManyUsers.func1_1"></a>
+    <div class="testmethod-header">
+        <h2>Greeting Service Personalises Greeting For Many Users</h2>
+        
+            <span class="badge badge-pass">Passed</span>
+        
+    </div>
+    <p>TestGreetingService_PersonalisesGreeting_ForManyUsers tests that the greeting service</p><p>produces the correct personalised greeting for a range of user names.</p><p>Comments on new lines will be split into paragraph sections.</p><p></p><p>Each test case verifies that the greeting contains exactly the expected number of characters.</p><p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGreetingService_PersonalisesGreeting_ForManyUsers.func1_1">
+        <div class="scenario-section">
+            <div class="scenario-section-title">Specification</div>
+            <pre class="highlight specification">
+Given a registered user named tc user name
+When a greeting is requested
+Then
+Noting that the greeting length should match the length of the formatted output
+Assert that captured &#34;greeting&#34; has length tc expected length</pre>
+        </div>
+        <div class="scenario-section">
+            <div class="scenario-section-title">Result</div>
+            
+                <pre class="highlight results test-passed">PASSED</pre>
+            
+        </div>
+        
+
+<div class="scenario-section">
+    <button class="collapsible-trigger" type="button">
+        <span class="chevron">▶</span> Interesting Givens
+    </button>
+    <div class="collapsible-content">
+        <table class="interestingGivens">
+            
+            <tr>
+                <th class="key">userName</th>
+                <td class="interestingGiven">Alice</td>
+            </tr>
+            
+        </table>
+    </div>
+</div>
+
+
+        
+
+<div class="scenario-section">
+    <button class="collapsible-trigger" type="button" logkey="greeting">
+        <span class="chevron">▶</span> greeting
+    </button>
+    <div class="collapsible-content">
+        <div class="logValue highlight xml WebResource">Hello, Alice!</div>
     </div>
 </div>
 
