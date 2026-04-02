@@ -19,8 +19,9 @@ To contribute, please read [this first.](https://github.com/corbym/gogiven/blob/
 2. [Example One - GoGivens in practice](#example)
 3. [Example Two - Table Tests](#tabletest-example)
 4. [Example Three - Skipping Tests](#skipping-example)
-5. [Content Generation](#content-gen)
-6. [List of pre-written output generators](#output-generator-list)
+5. [Example Four - Without a Given](#withoutgiven-example)
+6. [Content Generation](#content-gen)
+7. [List of pre-written output generators](#output-generator-list)
 
 ## Introduction <a name="introduction"></a>
 
@@ -89,6 +90,7 @@ A complete example of how to write a GoGivensOutputGenerator is given in [genera
 ## Example One - GoGivens in Practice <a name="example"></a>
 ```go
 import (
+	"fmt"
 	"os"
 	"testing"
 	"github.com/corbym/gocrest/is"
@@ -104,28 +106,33 @@ func TestMain(testmain *testing.M) {
 	os.Exit(runOutput)
 }
 
-func TestMyFirst(t *testing.T) {
-	gogiven.Given(t, theSystemSetup).
-		When(somethingHappens).
+// TestGreetingService_PersonalisesGreeting verifies that the greeting service
+// generates a personalised message for a registered user.
+func TestGreetingService_PersonalisesGreeting(t *testing.T) {
+	gogiven.Given(t, aRegisteredUserNamed("Alice")).
+		When(aGreetingIsRequested).
 		Then(func(t base.TestingT, captured testdata.CapturedIO, givens testdata.InterestingGivens) {
-			// we do some assertions here, noting why
-			AssertThat(t, captured["actual"], is.EqualTo("some output"))
+			// the greeting should address the user by their registered name
+			AssertThat(t, captured["greeting"], is.EqualTo("Hello, Alice!"))
 		})
 }
 
-func theSystemSetup(givens testdata.InterestingGivens) {
-	givens["someKey"] = "someValue"
+func aRegisteredUserNamed(name string) func(givens testdata.InterestingGivens) {
+	return func(givens testdata.InterestingGivens) {
+		givens["userName"] = name
+	}
 }
 
-func somethingHappens(captured testdata.CapturedIO, givens testdata.InterestingGivens) {
-	captured["actual"] = "some output"
+func aGreetingIsRequested(captured testdata.CapturedIO, givens testdata.InterestingGivens) {
+	name := givens["userName"].(string)
+	captured["greeting"] = fmt.Sprintf("Hello, %s!", name)
 }
 ```
 Note you do not have to use "gocrest" assertions, you can still call all of testing.T's functions to fail the test or you can use any go testing assertion package compatible with testing.T.
 
 When run, the above will produce an HTML output:
 
-[Example Html](https://corbym.github.io/gogiven/example_test.html#github.com%2fcorbym%2fgogiven.TestMyFirst)
+[Example Html](https://corbym.github.io/gogiven/example_test.html#github.com%2fcorbym%2fgogiven.TestGreetingService_PersonalisesGreeting)
 
 ## Example Two - Table Tests <a name="tabletest-example"></a>
 
@@ -135,6 +142,7 @@ Example:
 
 ```go
 import (
+	"fmt"
 	"testing"
 	"github.com/corbym/gocrest/has"
 	. "github.com/corbym/gocrest/then"
@@ -143,88 +151,106 @@ import (
 	"github.com/corbym/gogiven/testdata"
 )
 
-// This test tests over a range of values.
-func TestMyFirst_Ranged(t *testing.T) {
-	type someData struct {
-		actual   string
-		expected int
+// TestGreetingService_PersonalisesGreeting_ForManyUsers tests that the greeting service
+// produces the correct personalised greeting for a range of user names.
+//
+// Each test case verifies that the greeting contains exactly the expected number of characters.
+func TestGreetingService_PersonalisesGreeting_ForManyUsers(t *testing.T) {
+	type greetingTestCase struct {
+		userName       string
+		expectedLength int
 	}
-	var someRange = []someData{
-		{actual: "x", expected: 2},
-		{actual: "aaaa", expected: 4},
+	var testCases = []greetingTestCase{
+		{userName: "Li", expectedLength: 10},   // "Hello, Li!"
+		{userName: "Alice", expectedLength: 13}, // "Hello, Alice!"
 	}
-	for _, test := range someRange {
-		t.Run(test.actual, func(tt *testing.T) {
+	for _, tc := range testCases {
+		t.Run(tc.userName, func(tt *testing.T) {
 			weAreTesting := base.NewTestMetaData(t.Name())
-			gogiven.Given(weAreTesting, theSystemSetup, withTestData(test)).
-				When(somethingHappensWithThe(test)).
+			gogiven.Given(weAreTesting, aRegisteredUserNamed(tc.userName)).
+				When(aGreetingIsRequested).
 				Then(func(t base.TestingT, captured testdata.CapturedIO, stored testdata.InterestingGivens) {
-					// do assertions
-					AssertThat(t, stored["actual"], has.Length(test.expected))
+					// the greeting length should match the length of the formatted output
+					AssertThat(t, captured["greeting"], has.Length(tc.expectedLength))
 				})
 		})
-	}
-}
-
-func withTestData(test someData) func(givens testdata.InterestingGivens) {
-	return func(givens testdata.InterestingGivens) {
-		givens["actual"] = test.actual
-	}
-}
-
-func somethingHappensWithThe(data someData) base.CapturedIOGivenData {
-	return func(capturedIO testdata.CapturedIO, givens testdata.InterestingGivens) {
-		capturedIO[data.actual] = data.expected
 	}
 }
 ```
 
 The above test will still fail the test function as far as Go is concerned, but the test output will note that the iteration failed like this:
 
-[Ranged Example Html](https://corbym.github.io/gogiven/example_test.html#github.com%2fcorbym%2fgogiven.TestMyFirst_Ranged)
+[Ranged Example Html](https://corbym.github.io/gogiven/example_test.html#github.com%2fcorbym%2fgogiven.TestGreetingService_PersonalisesGreeting_ForManyUsers)
 
-**Note that comments are now rendered. Test function comments appear as part of the spec, and inline comments appear as "Noting that ..". In the above, the comment //do assertions would become "Noting that do assertions".**
+**Note that comments are now rendered. Test function comments appear as part of the spec, and inline comments appear as "Noting that ..". In the above, the comment `// the greeting length...` would become "Noting that the greeting length should match the length of the formatted output".**
 
 ### More Examples
 
 * [Full Index](https://corbym.github.io/gogiven/index.html) of all tests generated by GoGiven build
-* [Skipped test](https://corbym.github.io/gogiven/example_test.html#github.com%2fcorbym%2fgogiven.TestMyFirst_Skipped.func1)
-* [Without a Given](https://corbym.github.io/gogiven/example_test.html#github.com%2fcorbym%2fgogiven.TestWithoutGiven)
+* [Skipped test](https://corbym.github.io/gogiven/example_test.html#github.com%2fcorbym%2fgogiven.TestGreetingService_PersonalisesGreeting_SkipsUnknownLocale)
+* [Without a Given](https://corbym.github.io/gogiven/example_test.html#github.com%2fcorbym%2fgogiven.TestGreetingService_ReturnsDefaultGreeting)
 
 ## Example Three - Skipping Tests <a name="skipping-example"></a>
 
 Use `SkippingThisOneIf` to conditionally skip a test case within a table test, or `SkippingThisOne` to unconditionally skip:
 
 ```go
-func TestMyFirst_Skipped(t *testing.T) {
-	type someData struct {
-		actual   string
-		expected int
+// TestGreetingService_PersonalisesGreeting_SkipsUnknownLocale tests that the service
+// skips producing a greeting for locales that are not yet supported.
+func TestGreetingService_PersonalisesGreeting_SkipsUnknownLocale(t *testing.T) {
+	type localeTestCase struct {
+		userName string
+		locale   string
 	}
-	var someRange = []someData{
-		{actual: "fff", expected: 0},
-		{actual: "a", expected: 1},
+	var testCases = []localeTestCase{
+		{userName: "Alice", locale: "en-US"},
+		{userName: "Marie", locale: "fr-FR"},
 	}
-	for _, test := range someRange {
-		t.Run(test.actual, func(t *testing.T) {
-			gogiven.Given(t, theSystemSetup, thatIsABitDodgyTo(test)).
-				SkippingThisOneIf(theValueIsFff(test), "some data %s does not work yet", test.actual).
-				When(somethingHappensWithThe(test)).
+	for _, tc := range testCases {
+		t.Run(tc.locale, func(t *testing.T) {
+			gogiven.Given(t, aRegisteredUserNamed(tc.userName), withLocale(tc.locale)).
+				SkippingThisOneIf(localeIsNotEnglish(tc.locale), "locale %s is not yet supported", tc.locale).
+				When(aGreetingIsRequested).
 				Then(func(t base.TestingT, captured testdata.CapturedIO, givens testdata.InterestingGivens) {
-					AssertThat(t, test.actual, is.EqualTo("a"))
+					AssertThat(t, captured["greeting"], is.EqualTo("Hello, Alice!"))
 				})
 		})
 	}
 }
 
-func theValueIsFff(data someData) func(someData ...interface{}) bool {
+func withLocale(locale string) func(givens testdata.InterestingGivens) {
+	return func(givens testdata.InterestingGivens) {
+		givens["locale"] = locale
+	}
+}
+
+func localeIsNotEnglish(locale string) func(...interface{}) bool {
 	return func(...interface{}) bool {
-		return data.actual == "fff"
+		return !strings.HasPrefix(locale, "en")
 	}
 }
 ```
 
 Skipped test cases are still recorded in the test output, marked as skipped rather than failed.
+
+## Example Four - Without a Given <a name="withoutgiven-example"></a>
+
+When there is no meaningful setup, you can start directly with `When`:
+
+```go
+// TestGreetingService_ReturnsDefaultGreeting verifies that the service returns a
+// default greeting message when no user context is provided.
+func TestGreetingService_ReturnsDefaultGreeting(t *testing.T) {
+	gogiven.When(t, aDefaultGreetingIsRequested).
+		Then(func(t base.TestingT, captured testdata.CapturedIO, givens testdata.InterestingGivens) {
+			AssertThat(t, captured["greeting"], is.EqualTo("Hello, World!"))
+		})
+}
+
+func aDefaultGreetingIsRequested(captured testdata.CapturedIO, givens testdata.InterestingGivens) {
+	captured["greeting"] = "Hello, World!"
+}
+```
 
 # Content Generation <a name="content-gen"></a>
 

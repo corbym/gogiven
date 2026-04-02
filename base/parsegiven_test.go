@@ -19,25 +19,25 @@ func TestParseGivenWhenThen_Panics(t *testing.T) {
 }
 
 func TestParseGivenWhenThen_TextOutputContent(testing *testing.T) {
-	g := base.ParseGivenWhenThen(".TestMyFirst", exampleTestFileName)
+	g := base.ParseGivenWhenThen(".TestGreetingService_PersonalisesGreeting", exampleTestFileName)
 
 	AssertThat(testing, g.GivenWhenThen, has.Length(5))
 
-	AssertThat(testing, g.GivenWhenThen[0], is.EqualTo("Given the system setup"))
-	AssertThat(testing, g.GivenWhenThen[1], is.EqualTo("When something happens"))
+	AssertThat(testing, g.GivenWhenThen[0], is.EqualTo("Given a registered user named \"alice\""))
+	AssertThat(testing, g.GivenWhenThen[1], is.EqualTo("When a greeting is requested"))
 	AssertThat(testing, g.GivenWhenThen[2], is.EqualTo("Then"))
-	AssertThat(testing, g.GivenWhenThen[3], is.EqualTo("Noting that we do some assertions here commenting why"))
-	AssertThat(testing, g.GivenWhenThen[4], is.EqualTo("Assert that captured \"actual\" is equal to \"some output\""))
+	AssertThat(testing, g.GivenWhenThen[3], is.EqualTo("Noting that the greeting should address the user by their registered name"))
+	AssertThat(testing, g.GivenWhenThen[4], is.EqualTo("Assert that captured \"greeting\" is equal to \"hello alice !\""))
 }
 
 func TestParseGivenWhenThen_WithoutGiven(testing *testing.T) {
-	g := base.ParseGivenWhenThen(".TestWithoutGiven", exampleTestFileName)
+	g := base.ParseGivenWhenThen(".TestGreetingService_ReturnsDefaultGreeting", exampleTestFileName)
 
 	AssertThat(testing, g.GivenWhenThen, has.Length(3))
 
-	AssertThat(testing, g.GivenWhenThen[0], is.EqualTo("When something happens"))
+	AssertThat(testing, g.GivenWhenThen[0], is.EqualTo("When a default greeting is requested"))
 	AssertThat(testing, g.GivenWhenThen[1], is.EqualTo("Then"))
-	AssertThat(testing, g.GivenWhenThen[2], is.EqualTo("Assert that actual \"actual\" is equal to \"some output\""))
+	AssertThat(testing, g.GivenWhenThen[2], is.EqualTo("Assert that captured \"greeting\" is equal to \"hello world !\""))
 }
 
 func TestParseGivenWhenThen_PanicsWithoutGivenOrWhen(testing *testing.T) {
@@ -49,42 +49,43 @@ func TestParseGivenWhenThen_PanicsWithoutGivenOrWhen(testing *testing.T) {
 }
 
 func TestParseGivenWhenThen_FuncWithReturnType(testing *testing.T) {
-	g := base.ParseGivenWhenThen(".TestMyFirst_Skipped", exampleTestFileName)
+	g := base.ParseGivenWhenThen(".TestGreetingService_PersonalisesGreeting_SkipsUnknownLocale", exampleTestFileName)
 	AssertThat(testing, g.GivenWhenThen, has.Length(5))
 
-	AssertThat(testing, g.GivenWhenThen[0], is.EqualTo("Given the system setup that is a bit dodgy to test"))
-	AssertThat(testing, g.GivenWhenThen[1], is.EqualTo("Skipping this one if the value is fff test \"some data % s does not work yet\" test actual"))
-	AssertThat(testing, g.GivenWhenThen[2], is.EqualTo("When something happens with the test"))
+	AssertThat(testing, g.GivenWhenThen[0], is.EqualTo("Given a registered user named tc user name with locale tc locale"))
+	AssertThat(testing, g.GivenWhenThen[1], is.EqualTo("Skipping this one if locale is not english tc locale \"locale % s is not yet supported\" tc locale"))
+	AssertThat(testing, g.GivenWhenThen[2], is.EqualTo("When a greeting is requested"))
 	AssertThat(testing, g.GivenWhenThen[3], is.EqualTo("Then"))
-	AssertThat(testing, g.GivenWhenThen[4], is.EqualTo("Assert that test actual is equal to \"a\" reason \"we only want to assert if test actual is a not empty\""))
+	AssertThat(testing, g.GivenWhenThen[4], is.EqualTo("Assert that captured \"greeting\" is equal to \"hello alice !\""))
 }
 
 func TestParseGivenWhenThen_NonDefaultTParamName(testing *testing.T) {
-	g := base.ParseGivenWhenThen(".TestMyFirst_NonDefaultParamName", exampleTestFileName)
+	g := base.ParseGivenWhenThen(".TestGreetingService_PersonalisesGreeting_NonDefaultParamName", exampleTestFileName)
 
 	AssertThat(testing, g.GivenWhenThen, has.Length(5))
 
-	AssertThat(testing, g.GivenWhenThen[0], is.EqualTo("Given the system setup"))
-	AssertThat(testing, g.GivenWhenThen[1], is.EqualTo("When something happens"))
+	AssertThat(testing, g.GivenWhenThen[0], is.EqualTo("Given a registered user named \"alice\""))
+	AssertThat(testing, g.GivenWhenThen[1], is.EqualTo("When a greeting is requested"))
 	AssertThat(testing, g.GivenWhenThen[2], is.EqualTo("Then"))
-	AssertThat(testing, g.GivenWhenThen[3], is.EqualTo("Noting that we do some assertions here commenting why"))
-	AssertThat(testing, g.GivenWhenThen[4], is.EqualTo("Assert that captured \"actual\" is equal to \"some output\""))
+	AssertThat(testing, g.GivenWhenThen[3], is.EqualTo("Noting that the greeting should address the user by their registered name"))
+	AssertThat(testing, g.GivenWhenThen[4], is.EqualTo("Assert that captured \"greeting\" is equal to \"hello alice !\""))
 }
 
 func TestParseGivenWhenThen_RangedTextOutput(testing *testing.T) {
-	parsedTest := base.ParseGivenWhenThen(".TestMyFirst_Ranged", exampleTestFileName)
+	parsedTest := base.ParseGivenWhenThen(".TestGreetingService_PersonalisesGreeting_ForManyUsers", exampleTestFileName)
 	AssertThat(testing, parsedTest.GivenWhenThen, has.Length(5))
 
-	AssertThat(testing, parsedTest.GivenWhenThen[0], is.EqualTo("Given the system setup with test data test"))
-	AssertThat(testing, parsedTest.GivenWhenThen[1], is.EqualTo("When something happens with the test"))
+	AssertThat(testing, parsedTest.GivenWhenThen[0], is.EqualTo("Given a registered user named tc user name"))
+	AssertThat(testing, parsedTest.GivenWhenThen[1], is.EqualTo("When a greeting is requested"))
 	AssertThat(testing, parsedTest.GivenWhenThen[2], is.EqualTo("Then"))
-	AssertThat(testing, parsedTest.GivenWhenThen[3], is.EqualTo("Noting that do assertions"))
-	AssertThat(testing, parsedTest.GivenWhenThen[4], is.EqualTo("Assert that stored \"actual\" has length test expected"))
+	AssertThat(testing, parsedTest.GivenWhenThen[3], is.EqualTo("Noting that the greeting length should match the length of the formatted output"))
+	AssertThat(testing, parsedTest.GivenWhenThen[4], is.EqualTo("Assert that captured \"greeting\" has length tc expected length"))
 }
 
 func TestParseGivenWhenThen_IncludesComment(testing *testing.T) {
-	givenWhenThen := base.ParseGivenWhenThen(".TestMyFirst_Ranged", exampleTestFileName)
+	givenWhenThen := base.ParseGivenWhenThen(".TestGreetingService_PersonalisesGreeting_ForManyUsers", exampleTestFileName)
 
-	AssertThat(testing, givenWhenThen.Comment[0], is.EqualTo("This test tests over a range of values. Lorum ipsum dolor, lorum ipsum dolor lorum ipsum dolor. Lorum ipsum dolor."))
-	AssertThat(testing, givenWhenThen.Comment[1], is.EqualTo("Comments on new lines will be split into paragraph sections."))
+	AssertThat(testing, givenWhenThen.Comment[0], is.EqualTo("TestGreetingService_PersonalisesGreeting_ForManyUsers tests that the greeting service"))
+	AssertThat(testing, givenWhenThen.Comment[1], is.EqualTo("produces the correct personalised greeting for a range of user names."))
+	AssertThat(testing, givenWhenThen.Comment[2], is.EqualTo("Comments on new lines will be split into paragraph sections."))
 }
