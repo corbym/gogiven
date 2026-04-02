@@ -48,6 +48,33 @@ jobs:
           name: Go-results-${{ matrix.go-version }}
           path: TestResults-${{ matrix.go-version }}.json
           
+  generate-docs:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23.x'
+
+      - name: Install dependencies
+        run: go get .
+
+      - name: Generate example output docs
+        run: GOGIVENS_OUTPUT_DIR=./docs go test -v .
+
+      - name: Commit generated docs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/
+          git diff --staged --quiet || (git commit -m "chore: update generated example output [skip ci]" && git push)
+
   finish:
     needs: build
     runs-on: ubuntu-latest
