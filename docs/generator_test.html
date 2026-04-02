@@ -1,0 +1,678 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator Test</title>
+    
+<style>
+    :root {
+        --c-bg:           #f1f5f9;
+        --c-surface:      #ffffff;
+        --c-border:       #e2e8f0;
+        --c-text:         #0f172a;
+        --c-text-muted:   #64748b;
+        --c-primary:      #4f46e5;
+        --c-code-bg:      #f8fafc;
+
+        --c-pass:         #16a34a;
+        --c-pass-bg:      #f0fdf4;
+        --c-pass-border:  #86efac;
+        --c-pass-text:    #15803d;
+
+        --c-fail:         #dc2626;
+        --c-fail-bg:      #fef2f2;
+        --c-fail-border:  #fca5a5;
+        --c-fail-text:    #b91c1c;
+
+        --c-skip:         #d97706;
+        --c-skip-bg:      #fffbeb;
+        --c-skip-border:  #fcd34d;
+        --c-skip-text:    #b45309;
+
+        --c-kw:           #4338ca;
+        --c-quote:        #15803d;
+        --c-literal:      #0284c7;
+        --c-const:        #7c3aed;
+
+        --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        --font-mono: ui-monospace, SFMono-Regular, "Cascadia Code", Consolas, "Courier New", monospace;
+        --radius:    0.5rem;
+        --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
+        --shadow:    0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+        --sidebar-w: 256px;
+        --header-h:  52px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { font-size: 15px; scroll-behavior: smooth; }
+
+    body {
+        font-family: var(--font-sans);
+        background: var(--c-bg);
+        color: var(--c-text);
+        line-height: 1.6;
+        min-height: 100vh;
+    }
+
+     
+    .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        height: var(--header-h);
+        background: var(--c-surface);
+        border-bottom: 1px solid var(--c-border);
+        box-shadow: var(--shadow-sm);
+    }
+    .header-inner {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        height: 100%;
+        padding: 0 1.5rem;
+    }
+    .header-logo { font-size: 1.25rem; color: var(--c-primary); }
+    .header-inner h1 {
+        font-size: 1.0625rem;
+        font-weight: 600;
+        color: var(--c-text);
+        letter-spacing: -0.01em;
+        text-transform: none;
+    }
+
+     
+    .page-layout {
+        display: flex;
+        max-width: 1400px;
+        margin: 0 auto;
+        min-height: calc(100vh - var(--header-h));
+    }
+
+     
+    .sidebar {
+        width: var(--sidebar-w);
+        flex-shrink: 0;
+        position: sticky;
+        top: var(--header-h);
+        height: calc(100vh - var(--header-h));
+        overflow-y: auto;
+        border-right: 1px solid var(--c-border);
+        background: var(--c-surface);
+        padding: 1.25rem 0;
+    }
+    .sidebar .contents h2 {
+        font-size: 0.6875rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--c-text-muted);
+        padding: 0 1rem 0.5rem;
+    }
+    .sidebar ul.contents { list-style: none; }
+    .sidebar ul.contents li a {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.375rem 1rem;
+        font-size: 0.875rem;
+        color: var(--c-text);
+        text-decoration: none;
+        transition: background 0.1s;
+        text-transform: none;
+    }
+    .sidebar ul.contents li a:hover { background: var(--c-bg); }
+    .sidebar ul.contents li a::before {
+        content: '';
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+    .sidebar ul.contents li.test-passed  a::before { background: var(--c-pass); }
+    .sidebar ul.contents li.test-failed  a::before { background: var(--c-fail); }
+    .sidebar ul.contents li.test-not-run a::before { background: var(--c-skip); }
+
+     
+    .main-content { flex: 1; padding: 2rem; min-width: 0; }
+
+     
+    .testmethod { margin-bottom: 2.5rem; }
+
+    .testmethod-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+    }
+    .testmethod-header h2 {
+        font-size: 1.1875rem;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        text-transform: capitalize;
+    }
+    .testmethod > p {
+        color: var(--c-text-muted);
+        font-size: 0.9375rem;
+        margin-bottom: 0.75rem;
+        margin-top: -0.5rem;
+    }
+
+     
+    .badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.125rem 0.625rem;
+        border-radius: 9999px;
+        font-size: 0.6875rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        flex-shrink: 0;
+    }
+    .badge-pass { background: var(--c-pass-bg); color: var(--c-pass-text); border: 1px solid var(--c-pass-border); }
+    .badge-fail { background: var(--c-fail-bg); color: var(--c-fail-text); border: 1px solid var(--c-fail-border); }
+    .badge-skip { background: var(--c-skip-bg); color: var(--c-skip-text); border: 1px solid var(--c-skip-border); }
+
+     
+    .scenario {
+        background: var(--c-surface);
+        border: 1px solid var(--c-border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-sm);
+        overflow: hidden;
+    }
+    .scenario-section {
+        padding: 1.125rem 1.5rem;
+        border-bottom: 1px solid var(--c-border);
+    }
+    .scenario-section:last-child { border-bottom: none; }
+    .scenario-section-title {
+        font-size: 0.6875rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        color: var(--c-text-muted);
+        margin-bottom: 0.625rem;
+    }
+
+     
+    pre.highlight.specification {
+        font-family: var(--font-mono);
+        font-size: 0.875rem;
+        line-height: 1.9;
+        background: var(--c-code-bg);
+        border: 1px solid var(--c-border);
+        border-radius: calc(var(--radius) - 2px);
+        padding: 0.875rem 1.125rem;
+        white-space: pre-wrap;
+        word-break: break-word;
+        margin: 0;
+    }
+    pre.highlight.specification .keyword  { color: var(--c-kw);      font-weight: 700; }
+    pre.highlight.specification .quote    { color: var(--c-quote);   font-weight: 600; }
+    pre.highlight.specification .literal  { color: var(--c-literal); font-weight: 600; }
+    pre.highlight.specification .constant { color: var(--c-const);   font-weight: 600; }
+
+     
+    pre.highlight.results {
+        font-family: var(--font-mono);
+        font-size: 0.8125rem;
+        line-height: 1.6;
+        padding: 0.875rem 1.125rem;
+        border-radius: calc(var(--radius) - 2px);
+        white-space: pre-wrap;
+        word-break: break-word;
+        margin: 0;
+    }
+    pre.highlight.results.test-passed  { background: var(--c-pass-bg); border: 1px solid var(--c-pass-border); color: var(--c-pass-text); }
+    pre.highlight.results.test-failed  { background: var(--c-fail-bg); border: 1px solid var(--c-fail-border); color: var(--c-fail-text); }
+    pre.highlight.results.test-not-run { background: var(--c-skip-bg); border: 1px solid var(--c-skip-border); color: var(--c-skip-text); }
+    pre.highlight.results .keyword { font-weight: 700; }
+    pre.highlight.results .quote   { font-style: italic; }
+    pre.highlight.results .literal { font-weight: 600; }
+
+     
+    .collapsible-trigger {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: none;
+        border: none;
+        padding: 0;
+        font-family: var(--font-sans);
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: var(--c-text-muted);
+        cursor: pointer;
+        text-align: left;
+        width: 100%;
+    }
+    .collapsible-trigger:hover { color: var(--c-text); }
+    .collapsible-trigger .chevron { transition: transform 0.2s; font-style: normal; }
+    .collapsible-trigger.open .chevron { transform: rotate(90deg); }
+    .collapsible-content { margin-top: 0.75rem; }
+    .collapsible-content.hide { display: none; }
+
+     
+    .interestingGivens {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.875rem;
+    }
+    .interestingGivens th {
+        text-align: left;
+        font-weight: 600;
+        padding: 0.5rem 0.75rem;
+        background: var(--c-bg);
+        border: 1px solid var(--c-border);
+        color: var(--c-text-muted);
+        font-size: 0.8125rem;
+        text-transform: capitalize;
+    }
+    .interestingGivens td {
+        padding: 0.5rem 0.75rem;
+        border: 1px solid var(--c-border);
+    }
+    .interestingGiven {
+        background: var(--c-skip-bg);
+        color: var(--c-skip-text);
+        border-radius: 0.25rem;
+        padding: 0.125rem 0.375rem;
+        font-size: 0.8125rem;
+        font-family: var(--font-mono);
+    }
+
+     
+    .logValue.highlight.xml {
+        font-family: var(--font-mono);
+        font-size: 0.8125rem;
+        white-space: pre-wrap;
+        word-break: break-word;
+        background: var(--c-code-bg);
+        border: 1px solid var(--c-border);
+        border-radius: calc(var(--radius) - 2px);
+        padding: 0.75rem 1rem;
+    }
+    .xml .keyword  { color: var(--c-kw); }
+    .xml .constant { color: var(--c-const); }
+    .xml .quote    { color: var(--c-quote); }
+
+     
+    .index-page { max-width: 900px; margin: 0 auto; padding: 2rem; }
+    .index-page > .contents > h2 { font-size: 1.125rem; font-weight: 600; margin-bottom: 1.25rem; }
+    .contents .index-result {
+        background: var(--c-surface);
+        border: 1px solid var(--c-border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-sm);
+        padding: 1.125rem 1.5rem;
+        margin-bottom: 1rem;
+    }
+    .contents .index-result dt a {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--c-primary);
+        text-decoration: none;
+        text-transform: capitalize;
+    }
+    .contents .index-result dt a:hover { text-decoration: underline; }
+    .contents .index-result dd {
+        font-size: 0.875rem;
+        padding: 0.125rem 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-left: 0;
+    }
+    .contents .index-result dd::before {
+        content: '';
+        display: inline-block;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+    .contents .index-result dd.test-passed::before  { background: var(--c-pass); }
+    .contents .index-result dd.test-failed::before  { background: var(--c-fail); }
+    .contents .index-result dd.test-not-run::before { background: var(--c-skip); }
+    .contents .index-result dd a { color: var(--c-text); text-decoration: none; text-transform: capitalize; }
+    .contents .index-result dd a:hover { color: var(--c-primary); }
+
+     
+    .hide { display: none; }
+    a { color: var(--c-primary); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+</style>
+
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <span class="header-logo" aria-hidden="true">◈</span>
+            <h1>Generator Test</h1>
+        </div>
+    </header>
+    <div class="page-layout">
+        <nav class="sidebar" aria-label="Test contents">
+            
+<div class="contents">
+    <h2>Contents</h2>
+    <ul class="contents">
+    
+    
+        <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestGenerateTestOutput_output">Generate Test Output   output</a></li>
+    
+    
+    
+        <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestGenerateTestOutput_GenerateIndex">Generate Test Output   Generate Index</a></li>
+    
+    
+    
+        <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestGenerateTestOutput_OutputIndex">Generate Test Output   Output Index</a></li>
+    
+    
+    
+        <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestGenerateTestOutput_contentType">Generate Test Output   content Type</a></li>
+    
+    
+    
+        <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestGenerateTestOutput_fileName">Generate Test Output   file Name</a></li>
+    
+    
+    </ul>
+</div>
+
+        </nav>
+        <main class="main-content">
+            
+
+<div class="testmethod">
+    <a id="github.com/corbym/gogiven_test.TestGenerateTestOutput_output"></a>
+    <div class="testmethod-header">
+        <h2>Generate Test Output   output</h2>
+        
+            <span class="badge badge-pass">Passed</span>
+        
+    </div>
+    <p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGenerateTestOutput_output">
+        <div class="scenario-section">
+            <div class="scenario-section-title">Specification</div>
+            <pre class="highlight specification">
+Given t
+Listener received = test stubs new stub listener test stubs generator test
+Gogiven generate test output
+&lt;- received
+Then assert that t listener output is value containing &#34;foo&#34;</pre>
+        </div>
+        <div class="scenario-section">
+            <div class="scenario-section-title">Result</div>
+            
+                <pre class="highlight results test-passed">PASSED</pre>
+            
+        </div>
+        
+
+
+        
+
+
+    </div>
+</div>
+
+<div class="testmethod">
+    <a id="github.com/corbym/gogiven_test.TestGenerateTestOutput_GenerateIndex"></a>
+    <div class="testmethod-header">
+        <h2>Generate Test Output   Generate Index</h2>
+        
+            <span class="badge badge-pass">Passed</span>
+        
+    </div>
+    <p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGenerateTestOutput_GenerateIndex">
+        <div class="scenario-section">
+            <div class="scenario-section-title">Specification</div>
+            <pre class="highlight specification">
+Given t
+Stub generator received = test stubs new stub generator
+Gogiven generate test output
+Done = &lt;- received
+Then assert that t done is equal to true
+Then assert that t stub generator index data has length is greater than 0
+Then assert that t stub generator index data 0 ref is any of
+Is value containing &#34;test html&#34;
+Is value containing &#34;test shtml&#34;</pre>
+        </div>
+        <div class="scenario-section">
+            <div class="scenario-section-title">Result</div>
+            
+                <pre class="highlight results test-passed">PASSED</pre>
+            
+        </div>
+        
+
+
+        
+
+
+    </div>
+</div>
+
+<div class="testmethod">
+    <a id="github.com/corbym/gogiven_test.TestGenerateTestOutput_OutputIndex"></a>
+    <div class="testmethod-header">
+        <h2>Generate Test Output   Output Index</h2>
+        
+            <span class="badge badge-pass">Passed</span>
+        
+    </div>
+    <p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGenerateTestOutput_OutputIndex">
+        <div class="scenario-section">
+            <div class="scenario-section-title">Specification</div>
+            <pre class="highlight specification">
+Given t
+Listener received = test stubs new stub listener test stubs index file name
+Test stubs new stub generator
+Gogiven generate test output
+Done = &lt;- received
+Then assert that t done is equal to test stubs index file name
+Then assert that t listener output is equal to &#34;index&#34;</pre>
+        </div>
+        <div class="scenario-section">
+            <div class="scenario-section-title">Result</div>
+            
+                <pre class="highlight results test-passed">PASSED</pre>
+            
+        </div>
+        
+
+
+        
+
+
+    </div>
+</div>
+
+<div class="testmethod">
+    <a id="github.com/corbym/gogiven_test.TestGenerateTestOutput_contentType"></a>
+    <div class="testmethod-header">
+        <h2>Generate Test Output   content Type</h2>
+        
+            <span class="badge badge-pass">Passed</span>
+        
+    </div>
+    <p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGenerateTestOutput_contentType">
+        <div class="scenario-section">
+            <div class="scenario-section-title">Specification</div>
+            <pre class="highlight specification">
+Given t
+Listener received = test stubs new stub listener test stubs generator test
+Gogiven generate test output
+Done = &lt;- received
+Then assert that t done is equal to test stubs generator test
+Then assert that t listener content type is equal to &#34;text / html&#34;</pre>
+        </div>
+        <div class="scenario-section">
+            <div class="scenario-section-title">Result</div>
+            
+                <pre class="highlight results test-passed">PASSED</pre>
+            
+        </div>
+        
+
+
+        
+
+
+    </div>
+</div>
+
+<div class="testmethod">
+    <a id="github.com/corbym/gogiven_test.TestGenerateTestOutput_fileName"></a>
+    <div class="testmethod-header">
+        <h2>Generate Test Output   file Name</h2>
+        
+            <span class="badge badge-pass">Passed</span>
+        
+    </div>
+    <p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGenerateTestOutput_fileName">
+        <div class="scenario-section">
+            <div class="scenario-section-title">Specification</div>
+            <pre class="highlight specification">
+Given t
+Listener received = test stubs new stub listener test stubs generator test
+Gogiven generate test output
+Done = &lt;- received
+Then assert that t done is equal to test stubs generator test
+Then assert that t listener test file path is value containing &#34;generator test go&#34;</pre>
+        </div>
+        <div class="scenario-section">
+            <div class="scenario-section-title">Result</div>
+            
+                <pre class="highlight results test-passed">PASSED</pre>
+            
+        </div>
+        
+
+
+        
+
+
+    </div>
+</div>
+
+
+        </main>
+    </div>
+    
+<script>
+(function () {
+    'use strict';
+
+    function highlight(element, pairs) {
+        if (!element || element.dataset.highlighted) return;
+        if (!pairs.length) return;
+
+        var classes  = pairs.map(function (p) { return p.cssClass; });
+        var patterns = pairs.map(function (p) { return '(' + p.pattern + ')'; });
+        var regex    = new RegExp(patterns.join('|'), 'g');
+
+        element.innerHTML = element.innerHTML.replace(regex, function (match) {
+            
+            for (var i = 1; i <= classes.length; i++) {
+                if (arguments[i]) {
+                    return '<span class="' + classes[i - 1] + '">' + arguments[i] + '</span>';
+                }
+            }
+            return match;
+        });
+        element.dataset.highlighted = 'true';
+    }
+
+    function escapeRegex(str) {
+        return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+        
+        document.querySelectorAll('.highlight.specification').forEach(function (el) {
+            highlight(el, [
+                {pattern: '"[^"]*"',         cssClass: 'quote'},
+                {pattern: '\\bGiven\\b',     cssClass: 'keyword'},
+                {pattern: '\\bAnd\\b',       cssClass: 'keyword'},
+                {pattern: '\\bWhen\\b',      cssClass: 'keyword'},
+                {pattern: '\\bThen\\b',      cssClass: 'keyword'},
+                {pattern: '\\bNoting that\\b', cssClass: 'keyword'},
+                {pattern: '[A-Z_]{2,}',      cssClass: 'constant'},
+                {pattern: '\\d+',            cssClass: 'literal'}
+            ]);
+        });
+
+        
+        document.querySelectorAll('.highlight.results').forEach(function (el) {
+            highlight(el, [
+                {pattern: '"[^"]*"',      cssClass: 'quote'},
+                {pattern: '\\bFAILED\\b', cssClass: 'keyword'},
+                {pattern: '\\bPASSED\\b', cssClass: 'keyword'},
+                {pattern: '\\bSKIPPED\\b',cssClass: 'keyword'},
+                {pattern: 'Expected',     cssClass: 'keyword'},
+                {pattern: '\\bgot\\b',    cssClass: 'keyword'},
+                {pattern: '[A-Z_]{2,}',   cssClass: 'constant'},
+                {pattern: '\\d+',         cssClass: 'literal'}
+            ]);
+        });
+
+        
+        document.querySelectorAll('.scenario').forEach(function (scenario) {
+
+            
+            var interestingPairs = [];
+            scenario.querySelectorAll('.interestingGiven').forEach(function (cell) {
+                var text = cell.textContent.trim();
+                if (text) {
+                    interestingPairs.push(
+                        {pattern: '"' + escapeRegex(text) + '"', cssClass: 'interestingGiven'},
+                        {pattern: '\\b' + escapeRegex(text) + '\\b', cssClass: 'interestingGiven'}
+                    );
+                }
+            });
+
+            
+            scenario.querySelectorAll('.logValue.highlight.xml').forEach(function (logEl) {
+                var first = logEl.children[0];
+                if (!first || first.tagName.toLowerCase() !== 'svg') {
+                    highlight(logEl, interestingPairs.concat([
+                        {pattern: '"[^"]*"',        cssClass: 'quote'},
+                        {pattern: '&lt;[^\\s&]+',   cssClass: 'keyword'},
+                        {pattern: '\\??&gt;',        cssClass: 'keyword'},
+                        {pattern: '\\s[\\w:-]+=',   cssClass: 'constant'}
+                    ]));
+                }
+            });
+
+            
+            scenario.querySelectorAll('.collapsible-trigger').forEach(function (trigger) {
+                var content = trigger.nextElementSibling;
+                if (content && content.classList.contains('collapsible-content')) {
+                    content.classList.add('hide');
+                    trigger.addEventListener('click', function () {
+                        content.classList.toggle('hide');
+                        trigger.classList.toggle('open');
+                    });
+                }
+            });
+        });
+    });
+}());
+</script>
+
+</body>
+</html>
