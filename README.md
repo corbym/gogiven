@@ -8,7 +8,7 @@ An alternative BDD spec framework for go. Builds on "go test" tool and builds on
 
 Inspired by [YATSPEC](https://github.com/bodar/yatspec). Another similar idea is [JGiven](http://jgiven.org), although both are Java based.
 
-Check out the HTML output generator used as a default here: [htmlspec](https://github.com/corbym/htmlspec) - using go's own template/html package.
+Check out the HTML output generator used as a default here: [generator/htmlspec](generator/htmlspec) - using go's own template/html package.
 
 Feel free to contact me and help improve the code base or let me know if you have any issues or questions!
 
@@ -83,7 +83,7 @@ GoGivens gives you a standardised way of rendering captured data alongside your 
 
 The test framework parses your test file, and grabs the content. It strips all non-interesting parts out and leaves the Given/When/Then format in plain text ready for a GoGivensOutputGenerator to process the text. Interesting givens and Captured inputs and outputs are maps, which are rendered alongside your test givens as table data -- interesting givens are tablulated, and captured IO is listed.
 
-A complete example of how to write a GoGivensOutputGenerator is given in the sister project [html spec](https://github.com/corbym/htmlspec) - written in Go.
+A complete example of how to write a GoGivensOutputGenerator is given in [generator/htmlspec](generator/htmlspec) - written in Go.
 
 ## Example One - GoGivens in Practice <a name="example"></a>
 ```go
@@ -207,5 +207,5 @@ Default is the os's tmp directory.
 
 GoGiven comes with the following output generators:
 
-* HTML Spec: https://github.com/corbym/htmlspec - generates the output used in the test example. 
-* JSON Spec: https://github.com/corbym/jsonspec - generates the output in JSON format.
+* HTML Spec: [generator/htmlspec](generator/htmlspec) - generates the output used in the test example.
+* JSON Spec: [generator/jsonspec](generator/jsonspec) - generates the output in JSON format.

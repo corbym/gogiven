@@ -1,6 +1,6 @@
 module github.com/corbym/gogiven
 
-go 1.18
+go 1.22
 
 require (
 	github.com/corbym/gocrest v1.0.10
