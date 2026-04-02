@@ -1,119 +1,122 @@
 package gogiven_test
 
 import (
+	"fmt"
+	"strings"
+	"testing"
+
 	"github.com/corbym/gocrest/has"
 	"github.com/corbym/gocrest/is"
 	. "github.com/corbym/gocrest/then"
 	"github.com/corbym/gogiven"
 	"github.com/corbym/gogiven/base"
 	"github.com/corbym/gogiven/testdata"
-	"testing"
 )
 
-func TestMyFirst(t *testing.T) {
-	gogiven.Given(t, theSystemSetup).
-		When(somethingHappens).
+// TestGreetingService_PersonalisesGreeting verifies that the greeting service
+// generates a personalised message for a registered user.
+func TestGreetingService_PersonalisesGreeting(t *testing.T) {
+	gogiven.Given(t, aRegisteredUserNamed("Alice")).
+		When(aGreetingIsRequested).
 		Then(func(t base.TestingT, captured testdata.CapturedIO, givens testdata.InterestingGivens) {
-			// we do some assertions here, commenting why
-			AssertThat(t, captured["actual"], is.EqualTo("some output"))
+			// the greeting should address the user by their registered name
+			AssertThat(t, captured["greeting"], is.EqualTo("Hello, Alice!"))
 		})
 }
 
-func somethingHappens(actual testdata.CapturedIO, expected testdata.InterestingGivens) {
-	actual["actual"] = "some output"
+func aRegisteredUserNamed(name string) func(givens testdata.InterestingGivens) {
+	return func(givens testdata.InterestingGivens) {
+		givens["userName"] = name
+	}
 }
 
-// This test tests over a range of values. Lorum ipsum dolor, lorum ipsum dolor lorum ipsum dolor. Lorum ipsum dolor.
+func aGreetingIsRequested(captured testdata.CapturedIO, givens testdata.InterestingGivens) {
+	name := givens["userName"].(string)
+	captured["greeting"] = fmt.Sprintf("Hello, %s!", name)
+}
+
+// TestGreetingService_PersonalisesGreeting_ForManyUsers tests that the greeting service
+// produces the correct personalised greeting for a range of user names.
 // Comments on new lines will be split into paragraph sections.
 //
-// Empty lines will be removed. Do not remove this comment. Thanks.
-func TestMyFirst_Ranged(t *testing.T) {
-	var someRange = []struct {
-		actual   string
-		expected int
-	}{
-		{actual: "x", expected: 2},
-		{actual: "aaaa", expected: 4},
+// Each test case verifies that the greeting contains exactly the expected number of characters.
+func TestGreetingService_PersonalisesGreeting_ForManyUsers(t *testing.T) {
+	type greetingTestCase struct {
+		userName       string
+		expectedLength int
 	}
-	for _, test := range someRange {
-		t.Run(test.actual, func(tt *testing.T) {
-			weAreTesting := base.NewTestMetaData(t.Name()) // this test is fake, as we want to demo failing
-			gogiven.Given(weAreTesting, theSystemSetup, withTestData(test)).
-				When(somethingHappensWithThe(test)).
+	var testCases = []greetingTestCase{
+		{userName: "Li", expectedLength: 10},   // "Hello, Li!"
+		{userName: "Alice", expectedLength: 13}, // "Hello, Alice!"
+	}
+	for _, tc := range testCases {
+		t.Run(tc.userName, func(tt *testing.T) {
+			weAreTesting := base.NewTestMetaData(t.Name())
+			gogiven.Given(weAreTesting, aRegisteredUserNamed(tc.userName)).
+				When(aGreetingIsRequested).
 				Then(func(t base.TestingT, captured testdata.CapturedIO, stored testdata.InterestingGivens) {
-					// do assertions
-					AssertThat(t, stored["actual"], has.Length(test.expected))
+					// the greeting length should match the length of the formatted output
+					AssertThat(t, captured["greeting"], has.Length(tc.expectedLength))
 				})
 		})
 	}
 }
-func withTestData(test someData) func(givens testdata.InterestingGivens) {
-	return func(givens testdata.InterestingGivens) {
-		givens["actual"] = test.actual
-	}
-}
 
-func TestMyFirst_Skipped(t *testing.T) {
-	var someRange = []struct {
-		actual   string
-		expected int
-	}{
-		{actual: "fff", expected: 0},
-		{actual: "a", expected: 1},
+// TestGreetingService_PersonalisesGreeting_SkipsUnknownLocale tests that the service
+// skips producing a greeting for locales that are not yet supported.
+func TestGreetingService_PersonalisesGreeting_SkipsUnknownLocale(t *testing.T) {
+	type localeTestCase struct {
+		userName string
+		locale   string
 	}
-	for _, test := range someRange {
-		t.Run(test.actual, func(t *testing.T) {
-			gogiven.Given(t, theSystemSetup, thatIsABitDodgyTo(test)).
-				SkippingThisOneIf(theValueIsFff(test), "some data %s does not work yet", test.actual).
-				When(somethingHappensWithThe(test)).
-				Then(func(t base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
-					AssertThat(t, test.actual, is.EqualTo("a").Reason("we only want to assert if test actual is a not empty"))
+	var testCases = []localeTestCase{
+		{userName: "Alice", locale: "en-US"},
+		{userName: "Marie", locale: "fr-FR"},
+	}
+	for _, tc := range testCases {
+		t.Run(tc.locale, func(t *testing.T) {
+			gogiven.Given(t, aRegisteredUserNamed(tc.userName), withLocale(tc.locale)).
+				SkippingThisOneIf(localeIsNotEnglish(tc.locale), "locale %s is not yet supported", tc.locale).
+				When(aGreetingIsRequested).
+				Then(func(t base.TestingT, captured testdata.CapturedIO, givens testdata.InterestingGivens) {
+					AssertThat(t, captured["greeting"], is.EqualTo("Hello, Alice!"))
 				})
 		})
 	}
 }
-func thatIsABitDodgyTo(test someData) func(givens testdata.InterestingGivens) {
+
+func withLocale(locale string) func(givens testdata.InterestingGivens) {
 	return func(givens testdata.InterestingGivens) {
-		givens["actual"] = test.actual
-	}
-}
-func theValueIsFff(someData someData) func(someData ...interface{}) bool {
-	return func(data ...interface{}) bool {
-		return someData.actual == "fff"
+		givens["locale"] = locale
 	}
 }
 
-//func theValueIsFff(test ...interface{}) bool {
-//	return test[0].(*someData).actual == "fff"
-//}
+func localeIsNotEnglish(locale string) func(...interface{}) bool {
+	return func(...interface{}) bool {
+		return !strings.HasPrefix(locale, "en")
+	}
+}
 
-func TestMyFirst_NonDefaultParamName(myT *testing.T) {
-	gogiven.Given(myT, theSystemSetup).
-		When(somethingHappens).
+// TestGreetingService_PersonalisesGreeting_NonDefaultParamName verifies that gogiven
+// correctly parses test functions that use non-standard testing parameter names.
+func TestGreetingService_PersonalisesGreeting_NonDefaultParamName(myT *testing.T) {
+	gogiven.Given(myT, aRegisteredUserNamed("Alice")).
+		When(aGreetingIsRequested).
 		Then(func(thenT base.TestingT, captured testdata.CapturedIO, givens testdata.InterestingGivens) {
-			// we do some assertions here, commenting why
-			AssertThat(thenT, captured["actual"], is.EqualTo("some output"))
+			// the greeting should address the user by their registered name
+			AssertThat(thenT, captured["greeting"], is.EqualTo("Hello, Alice!"))
 		})
 }
 
-func TestWithoutGiven(t *testing.T) {
-	gogiven.When(t, somethingHappens).
-		Then(func(t base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) {
-			AssertThat(t, actual["actual"], is.EqualTo("some output"))
+// TestGreetingService_ReturnsDefaultGreeting verifies that the service returns a
+// default greeting message when no user context is provided.
+func TestGreetingService_ReturnsDefaultGreeting(t *testing.T) {
+	gogiven.When(t, aDefaultGreetingIsRequested).
+		Then(func(t base.TestingT, captured testdata.CapturedIO, givens testdata.InterestingGivens) {
+			AssertThat(t, captured["greeting"], is.EqualTo("Hello, World!"))
 		})
 }
 
-type someData struct {
-	actual   string
-	expected int
-}
-
-func somethingHappensWithThe(data someData) base.CapturedIOGivenData {
-	return func(capturedIO testdata.CapturedIO, givens testdata.InterestingGivens) {
-		capturedIO[data.actual] = data.expected
-	}
-}
-
-func theSystemSetup(givens testdata.InterestingGivens) {
-	givens["foofar"] = "faff"
+func aDefaultGreetingIsRequested(captured testdata.CapturedIO, givens testdata.InterestingGivens) {
+	captured["greeting"] = "Hello, World!"
 }
