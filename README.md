@@ -18,8 +18,9 @@ To contribute, please read [this first.](https://github.com/corbym/gogiven/blob/
 1. [Introduction](#introduction)
 2. [Example One - GoGivens in practice](#example)
 3. [Example Two - Table Tests](#tabletest-example)
-4. [Content Generation](#content-gen)
-5. [List of pre-written output generators](#output-generator-list)
+4. [Example Three - Skipping Tests](#skipping-example)
+5. [Content Generation](#content-gen)
+6. [List of pre-written output generators](#output-generator-list)
 
 ## Introduction <a name="introduction"></a>
 
@@ -88,29 +89,36 @@ A complete example of how to write a GoGivensOutputGenerator is given in [genera
 ## Example One - GoGivens in Practice <a name="example"></a>
 ```go
 import (
-	"github.com/corbym/gocrest/has"
-	"github.com/corbym/gocrest/then"
-	"github.com/corbym/gogiven/base"
-	"github.com/corbym/gogiven/testdata"
+	"os"
 	"testing"
 	"github.com/corbym/gocrest/is"
+	. "github.com/corbym/gocrest/then"
+	"github.com/corbym/gogiven"
+	"github.com/corbym/gogiven/base"
+	"github.com/corbym/gogiven/testdata"
 )
 
 func TestMain(testmain *testing.M) {
 	runOutput := testmain.Run()
-	GenerateTestOutput() // You only need test main GenerateTestOutput() if you want to produce HTML output.
+	gogiven.GenerateTestOutput() // You only need TestMain + GenerateTestOutput() if you want to produce HTML output.
 	os.Exit(runOutput)
 }
 
-func TestMyFirst(testing *testing.T) {
-	Given(testing, someDataSetup).
-
+func TestMyFirst(t *testing.T) {
+	gogiven.Given(t, theSystemSetup).
 		When(somethingHappens).
+		Then(func(t base.TestingT, captured testdata.CapturedIO, givens testdata.InterestingGivens) {
+			// we do some assertions here, noting why
+			AssertThat(t, captured["actual"], is.EqualTo("some output"))
+		})
+}
 
-		Then(func(testing base.TestingT, actual testdata.CapturedIO, givens testdata.InterestingGivens) { // passed in testing should be used for assertions
-		//do assertions
-		then.AssertThat(testing, actual["actual"], is.EqualTo("some output"))
-	})
+func theSystemSetup(givens testdata.InterestingGivens) {
+	givens["someKey"] = "someValue"
+}
+
+func somethingHappens(captured testdata.CapturedIO, givens testdata.InterestingGivens) {
+	captured["actual"] = "some output"
 }
 ```
 Note you do not have to use "gocrest" assertions, you can still call all of testing.T's functions to fail the test or you can use any go testing assertion package compatible with testing.T.
@@ -126,27 +134,49 @@ Table tests work the same way as normal go table tests. GoGivens will then mark 
 Example:
 
 ```go
-...
-func TestMyFirst(testing *testing.T){
-   var someRange = []struct {
+import (
+	"testing"
+	"github.com/corbym/gocrest/has"
+	. "github.com/corbym/gocrest/then"
+	"github.com/corbym/gogiven"
+	"github.com/corbym/gogiven/base"
+	"github.com/corbym/gogiven/testdata"
+)
+
+// This test tests over a range of values.
+func TestMyFirst_Ranged(t *testing.T) {
+	type someData struct {
 		actual   string
 		expected int
-	}{
-		{actual: "", expected: 0},
-		{actual: "a", expected: 2},
+	}
+	var someRange = []someData{
+		{actual: "x", expected: 2},
+		{actual: "aaaa", expected: 4},
 	}
 	for _, test := range someRange {
-	   tst.Run(test.actual, func(weAreTesting *testing.T) {
-	   	Given(weAreTesting, someDataSetup).
-			When(someAction).
-			Then(func(t TestingT, actual CapturedIO, givens InterestingGivens) {
-			//do assertions
-		AssertThat(t, actual.CapturedIO["actual"], is.EqualTo("some output"))
-	   	})
-	   }	
+		t.Run(test.actual, func(tt *testing.T) {
+			weAreTesting := base.NewTestMetaData(t.Name())
+			gogiven.Given(weAreTesting, theSystemSetup, withTestData(test)).
+				When(somethingHappensWithThe(test)).
+				Then(func(t base.TestingT, captured testdata.CapturedIO, stored testdata.InterestingGivens) {
+					// do assertions
+					AssertThat(t, stored["actual"], has.Length(test.expected))
+				})
+		})
 	}
 }
-...
+
+func withTestData(test someData) func(givens testdata.InterestingGivens) {
+	return func(givens testdata.InterestingGivens) {
+		givens["actual"] = test.actual
+	}
+}
+
+func somethingHappensWithThe(data someData) base.CapturedIOGivenData {
+	return func(capturedIO testdata.CapturedIO, givens testdata.InterestingGivens) {
+		capturedIO[data.actual] = data.expected
+	}
+}
 ```
 
 The above test will still fail the test function as far as Go is concerned, but the test output will note that the iteration failed like this:
@@ -161,14 +191,51 @@ The above test will still fail the test function as far as Go is concerned, but 
 * [Skipped test](https://corbym.github.io/gogiven/example_test.shtml#github.com%2fcorbym%2fgogiven.TestMyFirst_Skipped.func1)
 * [Without a Given](https://corbym.github.io/gogiven/example_test.shtml#github.com%2fcorbym%2fgogiven.TestWithoutGiven)
 
+## Example Three - Skipping Tests <a name="skipping-example"></a>
+
+Use `SkippingThisOneIf` to conditionally skip a test case within a table test, or `SkippingThisOne` to unconditionally skip:
+
+```go
+func TestMyFirst_Skipped(t *testing.T) {
+	type someData struct {
+		actual   string
+		expected int
+	}
+	var someRange = []someData{
+		{actual: "fff", expected: 0},
+		{actual: "a", expected: 1},
+	}
+	for _, test := range someRange {
+		t.Run(test.actual, func(t *testing.T) {
+			gogiven.Given(t, theSystemSetup, thatIsABitDodgyTo(test)).
+				SkippingThisOneIf(theValueIsFff(test), "some data %s does not work yet", test.actual).
+				When(somethingHappensWithThe(test)).
+				Then(func(t base.TestingT, captured testdata.CapturedIO, givens testdata.InterestingGivens) {
+					AssertThat(t, test.actual, is.EqualTo("a"))
+				})
+		})
+	}
+}
+
+func theValueIsFff(data someData) func(someData ...interface{}) bool {
+	return func(...interface{}) bool {
+		return data.actual == "fff"
+	}
+}
+```
+
+Skipped test cases are still recorded in the test output, marked as skipped rather than failed.
+
 # Content Generation <a name="content-gen"></a>
 
-Gogivens comes defaultly configured with an html generator (```htmlspec.NewTestOutputGenerator```) that is consumed by a file generator (```generator.FileOutputGenerator```) (see the godoc for more information). The content generator implements the following interface:
+Gogivens comes defaultly configured with an html generator (```htmlspec.NewHTMLOutputGenerator```) that is consumed by a file generator (```generator.FileOutputGenerator```) (see the godoc for more information). The content generator implements the following interface:
 
 ```go
 type GoGivensOutputGenerator interface {
-	Generate(data *PageData) (output io.Reader)
-	//ContentType is text/html, application/json or other mime type
+	Generate(data PageData) (output io.Reader)
+	// GenerateIndex generates the index from all the tests
+	GenerateIndex(indexData []IndexData) (output io.Reader)
+	// ContentType is text/html, application/json or other mime type
 	ContentType() string
 }
 ```
