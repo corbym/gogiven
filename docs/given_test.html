@@ -8,41 +8,44 @@
     
 <style>
     :root {
-        --c-bg:           #f1f5f9;
+        --c-bg:           #f0f4ff;
         --c-surface:      #ffffff;
-        --c-border:       #e2e8f0;
-        --c-text:         #0f172a;
-        --c-text-muted:   #64748b;
-        --c-primary:      #4f46e5;
-        --c-code-bg:      #f8fafc;
+        --c-border:       #d4d8f0;
+        --c-text:         #1a1a2e;
+        --c-text-muted:   #6b6f9a;
+        --c-primary:      #6366f1;
+        --c-primary-dark: #4338ca;
+        --c-accent:       #ec4899;
+        --c-code-bg:      #f5f6ff;
 
-        --c-pass:         #16a34a;
-        --c-pass-bg:      #f0fdf4;
-        --c-pass-border:  #86efac;
-        --c-pass-text:    #15803d;
+        --c-pass:         #059669;
+        --c-pass-bg:      #ecfdf5;
+        --c-pass-border:  #6ee7b7;
+        --c-pass-text:    #065f46;
 
-        --c-fail:         #dc2626;
-        --c-fail-bg:      #fef2f2;
-        --c-fail-border:  #fca5a5;
-        --c-fail-text:    #b91c1c;
+        --c-fail:         #e11d48;
+        --c-fail-bg:      #fff1f2;
+        --c-fail-border:  #fda4af;
+        --c-fail-text:    #9f1239;
 
         --c-skip:         #d97706;
         --c-skip-bg:      #fffbeb;
         --c-skip-border:  #fcd34d;
-        --c-skip-text:    #b45309;
+        --c-skip-text:    #92400e;
 
-        --c-kw:           #4338ca;
-        --c-quote:        #15803d;
-        --c-literal:      #0284c7;
-        --c-const:        #7c3aed;
+        --c-kw:           #6366f1;
+        --c-quote:        #059669;
+        --c-literal:      #0ea5e9;
+        --c-const:        #ec4899;
 
         --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         --font-mono: ui-monospace, SFMono-Regular, "Cascadia Code", Consolas, "Courier New", monospace;
-        --radius:    0.5rem;
-        --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
-        --shadow:    0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
-        --sidebar-w: 256px;
-        --header-h:  52px;
+        --radius:    0.625rem;
+        --shadow-sm: 0 1px 3px rgba(99,102,241,0.08);
+        --shadow:    0 4px 12px rgba(99,102,241,0.12), 0 1px 3px rgba(99,102,241,0.08);
+        --sidebar-w: 264px;
+        --header-h:  56px;
+        --header-grad: linear-gradient(135deg, #4338ca 0%, #6366f1 50%, #8b5cf6 100%);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -63,9 +66,8 @@
         top: 0;
         z-index: 50;
         height: var(--header-h);
-        background: var(--c-surface);
-        border-bottom: 1px solid var(--c-border);
-        box-shadow: var(--shadow-sm);
+        background: var(--header-grad);
+        box-shadow: 0 2px 12px rgba(67,56,202,0.35);
     }
     .header-inner {
         display: flex;
@@ -74,13 +76,17 @@
         height: 100%;
         padding: 0 1.5rem;
     }
-    .header-logo { font-size: 1.25rem; color: var(--c-primary); }
+    .header-logo {
+        font-size: 1.4rem;
+        color: #fff;
+        filter: drop-shadow(0 0 6px rgba(255,255,255,0.6));
+    }
     .header-inner h1 {
         font-size: 1.0625rem;
-        font-weight: 600;
-        color: var(--c-text);
-        letter-spacing: -0.01em;
-        text-transform: none;
+        font-weight: 700;
+        color: #ffffff;
+        letter-spacing: 0.01em;
+        text-shadow: 0 1px 3px rgba(0,0,0,0.2);
     }
 
      
@@ -102,28 +108,35 @@
         border-right: 1px solid var(--c-border);
         background: var(--c-surface);
         padding: 1.25rem 0;
+        box-shadow: 2px 0 8px rgba(99,102,241,0.06);
     }
     .sidebar .contents h2 {
         font-size: 0.6875rem;
-        font-weight: 600;
+        font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: var(--c-text-muted);
-        padding: 0 1rem 0.5rem;
+        letter-spacing: 0.1em;
+        color: var(--c-primary);
+        padding: 0 1rem 0.625rem;
+        border-bottom: 2px solid var(--c-bg);
+        margin-bottom: 0.5rem;
     }
     .sidebar ul.contents { list-style: none; }
     .sidebar ul.contents li a {
         display: flex;
         align-items: center;
         gap: 0.5rem;
-        padding: 0.375rem 1rem;
+        padding: 0.4rem 1rem;
         font-size: 0.875rem;
         color: var(--c-text);
         text-decoration: none;
-        transition: background 0.1s;
-        text-transform: none;
+        transition: background 0.15s, color 0.15s;
+        border-left: 3px solid transparent;
     }
-    .sidebar ul.contents li a:hover { background: var(--c-bg); }
+    .sidebar ul.contents li a:hover {
+        background: var(--c-bg);
+        color: var(--c-primary);
+        border-left-color: var(--c-primary);
+    }
     .sidebar ul.contents li a::before {
         content: '';
         display: inline-block;
@@ -132,9 +145,9 @@
         border-radius: 50%;
         flex-shrink: 0;
     }
-    .sidebar ul.contents li.test-passed  a::before { background: var(--c-pass); }
-    .sidebar ul.contents li.test-failed  a::before { background: var(--c-fail); }
-    .sidebar ul.contents li.test-not-run a::before { background: var(--c-skip); }
+    .sidebar ul.contents li.test-passed  a::before { background: var(--c-pass); box-shadow: 0 0 4px var(--c-pass); }
+    .sidebar ul.contents li.test-failed  a::before { background: var(--c-fail); box-shadow: 0 0 4px var(--c-fail); }
+    .sidebar ul.contents li.test-not-run a::before { background: var(--c-skip); box-shadow: 0 0 4px var(--c-skip); }
 
      
     .main-content { flex: 1; padding: 2rem; min-width: 0; }
@@ -147,43 +160,51 @@
         align-items: center;
         gap: 0.75rem;
         margin-bottom: 1rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid var(--c-border);
     }
     .testmethod-header h2 {
         font-size: 1.1875rem;
-        font-weight: 600;
+        font-weight: 700;
         letter-spacing: -0.01em;
         text-transform: capitalize;
+        background: var(--header-grad);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
     }
     .testmethod > p {
         color: var(--c-text-muted);
         font-size: 0.9375rem;
         margin-bottom: 0.75rem;
-        margin-top: -0.5rem;
+        margin-top: -0.25rem;
+        font-style: italic;
     }
 
      
     .badge {
         display: inline-flex;
         align-items: center;
-        padding: 0.125rem 0.625rem;
+        padding: 0.2rem 0.7rem;
         border-radius: 9999px;
         font-size: 0.6875rem;
-        font-weight: 700;
-        letter-spacing: 0.05em;
+        font-weight: 800;
+        letter-spacing: 0.07em;
         text-transform: uppercase;
         flex-shrink: 0;
     }
-    .badge-pass { background: var(--c-pass-bg); color: var(--c-pass-text); border: 1px solid var(--c-pass-border); }
-    .badge-fail { background: var(--c-fail-bg); color: var(--c-fail-text); border: 1px solid var(--c-fail-border); }
-    .badge-skip { background: var(--c-skip-bg); color: var(--c-skip-text); border: 1px solid var(--c-skip-border); }
+    .badge-pass { background: var(--c-pass-bg); color: var(--c-pass-text); border: 1.5px solid var(--c-pass-border); box-shadow: 0 0 8px rgba(5,150,105,0.2); }
+    .badge-fail { background: var(--c-fail-bg); color: var(--c-fail-text); border: 1.5px solid var(--c-fail-border); box-shadow: 0 0 8px rgba(225,29,72,0.2); }
+    .badge-skip { background: var(--c-skip-bg); color: var(--c-skip-text); border: 1.5px solid var(--c-skip-border); box-shadow: 0 0 8px rgba(217,119,6,0.2); }
 
      
     .scenario {
         background: var(--c-surface);
         border: 1px solid var(--c-border);
         border-radius: var(--radius);
-        box-shadow: var(--shadow-sm);
+        box-shadow: var(--shadow);
         overflow: hidden;
+        border-top: 3px solid var(--c-primary);
     }
     .scenario-section {
         padding: 1.125rem 1.5rem;
@@ -192,10 +213,10 @@
     .scenario-section:last-child { border-bottom: none; }
     .scenario-section-title {
         font-size: 0.6875rem;
-        font-weight: 700;
+        font-weight: 800;
         text-transform: uppercase;
-        letter-spacing: 0.07em;
-        color: var(--c-text-muted);
+        letter-spacing: 0.1em;
+        color: var(--c-primary);
         margin-bottom: 0.625rem;
     }
 
@@ -203,19 +224,20 @@
     pre.highlight.specification {
         font-family: var(--font-mono);
         font-size: 0.875rem;
-        line-height: 1.9;
+        line-height: 2;
         background: var(--c-code-bg);
         border: 1px solid var(--c-border);
+        border-left: 3px solid var(--c-primary);
         border-radius: calc(var(--radius) - 2px);
         padding: 0.875rem 1.125rem;
         white-space: pre-wrap;
         word-break: break-word;
         margin: 0;
     }
-    pre.highlight.specification .keyword  { color: var(--c-kw);      font-weight: 700; }
+    pre.highlight.specification .keyword  { color: var(--c-kw);      font-weight: 800; }
     pre.highlight.specification .quote    { color: var(--c-quote);   font-weight: 600; }
     pre.highlight.specification .literal  { color: var(--c-literal); font-weight: 600; }
-    pre.highlight.specification .constant { color: var(--c-const);   font-weight: 600; }
+    pre.highlight.specification .constant { color: var(--c-const);   font-weight: 700; }
 
      
     pre.highlight.results {
@@ -228,10 +250,10 @@
         word-break: break-word;
         margin: 0;
     }
-    pre.highlight.results.test-passed  { background: var(--c-pass-bg); border: 1px solid var(--c-pass-border); color: var(--c-pass-text); }
-    pre.highlight.results.test-failed  { background: var(--c-fail-bg); border: 1px solid var(--c-fail-border); color: var(--c-fail-text); }
-    pre.highlight.results.test-not-run { background: var(--c-skip-bg); border: 1px solid var(--c-skip-border); color: var(--c-skip-text); }
-    pre.highlight.results .keyword { font-weight: 700; }
+    pre.highlight.results.test-passed  { background: var(--c-pass-bg); border: 1px solid var(--c-pass-border); border-left: 3px solid var(--c-pass); color: var(--c-pass-text); }
+    pre.highlight.results.test-failed  { background: var(--c-fail-bg); border: 1px solid var(--c-fail-border); border-left: 3px solid var(--c-fail); color: var(--c-fail-text); }
+    pre.highlight.results.test-not-run { background: var(--c-skip-bg); border: 1px solid var(--c-skip-border); border-left: 3px solid var(--c-skip); color: var(--c-skip-text); }
+    pre.highlight.results .keyword { font-weight: 800; }
     pre.highlight.results .quote   { font-style: italic; }
     pre.highlight.results .literal { font-weight: 600; }
 
@@ -245,13 +267,14 @@
         padding: 0;
         font-family: var(--font-sans);
         font-size: 0.8125rem;
-        font-weight: 600;
-        color: var(--c-text-muted);
+        font-weight: 700;
+        color: var(--c-primary);
         cursor: pointer;
         text-align: left;
         width: 100%;
+        transition: color 0.15s;
     }
-    .collapsible-trigger:hover { color: var(--c-text); }
+    .collapsible-trigger:hover { color: var(--c-primary-dark); }
     .collapsible-trigger .chevron { transition: transform 0.2s; font-style: normal; }
     .collapsible-trigger.open .chevron { transform: rotate(90deg); }
     .collapsible-content { margin-top: 0.75rem; }
@@ -265,25 +288,29 @@
     }
     .interestingGivens th {
         text-align: left;
-        font-weight: 600;
+        font-weight: 700;
         padding: 0.5rem 0.75rem;
-        background: var(--c-bg);
+        background: linear-gradient(135deg, #ede9fe, #e0e7ff);
         border: 1px solid var(--c-border);
-        color: var(--c-text-muted);
+        color: var(--c-primary-dark);
         font-size: 0.8125rem;
-        text-transform: capitalize;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
     }
     .interestingGivens td {
         padding: 0.5rem 0.75rem;
         border: 1px solid var(--c-border);
+        background: var(--c-surface);
     }
     .interestingGiven {
-        background: var(--c-skip-bg);
+        background: linear-gradient(135deg, var(--c-skip-bg), #fef9c3);
         color: var(--c-skip-text);
-        border-radius: 0.25rem;
-        padding: 0.125rem 0.375rem;
+        border: 1px solid var(--c-skip-border);
+        border-radius: 0.375rem;
+        padding: 0.125rem 0.5rem;
         font-size: 0.8125rem;
         font-family: var(--font-mono);
+        font-weight: 600;
     }
 
      
@@ -294,32 +321,48 @@
         word-break: break-word;
         background: var(--c-code-bg);
         border: 1px solid var(--c-border);
+        border-left: 3px solid var(--c-accent);
         border-radius: calc(var(--radius) - 2px);
         padding: 0.75rem 1rem;
     }
-    .xml .keyword  { color: var(--c-kw); }
+    .xml .keyword  { color: var(--c-kw); font-weight: 700; }
     .xml .constant { color: var(--c-const); }
     .xml .quote    { color: var(--c-quote); }
 
      
     .index-page { max-width: 900px; margin: 0 auto; padding: 2rem; }
-    .index-page > .contents > h2 { font-size: 1.125rem; font-weight: 600; margin-bottom: 1.25rem; }
+    .index-page > .contents > h2 {
+        font-size: 1.125rem;
+        font-weight: 700;
+        margin-bottom: 1.25rem;
+        color: var(--c-primary-dark);
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--c-border);
+    }
     .contents .index-result {
         background: var(--c-surface);
         border: 1px solid var(--c-border);
         border-radius: var(--radius);
-        box-shadow: var(--shadow-sm);
+        box-shadow: var(--shadow);
         padding: 1.125rem 1.5rem;
         margin-bottom: 1rem;
+        border-left: 4px solid var(--c-primary);
+        transition: box-shadow 0.2s, transform 0.2s;
     }
+    .contents .index-result:hover {
+        box-shadow: 0 8px 24px rgba(99,102,241,0.18);
+        transform: translateY(-1px);
+    }
+    .contents .index-result.test-passed { border-left-color: var(--c-pass); }
+    .contents .index-result.test-failed { border-left-color: var(--c-fail); }
     .contents .index-result dt a {
         font-size: 1rem;
-        font-weight: 600;
+        font-weight: 700;
         color: var(--c-primary);
         text-decoration: none;
         text-transform: capitalize;
     }
-    .contents .index-result dt a:hover { text-decoration: underline; }
+    .contents .index-result dt a:hover { color: var(--c-primary-dark); text-decoration: underline; }
     .contents .index-result dd {
         font-size: 0.875rem;
         padding: 0.125rem 0;
@@ -336,9 +379,9 @@
         border-radius: 50%;
         flex-shrink: 0;
     }
-    .contents .index-result dd.test-passed::before  { background: var(--c-pass); }
-    .contents .index-result dd.test-failed::before  { background: var(--c-fail); }
-    .contents .index-result dd.test-not-run::before { background: var(--c-skip); }
+    .contents .index-result dd.test-passed::before  { background: var(--c-pass); box-shadow: 0 0 4px var(--c-pass); }
+    .contents .index-result dd.test-failed::before  { background: var(--c-fail); box-shadow: 0 0 4px var(--c-fail); }
+    .contents .index-result dd.test-not-run::before { background: var(--c-skip); box-shadow: 0 0 4px var(--c-skip); }
     .contents .index-result dd a { color: var(--c-text); text-decoration: none; text-transform: capitalize; }
     .contents .index-result dd a:hover { color: var(--c-primary); }
 
@@ -364,6 +407,10 @@
     <ul class="contents">
     
     
+        <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestGivenTitle_Strips_Extra_Spaces">Given Title Strips Extra Spaces</a></li>
+    
+    
+    
         <li class="test-not-run"><a href="#github.com%2fcorbym%2fgogiven_test.TestGivenWhenSkips">skiptest</a></li>
     
     
@@ -376,11 +423,11 @@
     
     
     
-        <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestGivenWhenExercisingRanges">title</a></li>
-    
-    
-    
         <li class="test-failed"><a href="#github.com%2fcorbym%2fgogiven_test.TestGoGivenLogsWithMetaData">Go Given Logs With Meta Data</a></li>
+    
+    
+    
+        <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestInnerTestRangesOverValues.func1">Inner Test Ranges Over Values / n</a></li>
     
     
     
@@ -388,7 +435,7 @@
     
     
     
-        <li class="test-failed"><a href="#github.com%2fcorbym%2fgogiven_test.TestGivenWhenExercisingRanges_1">title</a></li>
+        <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestGivenWhenExercisingRanges">title</a></li>
     
     
     
@@ -396,11 +443,7 @@
     
     
     
-        <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestGivenTitle_Strips_Extra_Spaces">Given Title Strips Extra Spaces</a></li>
-    
-    
-    
-        <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestInnerTestRangesOverValues.func1">Inner Test Ranges Over Values / n</a></li>
+        <li class="test-failed"><a href="#github.com%2fcorbym%2fgogiven_test.TestGivenWhenExercisingRanges_1">title</a></li>
     
     
     
@@ -413,6 +456,37 @@
         </nav>
         <main class="main-content">
             
+
+<div class="testmethod">
+    <a id="github.com/corbym/gogiven_test.TestGivenTitle_Strips_Extra_Spaces"></a>
+    <div class="testmethod-header">
+        <h2>Given Title Strips Extra Spaces</h2>
+        
+            <span class="badge badge-pass">Passed</span>
+        
+    </div>
+    <p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGivenTitle_Strips_Extra_Spaces">
+        <div class="scenario-section">
+            <div class="scenario-section-title">Specification</div>
+            <pre class="highlight specification">
+Given t
+Assert that t some test title is equal to &#34;given title strips extra spaces&#34;</pre>
+        </div>
+        <div class="scenario-section">
+            <div class="scenario-section-title">Result</div>
+            
+                <pre class="highlight results test-passed">PASSED</pre>
+            
+        </div>
+        
+
+
+        
+
+
+    </div>
+</div>
 
 <div class="testmethod">
     <a id="github.com/corbym/gogiven_test.TestGivenWhenSkips"></a>
@@ -587,6 +661,138 @@ Assert that actual &#34;actual&#34; is equal to test expected</pre>
 </div>
 
 <div class="testmethod">
+    <a id="github.com/corbym/gogiven_test.TestGoGivenLogsWithMetaData"></a>
+    <div class="testmethod-header">
+        <h2>Go Given Logs With Meta Data</h2>
+        
+            <span class="badge badge-fail">Failed</span>
+        
+    </div>
+    <p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGoGivenLogsWithMetaData">
+        <div class="scenario-section">
+            <div class="scenario-section-title">Specification</div>
+            <pre class="highlight specification">
+Given stub testing t
+Then
+Testing t logf &#34;wobble bop&#34;
+Assert that t stub testing t failed is equal to true
+Assert that t stub testing t test output is equal to &#34;wobble bop&#34;</pre>
+        </div>
+        <div class="scenario-section">
+            <div class="scenario-section-title">Result</div>
+            
+                <pre class="highlight results test-failed">FAILED
+wobble bop</pre>
+            
+        </div>
+        
+
+
+        
+
+
+    </div>
+</div>
+
+<div class="testmethod">
+    <a id="github.com/corbym/gogiven_test.TestInnerTestRangesOverValues.func1"></a>
+    <div class="testmethod-header">
+        <h2>Inner Test Ranges Over Values / n</h2>
+        
+            <span class="badge badge-pass">Passed</span>
+        
+    </div>
+    <p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestInnerTestRangesOverValues.func1">
+        <div class="scenario-section">
+            <div class="scenario-section-title">Specification</div>
+            <pre class="highlight specification">
+Given given some stuffs &#34;a&#34;
+When
+Givens &#34;value&#34; = test value
+Givens &#34;expected&#34; = test expected
+Captured io &#34;actual&#34; = len test value
+Then
+Assert that actual &#34;actual&#34; is equal to test expected</pre>
+        </div>
+        <div class="scenario-section">
+            <div class="scenario-section-title">Result</div>
+            
+                <pre class="highlight results test-passed">PASSED</pre>
+            
+        </div>
+        
+
+<div class="scenario-section">
+    <button class="collapsible-trigger" type="button">
+        <span class="chevron">▶</span> Interesting Givens
+    </button>
+    <div class="collapsible-content">
+        <table class="interestingGivens">
+            
+            <tr>
+                <th class="key">expected</th>
+                <td class="interestingGiven">1</td>
+            </tr>
+            
+            <tr>
+                <th class="key">value</th>
+                <td class="interestingGiven">n</td>
+            </tr>
+            
+        </table>
+    </div>
+</div>
+
+
+        
+
+<div class="scenario-section">
+    <button class="collapsible-trigger" type="button" logkey="actual">
+        <span class="chevron">▶</span> actual
+    </button>
+    <div class="collapsible-content">
+        <div class="logValue highlight xml WebResource">1</div>
+    </div>
+</div>
+
+
+    </div>
+</div>
+
+<div class="testmethod">
+    <a id="github.com/corbym/gogiven_test.TestGivenTitle_StubTestID"></a>
+    <div class="testmethod-header">
+        <h2>mytitle</h2>
+        
+            <span class="badge badge-pass">Passed</span>
+        
+    </div>
+    <p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGivenTitle_StubTestID">
+        <div class="scenario-section">
+            <div class="scenario-section-title">Specification</div>
+            <pre class="highlight specification">
+Given stub
+Assert that t some test title is equal to &#34;mytitle&#34;</pre>
+        </div>
+        <div class="scenario-section">
+            <div class="scenario-section-title">Result</div>
+            
+                <pre class="highlight results test-passed">PASSED</pre>
+            
+        </div>
+        
+
+
+        
+
+
+    </div>
+</div>
+
+<div class="testmethod">
     <a id="github.com/corbym/gogiven_test.TestGivenWhenExercisingRanges"></a>
     <div class="testmethod-header">
         <h2>title</h2>
@@ -641,138 +847,6 @@ Assert that testing test meta data 1 failed is equal to true</pre>
     </button>
     <div class="collapsible-content">
         <div class="logValue highlight xml WebResource"></div>
-    </div>
-</div>
-
-
-    </div>
-</div>
-
-<div class="testmethod">
-    <a id="github.com/corbym/gogiven_test.TestGoGivenLogsWithMetaData"></a>
-    <div class="testmethod-header">
-        <h2>Go Given Logs With Meta Data</h2>
-        
-            <span class="badge badge-fail">Failed</span>
-        
-    </div>
-    <p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGoGivenLogsWithMetaData">
-        <div class="scenario-section">
-            <div class="scenario-section-title">Specification</div>
-            <pre class="highlight specification">
-Given stub testing t
-Then
-Testing t logf &#34;wobble bop&#34;
-Assert that t stub testing t failed is equal to true
-Assert that t stub testing t test output is equal to &#34;wobble bop&#34;</pre>
-        </div>
-        <div class="scenario-section">
-            <div class="scenario-section-title">Result</div>
-            
-                <pre class="highlight results test-failed">FAILED
-wobble bop</pre>
-            
-        </div>
-        
-
-
-        
-
-
-    </div>
-</div>
-
-<div class="testmethod">
-    <a id="github.com/corbym/gogiven_test.TestGivenTitle_StubTestID"></a>
-    <div class="testmethod-header">
-        <h2>mytitle</h2>
-        
-            <span class="badge badge-pass">Passed</span>
-        
-    </div>
-    <p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGivenTitle_StubTestID">
-        <div class="scenario-section">
-            <div class="scenario-section-title">Specification</div>
-            <pre class="highlight specification">
-Given stub
-Assert that t some test title is equal to &#34;mytitle&#34;</pre>
-        </div>
-        <div class="scenario-section">
-            <div class="scenario-section-title">Result</div>
-            
-                <pre class="highlight results test-passed">PASSED</pre>
-            
-        </div>
-        
-
-
-        
-
-
-    </div>
-</div>
-
-<div class="testmethod">
-    <a id="github.com/corbym/gogiven_test.TestGivenWhenExercisingRanges_1"></a>
-    <div class="testmethod-header">
-        <h2>title</h2>
-        
-            <span class="badge badge-fail">Failed</span>
-        
-    </div>
-    <p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGivenWhenExercisingRanges_1">
-        <div class="scenario-section">
-            <div class="scenario-section-title">Specification</div>
-            <pre class="highlight specification">
-Given testing t
-Some = append some given
-Given when
-Actual &#34;value&#34; = test actual
-Actual &#34;expected&#34; = test expected
-Then
-Noting that do assertions
-Test meta data = append test meta data t * base test meta data
-Assert that test actual has length test expected
-Assert that testing some 0 captured io &#34;value&#34; is equal to &#34;&#34;
-Assert that testing some 0 captured io &#34;expected&#34; is equal to 0
-Assert that testing some 1 captured io &#34;value&#34; is equal to &#34;a&#34;
-Assert that testing some 1 captured io &#34;expected&#34; is equal to 2
-Assert that testing test meta data 0 failed is equal to false
-Assert that testing test meta data 1 failed is equal to true</pre>
-        </div>
-        <div class="scenario-section">
-            <div class="scenario-section-title">Result</div>
-            
-                <pre class="highlight results test-failed">FAILED
-
-Expected: value with length 2
-     but: &lt;length was 1&gt;
-</pre>
-            
-        </div>
-        
-
-
-        
-
-<div class="scenario-section">
-    <button class="collapsible-trigger" type="button" logkey="expected">
-        <span class="chevron">▶</span> expected
-    </button>
-    <div class="collapsible-content">
-        <div class="logValue highlight xml WebResource">2</div>
-    </div>
-</div>
-
-<div class="scenario-section">
-    <button class="collapsible-trigger" type="button" logkey="value">
-        <span class="chevron">▶</span> value
-    </button>
-    <div class="collapsible-content">
-        <div class="logValue highlight xml WebResource">a</div>
     </div>
 </div>
 
@@ -845,95 +919,64 @@ Assert that actual &#34;foo&#34; is equal to &#34;foob&#34;</pre>
 </div>
 
 <div class="testmethod">
-    <a id="github.com/corbym/gogiven_test.TestGivenTitle_Strips_Extra_Spaces"></a>
+    <a id="github.com/corbym/gogiven_test.TestGivenWhenExercisingRanges_1"></a>
     <div class="testmethod-header">
-        <h2>Given Title Strips Extra Spaces</h2>
+        <h2>title</h2>
         
-            <span class="badge badge-pass">Passed</span>
+            <span class="badge badge-fail">Failed</span>
         
     </div>
     <p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGivenTitle_Strips_Extra_Spaces">
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGivenWhenExercisingRanges_1">
         <div class="scenario-section">
             <div class="scenario-section-title">Specification</div>
             <pre class="highlight specification">
-Given t
-Assert that t some test title is equal to &#34;given title strips extra spaces&#34;</pre>
-        </div>
-        <div class="scenario-section">
-            <div class="scenario-section-title">Result</div>
-            
-                <pre class="highlight results test-passed">PASSED</pre>
-            
-        </div>
-        
-
-
-        
-
-
-    </div>
-</div>
-
-<div class="testmethod">
-    <a id="github.com/corbym/gogiven_test.TestInnerTestRangesOverValues.func1"></a>
-    <div class="testmethod-header">
-        <h2>Inner Test Ranges Over Values / n</h2>
-        
-            <span class="badge badge-pass">Passed</span>
-        
-    </div>
-    <p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestInnerTestRangesOverValues.func1">
-        <div class="scenario-section">
-            <div class="scenario-section-title">Specification</div>
-            <pre class="highlight specification">
-Given given some stuffs &#34;a&#34;
-When
-Givens &#34;value&#34; = test value
-Givens &#34;expected&#34; = test expected
-Captured io &#34;actual&#34; = len test value
+Given testing t
+Some = append some given
+Given when
+Actual &#34;value&#34; = test actual
+Actual &#34;expected&#34; = test expected
 Then
-Assert that actual &#34;actual&#34; is equal to test expected</pre>
+Noting that do assertions
+Test meta data = append test meta data t * base test meta data
+Assert that test actual has length test expected
+Assert that testing some 0 captured io &#34;value&#34; is equal to &#34;&#34;
+Assert that testing some 0 captured io &#34;expected&#34; is equal to 0
+Assert that testing some 1 captured io &#34;value&#34; is equal to &#34;a&#34;
+Assert that testing some 1 captured io &#34;expected&#34; is equal to 2
+Assert that testing test meta data 0 failed is equal to false
+Assert that testing test meta data 1 failed is equal to true</pre>
         </div>
         <div class="scenario-section">
             <div class="scenario-section-title">Result</div>
             
-                <pre class="highlight results test-passed">PASSED</pre>
+                <pre class="highlight results test-failed">FAILED
+
+Expected: value with length 2
+     but: &lt;length was 1&gt;
+</pre>
             
         </div>
         
 
-<div class="scenario-section">
-    <button class="collapsible-trigger" type="button">
-        <span class="chevron">▶</span> Interesting Givens
-    </button>
-    <div class="collapsible-content">
-        <table class="interestingGivens">
-            
-            <tr>
-                <th class="key">expected</th>
-                <td class="interestingGiven">1</td>
-            </tr>
-            
-            <tr>
-                <th class="key">value</th>
-                <td class="interestingGiven">n</td>
-            </tr>
-            
-        </table>
-    </div>
-</div>
-
 
         
 
 <div class="scenario-section">
-    <button class="collapsible-trigger" type="button" logkey="actual">
-        <span class="chevron">▶</span> actual
+    <button class="collapsible-trigger" type="button" logkey="expected">
+        <span class="chevron">▶</span> expected
     </button>
     <div class="collapsible-content">
-        <div class="logValue highlight xml WebResource">1</div>
+        <div class="logValue highlight xml WebResource">2</div>
+    </div>
+</div>
+
+<div class="scenario-section">
+    <button class="collapsible-trigger" type="button" logkey="value">
+        <span class="chevron">▶</span> value
+    </button>
+    <div class="collapsible-content">
+        <div class="logValue highlight xml WebResource">a</div>
     </div>
 </div>
 
