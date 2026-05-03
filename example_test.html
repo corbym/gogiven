@@ -407,6 +407,18 @@
     <ul class="contents">
     
     
+        <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestGreetingService_PersonalisesGreeting_SkipsUnknownLocale.func1">Greeting Service Personalises Greeting Skips Unknown Locale / en - US</a></li>
+    
+    
+    
+        <li class="test-not-run"><a href="#github.com%2fcorbym%2fgogiven_test.TestGreetingService_PersonalisesGreeting_SkipsUnknownLocale.func1_1">Greeting Service Personalises Greeting Skips Unknown Locale / fr - FR</a></li>
+    
+    
+    
+        <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestGreetingService_PersonalisesGreeting_NonDefaultParamName">Greeting Service Personalises Greeting Non Default Param Name</a></li>
+    
+    
+    
         <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestGreetingService_ReturnsDefaultGreeting">Greeting Service Returns Default Greeting</a></li>
     
     
@@ -422,24 +434,191 @@
         <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestGreetingService_PersonalisesGreeting_ForManyUsers.func1_1">Greeting Service Personalises Greeting For Many Users</a></li>
     
     
-    
-        <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestGreetingService_PersonalisesGreeting_SkipsUnknownLocale.func1">Greeting Service Personalises Greeting Skips Unknown Locale / en - US</a></li>
-    
-    
-    
-        <li class="test-not-run"><a href="#github.com%2fcorbym%2fgogiven_test.TestGreetingService_PersonalisesGreeting_SkipsUnknownLocale.func1_1">Greeting Service Personalises Greeting Skips Unknown Locale / fr - FR</a></li>
-    
-    
-    
-        <li class="test-passed"><a href="#github.com%2fcorbym%2fgogiven_test.TestGreetingService_PersonalisesGreeting_NonDefaultParamName">Greeting Service Personalises Greeting Non Default Param Name</a></li>
-    
-    
     </ul>
 </div>
 
         </nav>
         <main class="main-content">
             
+
+<div class="testmethod">
+    <a id="github.com/corbym/gogiven_test.TestGreetingService_PersonalisesGreeting_SkipsUnknownLocale.func1"></a>
+    <div class="testmethod-header">
+        <h2>Greeting Service Personalises Greeting Skips Unknown Locale / en - US</h2>
+        
+            <span class="badge badge-pass">Passed</span>
+        
+    </div>
+    <p>TestGreetingService_PersonalisesGreeting_SkipsUnknownLocale tests that the service</p><p>skips producing a greeting for locales that are not yet supported.</p><p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGreetingService_PersonalisesGreeting_SkipsUnknownLocale.func1">
+        <div class="scenario-section">
+            <div class="scenario-section-title">Specification</div>
+            <pre class="highlight specification">
+Given a registered user named tc user name with locale tc locale
+Skipping this one if locale is not english tc locale &#34;locale % s is not yet supported&#34; tc locale
+When a greeting is requested
+Then
+Assert that captured &#34;greeting&#34; is equal to &#34;hello alice !&#34;</pre>
+        </div>
+        <div class="scenario-section">
+            <div class="scenario-section-title">Result</div>
+            
+                <pre class="highlight results test-passed">PASSED</pre>
+            
+        </div>
+        
+
+<div class="scenario-section">
+    <button class="collapsible-trigger" type="button">
+        <span class="chevron">▶</span> Interesting Givens
+    </button>
+    <div class="collapsible-content">
+        <table class="interestingGivens">
+            
+            <tr>
+                <th class="key">locale</th>
+                <td class="interestingGiven">en-US</td>
+            </tr>
+            
+            <tr>
+                <th class="key">userName</th>
+                <td class="interestingGiven">Alice</td>
+            </tr>
+            
+        </table>
+    </div>
+</div>
+
+
+        
+
+<div class="scenario-section">
+    <button class="collapsible-trigger" type="button" logkey="greeting">
+        <span class="chevron">▶</span> greeting
+    </button>
+    <div class="collapsible-content">
+        <div class="logValue highlight xml WebResource">Hello, Alice!</div>
+    </div>
+</div>
+
+
+    </div>
+</div>
+
+<div class="testmethod">
+    <a id="github.com/corbym/gogiven_test.TestGreetingService_PersonalisesGreeting_SkipsUnknownLocale.func1_1"></a>
+    <div class="testmethod-header">
+        <h2>Greeting Service Personalises Greeting Skips Unknown Locale / fr - FR</h2>
+        
+            <span class="badge badge-skip">Skipped</span>
+        
+    </div>
+    <p>TestGreetingService_PersonalisesGreeting_SkipsUnknownLocale tests that the service</p><p>skips producing a greeting for locales that are not yet supported.</p><p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGreetingService_PersonalisesGreeting_SkipsUnknownLocale.func1_1">
+        <div class="scenario-section">
+            <div class="scenario-section-title">Specification</div>
+            <pre class="highlight specification">
+Given a registered user named tc user name with locale tc locale
+Skipping this one if locale is not english tc locale &#34;locale % s is not yet supported&#34; tc locale
+When a greeting is requested
+Then
+Assert that captured &#34;greeting&#34; is equal to &#34;hello alice !&#34;</pre>
+        </div>
+        <div class="scenario-section">
+            <div class="scenario-section-title">Result</div>
+            
+                <pre class="highlight results test-not-run">SKIPPED
+locale fr-FR is not yet supported</pre>
+            
+        </div>
+        
+
+<div class="scenario-section">
+    <button class="collapsible-trigger" type="button">
+        <span class="chevron">▶</span> Interesting Givens
+    </button>
+    <div class="collapsible-content">
+        <table class="interestingGivens">
+            
+            <tr>
+                <th class="key">locale</th>
+                <td class="interestingGiven">fr-FR</td>
+            </tr>
+            
+            <tr>
+                <th class="key">userName</th>
+                <td class="interestingGiven">Marie</td>
+            </tr>
+            
+        </table>
+    </div>
+</div>
+
+
+        
+
+
+    </div>
+</div>
+
+<div class="testmethod">
+    <a id="github.com/corbym/gogiven_test.TestGreetingService_PersonalisesGreeting_NonDefaultParamName"></a>
+    <div class="testmethod-header">
+        <h2>Greeting Service Personalises Greeting Non Default Param Name</h2>
+        
+            <span class="badge badge-pass">Passed</span>
+        
+    </div>
+    <p>TestGreetingService_PersonalisesGreeting_NonDefaultParamName verifies that gogiven</p><p>correctly parses test functions that use non-standard testing parameter names.</p><p></p>
+    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGreetingService_PersonalisesGreeting_NonDefaultParamName">
+        <div class="scenario-section">
+            <div class="scenario-section-title">Specification</div>
+            <pre class="highlight specification">
+Given a registered user named &#34;alice&#34;
+When a greeting is requested
+Then
+Noting that the greeting should address the user by their registered name
+Assert that captured &#34;greeting&#34; is equal to &#34;hello alice !&#34;</pre>
+        </div>
+        <div class="scenario-section">
+            <div class="scenario-section-title">Result</div>
+            
+                <pre class="highlight results test-passed">PASSED</pre>
+            
+        </div>
+        
+
+<div class="scenario-section">
+    <button class="collapsible-trigger" type="button">
+        <span class="chevron">▶</span> Interesting Givens
+    </button>
+    <div class="collapsible-content">
+        <table class="interestingGivens">
+            
+            <tr>
+                <th class="key">userName</th>
+                <td class="interestingGiven">Alice</td>
+            </tr>
+            
+        </table>
+    </div>
+</div>
+
+
+        
+
+<div class="scenario-section">
+    <button class="collapsible-trigger" type="button" logkey="greeting">
+        <span class="chevron">▶</span> greeting
+    </button>
+    <div class="collapsible-content">
+        <div class="logValue highlight xml WebResource">Hello, Alice!</div>
+    </div>
+</div>
+
+
+    </div>
+</div>
 
 <div class="testmethod">
     <a id="github.com/corbym/gogiven_test.TestGreetingService_ReturnsDefaultGreeting"></a>
@@ -618,185 +797,6 @@ When a greeting is requested
 Then
 Noting that the greeting length should match the length of the formatted output
 Assert that captured &#34;greeting&#34; has length tc expected length</pre>
-        </div>
-        <div class="scenario-section">
-            <div class="scenario-section-title">Result</div>
-            
-                <pre class="highlight results test-passed">PASSED</pre>
-            
-        </div>
-        
-
-<div class="scenario-section">
-    <button class="collapsible-trigger" type="button">
-        <span class="chevron">▶</span> Interesting Givens
-    </button>
-    <div class="collapsible-content">
-        <table class="interestingGivens">
-            
-            <tr>
-                <th class="key">userName</th>
-                <td class="interestingGiven">Alice</td>
-            </tr>
-            
-        </table>
-    </div>
-</div>
-
-
-        
-
-<div class="scenario-section">
-    <button class="collapsible-trigger" type="button" logkey="greeting">
-        <span class="chevron">▶</span> greeting
-    </button>
-    <div class="collapsible-content">
-        <div class="logValue highlight xml WebResource">Hello, Alice!</div>
-    </div>
-</div>
-
-
-    </div>
-</div>
-
-<div class="testmethod">
-    <a id="github.com/corbym/gogiven_test.TestGreetingService_PersonalisesGreeting_SkipsUnknownLocale.func1"></a>
-    <div class="testmethod-header">
-        <h2>Greeting Service Personalises Greeting Skips Unknown Locale / en - US</h2>
-        
-            <span class="badge badge-pass">Passed</span>
-        
-    </div>
-    <p>TestGreetingService_PersonalisesGreeting_SkipsUnknownLocale tests that the service</p><p>skips producing a greeting for locales that are not yet supported.</p><p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGreetingService_PersonalisesGreeting_SkipsUnknownLocale.func1">
-        <div class="scenario-section">
-            <div class="scenario-section-title">Specification</div>
-            <pre class="highlight specification">
-Given a registered user named tc user name with locale tc locale
-Skipping this one if locale is not english tc locale &#34;locale % s is not yet supported&#34; tc locale
-When a greeting is requested
-Then
-Assert that captured &#34;greeting&#34; is equal to &#34;hello alice !&#34;</pre>
-        </div>
-        <div class="scenario-section">
-            <div class="scenario-section-title">Result</div>
-            
-                <pre class="highlight results test-passed">PASSED</pre>
-            
-        </div>
-        
-
-<div class="scenario-section">
-    <button class="collapsible-trigger" type="button">
-        <span class="chevron">▶</span> Interesting Givens
-    </button>
-    <div class="collapsible-content">
-        <table class="interestingGivens">
-            
-            <tr>
-                <th class="key">locale</th>
-                <td class="interestingGiven">en-US</td>
-            </tr>
-            
-            <tr>
-                <th class="key">userName</th>
-                <td class="interestingGiven">Alice</td>
-            </tr>
-            
-        </table>
-    </div>
-</div>
-
-
-        
-
-<div class="scenario-section">
-    <button class="collapsible-trigger" type="button" logkey="greeting">
-        <span class="chevron">▶</span> greeting
-    </button>
-    <div class="collapsible-content">
-        <div class="logValue highlight xml WebResource">Hello, Alice!</div>
-    </div>
-</div>
-
-
-    </div>
-</div>
-
-<div class="testmethod">
-    <a id="github.com/corbym/gogiven_test.TestGreetingService_PersonalisesGreeting_SkipsUnknownLocale.func1_1"></a>
-    <div class="testmethod-header">
-        <h2>Greeting Service Personalises Greeting Skips Unknown Locale / fr - FR</h2>
-        
-            <span class="badge badge-skip">Skipped</span>
-        
-    </div>
-    <p>TestGreetingService_PersonalisesGreeting_SkipsUnknownLocale tests that the service</p><p>skips producing a greeting for locales that are not yet supported.</p><p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGreetingService_PersonalisesGreeting_SkipsUnknownLocale.func1_1">
-        <div class="scenario-section">
-            <div class="scenario-section-title">Specification</div>
-            <pre class="highlight specification">
-Given a registered user named tc user name with locale tc locale
-Skipping this one if locale is not english tc locale &#34;locale % s is not yet supported&#34; tc locale
-When a greeting is requested
-Then
-Assert that captured &#34;greeting&#34; is equal to &#34;hello alice !&#34;</pre>
-        </div>
-        <div class="scenario-section">
-            <div class="scenario-section-title">Result</div>
-            
-                <pre class="highlight results test-not-run">SKIPPED
-locale fr-FR is not yet supported</pre>
-            
-        </div>
-        
-
-<div class="scenario-section">
-    <button class="collapsible-trigger" type="button">
-        <span class="chevron">▶</span> Interesting Givens
-    </button>
-    <div class="collapsible-content">
-        <table class="interestingGivens">
-            
-            <tr>
-                <th class="key">locale</th>
-                <td class="interestingGiven">fr-FR</td>
-            </tr>
-            
-            <tr>
-                <th class="key">userName</th>
-                <td class="interestingGiven">Marie</td>
-            </tr>
-            
-        </table>
-    </div>
-</div>
-
-
-        
-
-
-    </div>
-</div>
-
-<div class="testmethod">
-    <a id="github.com/corbym/gogiven_test.TestGreetingService_PersonalisesGreeting_NonDefaultParamName"></a>
-    <div class="testmethod-header">
-        <h2>Greeting Service Personalises Greeting Non Default Param Name</h2>
-        
-            <span class="badge badge-pass">Passed</span>
-        
-    </div>
-    <p>TestGreetingService_PersonalisesGreeting_NonDefaultParamName verifies that gogiven</p><p>correctly parses test functions that use non-standard testing parameter names.</p><p></p>
-    <div class="scenario" id="scenario_github.com/corbym/gogiven_test.TestGreetingService_PersonalisesGreeting_NonDefaultParamName">
-        <div class="scenario-section">
-            <div class="scenario-section-title">Specification</div>
-            <pre class="highlight specification">
-Given a registered user named &#34;alice&#34;
-When a greeting is requested
-Then
-Noting that the greeting should address the user by their registered name
-Assert that captured &#34;greeting&#34; is equal to &#34;hello alice !&#34;</pre>
         </div>
         <div class="scenario-section">
             <div class="scenario-section-title">Result</div>
